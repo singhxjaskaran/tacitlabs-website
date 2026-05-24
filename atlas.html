@@ -1,0 +1,336 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<meta name="description" content="An atlas of expert judgement: the three layers of organisational knowledge, the intellectual lineage Tacit draws on, and the methodological commitments it forces.">
+<meta name="author" content="Tacit Labs">
+<meta name="theme-color" content="#a83246">
+<link rel="canonical" href="https://tacitlabs.ai/atlas.html">
+<link rel="icon" type="image/svg+xml" href="assets/favicon.svg">
+<link rel="apple-touch-icon" href="assets/favicon.svg">
+
+<meta property="og:type" content="article">
+<meta property="og:site_name" content="Tacit">
+<meta property="og:title" content="Atlas — Tacit">
+<meta property="og:description" content="An atlas of expert judgement: the three layers of organisational knowledge, the intellectual lineage, and the commitments it forces.">
+<meta property="og:url" content="https://tacitlabs.ai/atlas.html">
+<meta property="og:image" content="https://tacitlabs.ai/assets/og-card.svg">
+<meta property="og:image:type" content="image/svg+xml">
+<meta property="og:image:width" content="1200">
+<meta property="og:image:height" content="630">
+
+<meta name="twitter:card" content="summary_large_image">
+<meta name="twitter:title" content="Atlas — Tacit">
+<meta name="twitter:description" content="An atlas of expert judgement: the three layers of organisational knowledge and the intellectual lineage.">
+<meta name="twitter:image" content="https://tacitlabs.ai/assets/og-card.svg">
+
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=IBM+Plex+Mono:wght@400;500;600&family=Inter:wght@300;400;500;600;700&family=Newsreader:ital,opsz,wght@0,6..72,400;0,6..72,500;0,6..72,600;0,6..72,700;1,6..72,400&family=Open+Sans:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="tacit-reading.css">
+<title>Atlas — Tacit</title>
+<style>
+  .source-grid{
+    display:grid;
+    grid-template-columns:repeat(2, minmax(0, 1fr));
+    gap:clamp(20px, 2.4vw, 36px);
+    margin-top:14px;
+  }
+  @media (max-width:760px){ .source-grid{ grid-template-columns:1fr; } }
+  .source-card{
+    padding:22px 22px 24px;
+    border:1px solid var(--border);
+    border-radius:6px;
+    background:var(--bg-deep);
+    display:flex; flex-direction:column; gap:10px;
+  }
+  .source-card .src-meta{
+    font:10px/1 "IBM Plex Mono", monospace;
+    letter-spacing:.20em;
+    text-transform:uppercase;
+    color:var(--text-dim);
+  }
+  .source-card h3{
+    font:600 18px/1.25 "Newsreader", Georgia, serif;
+    color:var(--text);
+    margin:0;
+    letter-spacing:-0.005em;
+  }
+  .source-card h3 .who-meta{
+    display:block;
+    font:400 12px/1.3 "IBM Plex Mono", monospace;
+    color:var(--text-dim);
+    letter-spacing:.06em;
+    text-transform:none;
+    margin-top:4px;
+  }
+  .source-card p{
+    margin:0;
+    font:14px/1.6 "Söhne", "Inter", system-ui, sans-serif;
+    color:var(--text-muted);
+  }
+  .source-card .src-work{
+    font:11px/1.5 "IBM Plex Mono", monospace;
+    color:var(--accent);
+    letter-spacing:.04em;
+    margin-top:auto;
+    padding-top:6px;
+    border-top:1px dashed var(--border);
+  }
+
+  .layer-stack{
+    display:flex; flex-direction:column; gap:14px;
+    margin-top:18px;
+  }
+  .layer-row{
+    display:grid;
+    grid-template-columns:84px 1fr;
+    gap:24px;
+    padding:18px 0;
+    border-bottom:1px solid var(--border);
+    align-items:baseline;
+  }
+  .layer-row:last-child{ border-bottom:none; }
+  .layer-pct{
+    font:600 28px/1 "Newsreader", Georgia, serif;
+    color:var(--accent);
+    font-variant-numeric:tabular-nums;
+  }
+  .layer-body strong{ display:block; font:600 14px/1.4 "Söhne","Inter",system-ui,sans-serif; letter-spacing:.02em; margin-bottom:6px; }
+  .layer-body p{ margin:0; font:14px/1.65 "Söhne","Inter",system-ui,sans-serif; color:var(--text-muted); }
+
+  .commit-list{
+    list-style:none;
+    margin:14px 0 0;
+    padding:0;
+    display:flex; flex-direction:column; gap:14px;
+  }
+  .commit-list li{
+    padding-left:22px;
+    position:relative;
+    font:14px/1.65 "Söhne","Inter",system-ui,sans-serif;
+    color:var(--text-muted);
+  }
+  .commit-list li::before{
+    content:"·";
+    position:absolute;
+    left:0; top:-2px;
+    font:600 22px/1 "Newsreader", Georgia, serif;
+    color:var(--accent);
+  }
+  .commit-list strong{ color:var(--text); font-weight:600; }
+
+  /* References list */
+  .references-block{
+    margin-top:18px;
+  }
+  .references-block ol{
+    counter-reset:ref;
+    list-style:none;
+    margin:0;
+    padding:0;
+    border-top:1px solid var(--border);
+  }
+  .references-block li{
+    counter-increment:ref;
+    position:relative;
+    padding:18px 0 18px 56px;
+    border-bottom:1px dashed var(--border);
+    font:14px/1.65 "Söhne","Inter",system-ui,sans-serif;
+    color:var(--text-muted);
+  }
+  .references-block li::before{
+    content:"[" counter(ref) "]";
+    position:absolute;
+    left:0; top:18px;
+    font:11px/1.5 "IBM Plex Mono",monospace;
+    letter-spacing:.06em;
+    color:var(--accent);
+  }
+  .references-block li strong{ color:var(--text); font-weight:600; }
+  .references-block li em{ color:var(--text); font-style:italic; }
+  .further-reading-block{ margin-top:24px; }
+  .further-reading-block ul{ list-style:none; margin:0; padding:0; border-top:1px solid var(--border); }
+  .further-reading-block li{
+    padding:14px 0;
+    font:14px/1.65 "Söhne","Inter",system-ui,sans-serif;
+    color:var(--text-muted);
+    border-bottom:1px dashed var(--border);
+  }
+  .further-reading-block li em{ color:var(--text); font-style:italic; }
+  .further-reading-block li strong{ color:var(--text); font-weight:600; }
+
+  /* Image placeholders */
+  .image-grid{
+    display:grid;
+    grid-template-columns:repeat(2, minmax(0, 1fr));
+    gap:clamp(20px,2.4vw,32px);
+    margin-top:18px;
+  }
+  @media (max-width:760px){ .image-grid{ grid-template-columns:1fr; } }
+  .image-card{
+    margin:0;
+    border:1px solid var(--border);
+    border-radius:6px;
+    background:var(--bg-deep);
+    overflow:hidden;
+    display:flex; flex-direction:column;
+  }
+  .image-card img{
+    width:100%; height:auto;
+    aspect-ratio:4 / 3;
+    object-fit:contain;
+    object-position:center;
+    background:#ffffff;
+    display:block;
+    border-bottom:1px solid var(--border);
+  }
+  .image-card .ic-figcaption{
+    padding:14px 18px 16px;
+    font:14px/1.45 "Newsreader",Georgia,serif;
+    font-style:italic;
+    color:var(--text-muted);
+  }
+  .image-card .ic-label{
+    display:inline-block;
+    margin-right:8px;
+    font:600 10px/1 "IBM Plex Mono",monospace;
+    letter-spacing:.20em;
+    text-transform:uppercase;
+    color:var(--accent);
+    font-style:normal;
+    vertical-align:1px;
+  }
+</style>
+</head>
+<body class="palette-maroon">
+
+  <div class="nav-wrap">
+    <nav class="tacit-nav" aria-label="Primary">
+      <a href="brief.html" data-nav="brief">brief</a>
+      <a href="thesis.html" data-nav="thesis">thesis</a>
+      <a href="product.html" data-nav="product">product</a>
+      <a href="index.html" class="logo-link" aria-label="Home"><span class="logo" aria-hidden="true"></span></a>
+      <a href="founders.html" data-nav="founders">founders</a>
+      <a href="essays.html" data-nav="essays">essays</a>
+    </nav>
+  </div>
+
+  <main class="page">
+    <header>
+      <h1 class="page-title">Atlas.</h1>
+      <p class="t10 lead">Every claim in the thesis stands on someone else's prior work. This page is the atlas of those sources: the cognitive science, the regulatory references, the market-evidence citations, and the further reading that grounds the argument. The thesis cites them by number; this is the canonical key. Forthcoming images of the methodology in operation will sit alongside the text as the deployments mature.</p>
+    </header>
+
+    <section class="section col">
+      <h2 class="section-title">References.</h2>
+      <p class="t12">The fourteen primary references that appear in the long-form thesis, in order of first citation.</p>
+      <div class="references-block">
+        <ol>
+          <li>Global Mobilities Project, <em>Human Movement Since the Industrial Revolution: A Quantitative History,</em> working dataset (Oxford School of Geography and the Environment, 2024 update). The 4,000% figure references aggregate person-kilometres of human travel across all modes, indexed against an 1800 baseline. See also International Transport Forum, <em>Transport Outlook 2023,</em> OECD Publishing.</li>
+          <li>Polanyi, M. (1966). <em>The Tacit Dimension.</em> University of Chicago Press. The foundational text for the category. The formulation "we can know more than we can tell" appears on page 4 of the 2009 reissue.</li>
+          <li>Dreyfus, H. L., &amp; Dreyfus, S. E. (1986). <em>Mind Over Machine: The Power of Human Intuition and Expertise in the Era of the Computer.</em> Free Press. See also Dreyfus, S. E. (2004). "The Five-Stage Model of Adult Skill Acquisition." <em>Bulletin of Science, Technology &amp; Society,</em> 24(3), 177–181.</li>
+          <li>Klein, G. (1998). <em>Sources of Power: How People Make Decisions.</em> MIT Press. The originating text for Recognition-Primed Decision (RPD) theory, building on field studies conducted across the previous fifteen years.</li>
+          <li>Zsambok, C. E., &amp; Klein, G. (eds.) (1997). <em>Naturalistic Decision Making.</em> Lawrence Erlbaum Associates. The first synthesis volume for the NDM field; subsequent volumes have been published roughly each decade since.</li>
+          <li>Parr, T., Pezzulo, G., &amp; Friston, K. J. (2022). <em>Active Inference: The Free Energy Principle in Mind, Brain, and Behavior.</em> MIT Press. The cited account of expert decision-making as a precision-weighted online inference process is developed across the chapters on perception, action, and habit formation.</li>
+          <li>Pew Research Center, ongoing analysis based on US Census Bureau data. UK figures from the Office for National Statistics retirement and labour-force survey, 2024 release.</li>
+          <li>Jacobson Group &amp; Aon, <em>U.S. Insurance Labor Market Study</em> (2025 edition). Deloitte, <em>Insurance Industry Outlook: Talent and Workforce</em> (2025). The 60% replacement-rate figure is from the Jacobson Group survey, cross-referenced against Bureau of Labor Statistics insurance occupational projections.</li>
+          <li>Goldman Sachs Research, <em>Global AI Capex Forecast</em> (2024). IDC, <em>Worldwide AI Spending Guide</em> (2025). The aggregate figure references cumulative capital expenditure across all AI infrastructure categories through 2030.</li>
+          <li>BCG, <em>Build for the Future: 2024–2025 AI Adoption Survey.</em> McKinsey &amp; Company, <em>The State of AI</em> (running annual report, 2025 edition).</li>
+          <li>Massachusetts Institute of Technology, <em>The GenAI Divide: State of AI in Business 2024,</em> MIT NANDA Initiative (research preprint, 2024). Headline finding: 95% of enterprise generative AI pilots produced no measurable return on investment.</li>
+          <li>Gartner, <em>Predicts 2025: AI Deployment and Adoption Challenges.</em> Gartner press release, "Gartner Predicts 30% of Generative AI Projects Will Be Abandoned After Proof of Concept by End of 2025" (July 2024, updated 2025).</li>
+          <li>Klarna, public statements and earnings commentary (2024–2025) regarding the rollback of customer-service AI automation and the return to human-agent hiring. See coverage in <em>Bloomberg</em> and the <em>Financial Times,</em> May 2025.</li>
+          <li>European Union, <em>Regulation (EU) 2024/1689</em> of the European Parliament and of the Council laying down harmonised rules on artificial intelligence (Artificial Intelligence Act). Bank of England Prudential Regulation Authority, <em>Supervisory Statement SS1/23.</em> National Association of Insurance Commissioners, <em>Model Bulletin: Use of Artificial Intelligence Systems by Insurers</em> (adopted December 2023). Federal Reserve / OCC, <em>SR 11-7 / OCC Bulletin 2011-12.</em></li>
+        </ol>
+      </div>
+    </section>
+
+    <section class="section col">
+      <h2 class="section-title">Further reading.</h2>
+      <p class="t12">Adjacent works that do not appear as numbered citations but inform the position the thesis takes.</p>
+      <div class="further-reading-block">
+        <ul>
+          <li><strong>Ericsson, K. A., Krampe, R. T., &amp; Tesch-Römer, C.</strong> (1993). "The Role of Deliberate Practice in the Acquisition of Expert Performance." <em>Psychological Review,</em> 100(3), 363–406.</li>
+          <li><strong>Weick, K. E.</strong> (1995). <em>Sensemaking in Organizations.</em> SAGE Publications.</li>
+          <li><strong>Tetlock, P. E.</strong> (2005). <em>Expert Political Judgment: How Good Is It? How Can We Know?</em> Princeton University Press.</li>
+          <li><strong>Collins, H.</strong> (2010). <em>Tacit and Explicit Knowledge.</em> University of Chicago Press.</li>
+          <li><strong>Nonaka, I., &amp; Takeuchi, H.</strong> (1995). <em>The Knowledge-Creating Company.</em> Oxford University Press.</li>
+        </ul>
+      </div>
+    </section>
+
+    <section class="section col">
+      <h2 class="section-title">Visual atlas.</h2>
+      <p class="t12">Four figures that ground the position. The first shows what tacit knowledge looks like as data versus what first-principles knowledge looks like — the same underlying trend, but the runtime layer cannot be cleanly fit. The second places "the tacit area" on the classic noise-vs-judgment curve. The third and fourth are renderings of the data → information → knowledge → wisdom progression that recurs across the cognitive-science and organisational-knowledge traditions.</p>
+      <div class="image-grid">
+        <figure class="image-card">
+          <img src="assets/fig-tacit-vs-fundamentals.png" alt="Two scatter plots: clean linear trend labeled 'first principles / fundamentals' above, noisy trend labeled 'tacit knowledge' below.">
+          <figcaption class="ic-figcaption"><span class="ic-label">Fig. 01</span> First principles versus tacit knowledge — the same trend, different surface signal.</figcaption>
+        </figure>
+        <figure class="image-card">
+          <img src="assets/fig-tacit-area.jpg" alt="A curve descending from 'Data' through 'Information / Knowledge / Wisdom' to 'Action', with the right portion shaded as 'The Tacit Area'.">
+          <figcaption class="ic-figcaption"><span class="ic-label">Fig. 02</span> The tacit area on the objective-calculation versus subjective-judgment curve.</figcaption>
+        </figure>
+        <figure class="image-card">
+          <img src="assets/fig-hierarchy-of-insight.jpg" alt="Editorial parchment diagram of nested arcs: Data, Information, Knowledge, Wisdom — with axes Context and Understanding.">
+          <figcaption class="ic-figcaption"><span class="ic-label">Fig. 03</span> The hierarchy of insight — context against understanding.</figcaption>
+        </figure>
+        <figure class="image-card">
+          <img src="assets/fig-dikw-progression.png" alt="Four circles arranged diagonally — Data, Information, Knowledge, Wisdom — with axes Context (vertical) and Understanding (horizontal), and a diagonal labelled Past · Experience · Future · Novelty.">
+          <figcaption class="ic-figcaption"><span class="ic-label">Fig. 04</span> Data, information, knowledge, wisdom — experience to novelty.</figcaption>
+        </figure>
+      </div>
+    </section>
+
+    <section class="section-cta cta-center">
+      <h2 class="h">Where the argument lives.</h2>
+      <div class="ctas">
+        <a class="cta" href="thesis.html">read the thesis
+          <svg width="14" height="14" viewBox="0 0 14 14" fill="none" aria-hidden="true">
+            <path d="M2 7h10M8 3l4 4-4 4" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
+          </svg>
+        </a>
+        <a class="cta-ghost" href="brief.html">back to brief</a>
+      </div>
+    </section>
+  </main>
+
+  <footer class="site-foot">
+    <div>
+      <div class="foot-brand" aria-label="tacitlabs"><img src="assets/tacit-wordmark.svg" alt="tacit"></div>
+      <p class="colophon">The judgment layer for AI agents in regulated industries.</p>
+    </div>
+    <div>
+      <h4>Company</h4>
+      <ul>
+        <li><a href="index.html">Home</a></li>
+        <li><a href="founders.html">Founders</a></li>
+        <li><a href="essays.html">Writing</a></li>
+        <li><a href="mailto:hi@tacitlabs.ai">Contact</a></li>
+      </ul>
+    </div>
+    <div>
+      <h4>Read deeper</h4>
+      <ul>
+        <li><a href="brief.html">Brief</a></li>
+        <li><a href="thesis.html">Full thesis</a></li>
+        <li><a href="product.html">Product</a></li>
+        <li><a href="atlas.html">Atlas</a></li>
+      </ul>
+    </div>
+    <div>
+      <h4>Contact</h4>
+      <ul>
+        <li><a href="mailto:hi@tacitlabs.ai?subject=Operator">hi@tacitlabs.ai · Operator</a></li>
+        <li><a href="mailto:hi@tacitlabs.ai?subject=Investor">hi@tacitlabs.ai · Investor</a></li>
+        <li><a href="mailto:hi@tacitlabs.ai?subject=Team">hi@tacitlabs.ai · Team</a></li>
+      </ul>
+    </div>
+    <div class="signoff">
+      <span>© 2026 Tacit Labs, Inc.</span>
+      <span><a href="index.html">back to home →</a></span>
+    </div>
+  </footer>
+</body>
+</html>

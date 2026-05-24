@@ -1,0 +1,838 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<meta name="description" content="An essay on what humans pass to each other, why most of it has always been lost, and what the next decade lets us keep. By Jaskaran Singh, Tacit Labs.">
+<meta name="author" content="Jaskaran Singh">
+<meta name="theme-color" content="#a83246">
+<link rel="canonical" href="https://tacitlabs.ai/thesis.html">
+<link rel="icon" type="image/svg+xml" href="assets/favicon.svg">
+<link rel="apple-touch-icon" href="assets/favicon.svg">
+
+<meta property="og:type" content="article">
+<meta property="og:site_name" content="Tacit">
+<meta property="og:title" content="Expertise is a runtime — Tacit">
+<meta property="og:description" content="An essay on what humans pass to each other, why most of it has always been lost, and what the next decade lets us keep. By Jaskaran Singh.">
+<meta property="og:url" content="https://tacitlabs.ai/thesis.html">
+<meta property="og:image" content="https://tacitlabs.ai/assets/og-card.svg">
+<meta property="og:image:type" content="image/svg+xml">
+<meta property="og:image:width" content="1200">
+<meta property="og:image:height" content="630">
+<meta property="article:author" content="Jaskaran Singh">
+
+<meta name="twitter:card" content="summary_large_image">
+<meta name="twitter:title" content="Expertise is a runtime — Tacit">
+<meta name="twitter:description" content="An essay on what humans pass to each other, why most of it has always been lost, and what the next decade lets us keep.">
+<meta name="twitter:image" content="https://tacitlabs.ai/assets/og-card.svg">
+
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=IBM+Plex+Mono:wght@400;500;600&family=Inter:wght@300;400;500;600;700&family=Newsreader:ital,opsz,wght@0,6..72,400;0,6..72,500;0,6..72,600;0,6..72,700;1,6..72,400&family=Open+Sans:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="tacit-reading.css?v=6">
+<title>Expertise is a runtime — Tacit</title>
+<style>
+  /* ============== Clock index (jump-to-section dials) ============== */
+  .clock-index{
+    margin:0 0 clamp(48px,7vh,72px);
+    padding-top:36px;
+    border-top:1px solid var(--border);
+  }
+  .ci-meta{
+    display:flex; justify-content:space-between; align-items:baseline; gap:24px; flex-wrap:wrap;
+    margin-bottom:36px;
+  }
+  .ci-label, .ci-total{
+    font:10px/1.5 "IBM Plex Mono",monospace;
+    letter-spacing:.20em; text-transform:lowercase;
+    color:var(--text-dim);
+    margin:0;
+  }
+  .ci-total b{ color:var(--text); font-weight:500; }
+  .clocks{
+    display:grid;
+    grid-template-columns:repeat(6,1fr);
+    gap:clamp(14px,2vw,32px) clamp(8px,1.4vw,24px);
+  }
+  @media (max-width:1000px){ .clocks{ grid-template-columns:repeat(3,1fr); gap:32px 16px; } }
+  @media (max-width:540px){ .clocks{ grid-template-columns:repeat(2,1fr); } }
+  .clock-tile{
+    display:flex; flex-direction:column; align-items:center; gap:14px;
+    text-decoration:none; color:inherit;
+    padding:8px 4px 4px;
+    transition: transform .25s ease;
+  }
+  .clock-tile:hover{ transform:translateY(-3px); }
+  .clock-tile:focus-visible{ outline:1px solid var(--accent); outline-offset:6px; border-radius:2px; }
+  .clock{
+    width:100%; max-width:124px;
+    aspect-ratio:1; height:auto;
+    display:block;
+    color:var(--text-muted);
+    transition: color .25s ease;
+  }
+  .clock-tile:hover .clock{ color:var(--text); }
+  .clock .face{ fill:none; stroke:currentColor; stroke-width:0.8; opacity:.65; }
+  .clock .tick{ stroke:currentColor; stroke-width:0.8; opacity:.55; }
+  .clock .tick.major{ stroke-width:1.2; opacity:.85; }
+  .clock .shape{ fill:none; stroke:currentColor; stroke-width:1; opacity:.7; }
+  .clock .shape.solid{ fill:currentColor; }
+  .clock .num-lg{ font:600 14px/1 "Open Sans",system-ui,sans-serif; fill:currentColor; opacity:.95; }
+  .clock .num-md{ font:500 9px/1 "IBM Plex Mono",monospace; fill:currentColor; opacity:.85; }
+  .clock .num-sm{ font:500 7.5px/1 "IBM Plex Mono",monospace; fill:currentColor; opacity:.85; letter-spacing:.04em; }
+  .clock .num-xs{ font:500 6px/1 "IBM Plex Mono",monospace; fill:currentColor; opacity:.7; letter-spacing:.06em; }
+  .clock .word{ font:600 7px/1 "Open Sans",system-ui,sans-serif; fill:currentColor; opacity:.55; letter-spacing:.18em; text-transform:uppercase; }
+  .clock .word.active{ fill:var(--accent); opacity:1; }
+  .clock .hand{ stroke:var(--accent); stroke-width:1.4; stroke-linecap:round; }
+  .clock .pivot{ fill:var(--accent); }
+  .clock .target-ring{ fill:none; stroke:var(--accent); stroke-width:1; opacity:.85; }
+  .clock-meta{ display:flex; flex-direction:column; align-items:center; gap:5px; text-align:center; }
+  .clock-num{
+    font:10px/1 "IBM Plex Mono",monospace;
+    letter-spacing:.18em; color:var(--text-dim);
+  }
+  .clock-label{
+    font:13px/1.3 "Söhne","Inter",system-ui,sans-serif;
+    color:var(--text);
+    transition:color .25s ease;
+    text-wrap:balance;
+    max-width:14ch;
+  }
+  .clock-tile:hover .clock-label{ color:var(--accent); }
+  .clock-time{
+    font:10px/1 "IBM Plex Mono",monospace;
+    letter-spacing:.18em; text-transform:lowercase;
+    color:var(--text-dim);
+  }
+  html{ scroll-behavior:smooth; }
+  :target{ scroll-margin-top:80px; }
+  @media (prefers-reduced-motion:reduce){ html{ scroll-behavior:auto; } }
+
+  /* ============== Essay-specific ============== */
+  .byline{
+    font:13px/1.5 "IBM Plex Mono",monospace;
+    letter-spacing:.06em;
+    color:var(--text-muted);
+    margin:0;
+  }
+  .byline em{ color:var(--text); font-style:normal; font-weight:500; }
+  .roman{
+    font:11px/1 "IBM Plex Mono",monospace;
+    letter-spacing:.22em;
+    text-transform:uppercase;
+    color:var(--text-dim);
+    margin:0 0 14px;
+    display:block;
+  }
+  .references{
+    margin-top:clamp(64px,10vh,120px);
+    padding-top:clamp(56px,8vh,96px);
+    border-top:1px solid var(--border-strong);
+  }
+  .references h2{
+    font:600 14px/1 "IBM Plex Mono",monospace;
+    letter-spacing:.20em;
+    text-transform:uppercase;
+    color:var(--text-dim);
+    margin:0 0 28px;
+  }
+  .references ol{
+    counter-reset:ref;
+    list-style:none;
+    margin:0;
+    padding:0;
+  }
+  .references li{
+    counter-increment:ref;
+    display:grid;
+    grid-template-columns:40px 1fr;
+    gap:18px;
+    padding:14px 0;
+    border-bottom:1px dashed var(--border);
+    font:13px/1.6 "Söhne","Inter",system-ui,sans-serif;
+    color:var(--text-muted);
+  }
+  .references li:last-child{ border-bottom:none; }
+  .references li::before{
+    content:"[" counter(ref) "]";
+    font:11px/1.5 "IBM Plex Mono",monospace;
+    letter-spacing:.06em;
+    color:var(--accent);
+    align-self:start;
+  }
+  .further-reading{
+    margin-top:clamp(40px,6vh,72px);
+    padding-top:clamp(28px,4vh,40px);
+    border-top:1px solid var(--border);
+  }
+  .further-reading h3{
+    font:600 12px/1 "IBM Plex Mono",monospace;
+    letter-spacing:.20em;
+    text-transform:uppercase;
+    color:var(--text-dim);
+    margin:0 0 20px;
+  }
+  .further-reading ul{
+    list-style:none; margin:0; padding:0;
+  }
+  .further-reading li{
+    padding:10px 0;
+    font:13px/1.6 "Söhne","Inter",system-ui,sans-serif;
+    color:var(--text-muted);
+    border-bottom:1px dashed var(--border);
+  }
+  .further-reading li:last-child{ border-bottom:none; }
+
+  /* ============== Runtime query artifact (preserved) ============== */
+  .runtime-query{
+    margin:36px 0 0;
+    background:var(--bg-deep);
+    border:1px solid var(--border-strong);
+    border-radius:6px;
+    overflow:hidden;
+    box-shadow:
+      0 1px 0 rgba(255,255,255,.5) inset,
+      0 18px 40px -28px rgba(48,42,28,.18);
+  }
+  .rq-meta{
+    display:flex;
+    align-items:center;
+    gap:10px;
+    padding:11px clamp(18px,2.4vw,26px);
+    border-bottom:1px solid var(--border-strong);
+    background:linear-gradient(180deg, rgba(255,255,255,.4), rgba(168,50,70,.03));
+    font:10px/1 "IBM Plex Mono",ui-monospace,monospace;
+    letter-spacing:.20em;
+    text-transform:lowercase;
+    color:var(--text-muted);
+  }
+  .rq-dot{
+    width:7px; height:7px;
+    border-radius:999px;
+    background:var(--accent);
+    box-shadow:0 0 10px var(--accent-glow);
+    flex:0 0 auto;
+  }
+  .rq-meta-end{ margin-left:auto; color:var(--text-dim); letter-spacing:.18em; }
+  .rq-block + .rq-block{ border-top:1px solid var(--border); }
+  .rq-block-head{
+    display:flex;
+    align-items:baseline;
+    gap:14px;
+    padding:16px clamp(18px,2.4vw,26px) 6px;
+    font:10px/1 "IBM Plex Mono",ui-monospace,monospace;
+    letter-spacing:.22em;
+    text-transform:uppercase;
+    color:var(--text-muted);
+  }
+  .rq-arrow{
+    color:var(--accent);
+    font-size:13px;
+    font-weight:600;
+    letter-spacing:0;
+    transform:translateY(1px);
+  }
+  .rq-block-label{ font-weight:600; }
+  .rq-block-meta{
+    margin-left:auto;
+    font-weight:400;
+    color:var(--text-dim);
+    text-transform:lowercase;
+    letter-spacing:.18em;
+  }
+  .rq-block-meta strong{
+    color:var(--accent);
+    font-weight:600;
+    letter-spacing:0;
+    margin-left:6px;
+    font-family:"Times New Roman",Times,serif;
+    font-size:13px;
+  }
+  .rq-code{
+    margin:0;
+    padding:6px clamp(18px,2.4vw,26px) 22px;
+    font:13px/1.7 "IBM Plex Mono",ui-monospace,SFMono-Regular,Menlo,monospace;
+    color:var(--text);
+    white-space:pre;
+    overflow-x:auto;
+    -webkit-font-smoothing:antialiased;
+  }
+  .rq-code .k  { color:var(--olive); }
+  .rq-code .s  { color:var(--accent); }
+  .rq-code .n  { color:#b8732f; font-weight:500; font-variant-numeric:tabular-nums; }
+  .rq-code .c  { color:var(--text-dim); font-style:italic; }
+  .rq-code .fn { color:var(--text); font-weight:600; }
+  .rq-code .uri{
+    color:var(--accent);
+    border-bottom:1px dashed rgba(168,50,70,.35);
+    padding-bottom:1px;
+  }
+  .runtime-query + .t10{ margin-top:28px; }
+  .opener-rule{
+    width:48px; height:1px; background:var(--accent);
+    margin:0 0 28px;
+  }
+
+  /* ============== Essay abstract (one-paragraph entry) ============== */
+  .essay-abstract{
+    margin:clamp(36px,5vh,52px) 0 clamp(40px,6vh,72px);
+    padding-top:clamp(28px,4vh,40px);
+    border-top:1px solid var(--border);
+    max-width:760px;
+  }
+  .essay-abstract h2{
+    font:600 12px/1 "IBM Plex Mono",monospace;
+    letter-spacing:.20em;
+    text-transform:uppercase;
+    color:var(--text-dim);
+    margin:0 0 18px;
+  }
+  .essay-abstract > p{
+    font:15px/1.65 "Söhne","Inter",system-ui,sans-serif;
+    color:var(--text);
+    margin:0 0 22px;
+  }
+  .abstract-aside{
+    font:13px/1.6 "Söhne","Inter",system-ui,sans-serif;
+    color:var(--text-muted);
+    font-style:italic;
+    border-left:1.5px solid var(--accent);
+    padding:2px 0 2px 16px;
+    margin:0;
+  }
+  .abstract-aside a{ color:var(--accent); text-decoration:none; border-bottom:1px solid rgba(168,50,70,.35); }
+  .abstract-aside a:hover{ border-bottom-color:var(--accent); }
+
+  /* ============== Authorial note (callout before back-half) ============== */
+  .authorial-note{
+    margin:clamp(40px,6vh,72px) 0 clamp(40px,6vh,72px);
+    padding:clamp(20px,3vh,28px) 0;
+    border-top:1px solid var(--border);
+    border-bottom:1px solid var(--border);
+    max-width:760px;
+  }
+  .authorial-note p{
+    font:13px/1.7 "Söhne","Inter",system-ui,sans-serif;
+    font-style:italic;
+    color:var(--text-muted);
+    margin:0;
+  }
+</style>
+</head>
+<body class="palette-maroon">
+
+  <div class="nav-wrap">
+    <nav class="tacit-nav" aria-label="Primary">
+      <a href="brief.html" data-nav="brief">brief</a>
+      <a href="thesis.html" data-nav="thesis" class="current">thesis</a>
+      <a href="product.html" data-nav="product">product</a>
+      <a href="index.html" class="logo-link" aria-label="Home"><span class="logo" aria-hidden="true"></span></a>
+      <a href="founders.html" data-nav="founders">founders</a>
+      <a href="essays.html" data-nav="essays">essays</a>
+    </nav>
+  </div>
+
+  <main class="page">
+
+    <!-- Hero -->
+    <header>
+      <h1 class="page-title">Expertise is a runtime.</h1>
+      <p class="t10 lead">An essay on what humans pass to each other, why most of it has always been lost, and what the next decade lets us keep.</p>
+      <p class="byline"><em>By Jaskaran Singh</em> · Founder, Tacit Labs · May 2026</p>
+    </header>
+
+    <!-- Abstract -->
+    <section class="essay-abstract" aria-label="Abstract">
+      <h2>The argument, in one paragraph</h2>
+      <p>AI agents are good at retrieval. They are good at language. In regulated work they fail at the one thing that matters most, which is judgement. The published evidence on enterprise AI deployment is now consistent enough to read as a pattern, and the pattern is that the industry has been trying to capture expertise as content. About 70% of the operational decisions that matter in a regulated organisation have never been written down. The part of expertise that defines the senior expert is not knowledge that can be made larger or more accessible by improving retrieval. It is a runtime, which is a precise word for it: a live cognitive process that decides, under uncertainty, which knowledge to recruit, what to attend to, and what to do next. That runtime is invisible to every capture method currently in commercial use. The category-defining infrastructure of the next decade in regulated industries is the layer that makes the runtime observable, persistent, and queryable. This essay is the long form of that argument.</p>
+      <aside class="abstract-aside">
+        The essay opens with the species-scale view of why human knowledge transfer matters, then turns to the cognitive science, then to the present. If you came from the <a href="brief.html">brief</a> and want the AI-era argument directly, <a href="#s-capture">skip to §V</a>. The philosophy in §I through §IV pays off in what follows, but a reader who already accepts the runtime claim can move ahead without losing the thread.
+      </aside>
+    </section>
+
+    <!-- Clock index -->
+    <nav class="clock-index" aria-label="Sections of this essay">
+      <div class="ci-meta">
+        <span class="ci-label">read in fourteen parts</span>
+        <span class="ci-total"><b>~60 min</b> &middot; full essay</span>
+      </div>
+      <div class="clocks" id="clocks"></div>
+    </nav>
+
+    <!-- I -->
+    <section class="section col" id="s-species">
+      <span class="roman">I</span>
+      <h2 class="section-title">The thing that makes us a species.</h2>
+      <p class="t12">There is an old question, returned to compulsively by every generation that thinks of itself as modern, about what makes humans different from the rest of the animals. The answers shift with the fashions of the time. We were the rational animal, in the Greek formulation, distinguished by the capacity for syllogism. We were the tool-makers, in the Victorian formulation, distinguished by the opposable thumb and what it made possible. We were the language users, in the structuralist formulation, distinguished by the recursive grammar that lets a child say a sentence no one has ever said before. We were the moral animal, in the twentieth-century formulation, distinguished by guilt and obligation. We were the free-willed animal, in the most flattering formulation, distinguished by the capacity to choose against our nature.</p>
+      <p class="t12">None of these is wrong, exactly. Each of them is observed in something we do, and each of them points to a real feature of the species. But each of them is also vulnerable to a discovery in the field that has spent the last hundred years quietly knocking the legs out from under every flattering candidate. Chimpanzees use tools. Crows solve puzzles that university undergraduates struggle with. Dolphins teach each other techniques for hunting. Whales sing songs whose melodic structure changes from year to year and propagates across thousands of miles of ocean. Octopuses, which have no business being this intelligent given how distant they are from us evolutionarily, learn from observation and remember the faces of individual humans they like and dislike. The boundary keeps moving inward and the difference, whatever it is, keeps turning out to be a matter of degree rather than of kind.</p>
+      <p class="t12">There is one capacity, however, that has refused to dilute under any amount of scrutiny. The other animals can do almost everything we can do, in modest fractions. Only one species accumulates. Only one species lets the discoveries of one generation be inherited, in working form, by the next. A young crow can be taught by an old crow to crack a particular kind of shell, and the lesson will persist for the crow's lifetime, and perhaps for the lifetime of the crows that watched. But the crow does not stand on the shoulders of fifty generations of crows who each added something to what the previous generation knew. Each generation of crows begins more or less where the last began. Each generation of humans begins where the last one stopped.</p>
+      <p class="t12">This is what makes us a species in the historical sense rather than the merely biological one. We are a species that compounds. The compounding is not done by our genes, which evolve too slowly to explain any of the changes in human life that have occurred since agriculture. It is not done in our individual lifetimes, which are too short. It is done in the medium of inherited knowledge, transmitted between people, stored outside of any single body, accumulated across generations. A modern person living in a city in 2026 is not biologically different from a person living in a Mesopotamian city in 2026 BCE. The architecture of the modern brain is roughly the same architecture our distant ancestor was using. What separates the two of us, almost entirely, is the <em>four thousand years of accumulated, transmitted, inherited knowledge</em> that the modern person has access to and the ancient person did not.</p>
+      <p class="t12">That accumulation is the thing. It is, on a long enough time horizon, the only thing.</p>
+    </section>
+
+    <!-- II -->
+    <section class="section col" id="s-lost">
+      <span class="roman">II</span>
+      <h2 class="section-title">What we have always lost.</h2>
+      <p class="t12">If accumulation is the thing, then the story of human civilisation can be told, fairly faithfully, as the story of how we have invented better and better techniques for it. Speech was the first. Speech let one generation tell the next what it had learned about which berries kill, where the water is in a dry year, how to read the tracks of a particular animal, when to plant and when to harvest. Speech is, in this sense, the most important technology our species ever developed, and it is the one we tend to take most for granted because we mistake it for a feature of our biology rather than for what it actually is, which is a method.</p>
+      <p class="t12">Writing was the second. Writing lifted the constraint that the recipient of knowledge had to be in the same room as the source. A person who lived three hundred years after Euclid could nonetheless inherit Euclid's geometry as cleanly as a student standing in front of him would have. Writing decoupled accumulation from co-location. The library was the institutional form of this decoupling. A library was, and is, a building in which the inherited knowledge of dozens of generations is concentrated and made queryable. The library at Alexandria, founded by Ptolemy I and built up by his successors across the third and second centuries before the common era, is the emblematic early example. At its peak the library is estimated to have held between four and seven hundred thousand scrolls, which is the rough equivalent of an entire ancient university's working memory.</p>
+      <p class="t12">The library at Alexandria burned. The details of the burning are disputed. Caesar gets blamed for one fire, Aurelian for another, Theophilus for a third, the Muslim conquest under Amr ibn al-As for a fourth. The historiography of what happened, and when, and to which part of the collection, is unsettled, and is likely to remain unsettled because the kind of evidence that would resolve it was lost in the fires themselves. What is not disputed is that the collection eventually disappeared, in a process that probably took centuries rather than a single afternoon, and that an enormous quantity of accumulated knowledge disappeared with it. We do not know what was lost, exactly, which is the point. We know that mathematicians whose work we still use lost most of what they wrote. We know that the comprehensive medical synthesis we associate with Galen was, even in his own time, a salvage operation against earlier losses. We know that the catalogue of the library itself, which would have told us what the library had held, was among the things that did not survive.</p>
+      <p class="t12">Alexandria is famous because it was concentrated and visible. The losses we should be more afraid of are the distributed and inconspicuous ones. Every generation of every craft, in every part of the world, has produced senior practitioners who knew more than they could ever fully say, and most of those senior practitioners died without anyone having recorded what they knew. The death of a single master shipwright in seventeenth-century Holland lost a particular intuition for hull curvature that the next shipwright had to reconstruct from scratch. The death of a single senior weaver in nineteenth-century Bengal lost a particular technique for setting indigo that produced a specific blue that no one has been able to reproduce since. The death of a senior diagnostician in any twentieth-century hospital lost a particular sensitivity to a constellation of patient signs that, in the right hands, would have surfaced a rare cancer eighteen months before it was otherwise detectable.</p>
+      <p class="t12">These are not romantic losses. They are real. Each of them represents accumulated capacity that the species had, briefly, and then did not have, because the medium of transmission was inadequate to the kind of knowledge being transmitted. Writing helped enormously with one kind of knowledge, the kind that can be made fully explicit. It helped less, or not at all, with the rest.</p>
+      <p class="t12">The technology of accumulation has its history and the technology of loss has its history. The two histories shadow each other.</p>
+    </section>
+
+    <!-- III -->
+    <section class="section col" id="s-accelerant">
+      <span class="roman">III</span>
+      <h2 class="section-title">The accelerant nobody talks about.</h2>
+      <p class="t12">A fact that I find more striking the more I think about it: humans move more than every other creature on the planet, mammals and insects and reptiles and birds combined. Total human movement, measured in person-kilometres, has increased by approximately four thousand percent since the Industrial Revolution.<sup class="cite" tabindex="0">1<span class="cite-pop"><strong>Human mobility</strong>Global Mobilities Project, Human Movement Since the Industrial Revolution (Oxford School of Geography, 2024 update). International Transport Forum, Transport Outlook 2023.</span></sup> We are, by an enormous margin, the most mobile organism on the planet. We are also, not coincidentally, the species whose accumulated knowledge has grown the fastest in the same period.</p>
+      <p class="t12">The connection between the two facts is not obvious until you sit with it for a while. Movement, at the species scale, is a vector for knowledge transfer. When people move, they carry their accumulated practical knowledge with them. The Silk Road moved silk, and also moved gunpowder, and also moved papermaking, and also moved the abstract arithmetic that became algebra, and also moved religious texts and astronomical observations and the technique for fermenting grain into beer in a particular Caucasus style. Each of these things moved because a person who knew them, in their hands or in their head, physically went somewhere they had not been before and demonstrated or transmitted what they knew. The four-thousand-percent increase in human movement since the Industrial Revolution is, among other things, a four-thousand-percent increase in the bandwidth of human-to-human knowledge transfer.</p>
+      <p class="t12">The same period has produced a corresponding compression of the time it takes for an idea to travel from its origin to widespread use. A new agricultural technique in 1700 might take a generation to propagate from the farm where it was first practised to a farm two hundred kilometres away. The same technique today travels to every farmer who cares to read a research bulletin in less than a week. A new surgical technique in the nineteenth century might take a decade to be adopted in a hospital that was not the originating one. The same technique today is on a conference video, with the original surgeon demonstrating it, within six months. We do not appreciate how recent this is, or how completely it has rewritten the dynamics of knowledge accumulation. The cumulative effect of human movement and the cumulative effect of human accumulation are entangled in a way the standard histories tend not to make legible.</p>
+      <p class="t12">Movement, however, is a leaky vehicle for the deep parts of expertise. A senior surgeon flying to a conference can demonstrate her technique to a hundred other surgeons, and most of what makes her surgery uniquely effective will not transfer in the demonstration. Her hands know something her mouth does not, and the part of her that knows when to slow down, when to abandon the planned approach, when to ask the anaesthetist a question that the anaesthetist will not have anticipated, is invisible to the camera and largely invisible to the surgeons in the room. They will go home with the visible technique and they will not have the invisible discipline that makes the technique work. The transmission, in the parts that matter most, is incomplete.</p>
+      <p class="t12">This is the structure of the problem. We have built increasingly powerful methods for transferring the explicit parts of human knowledge, and we have done relatively little, across the entire history of our species, to address the parts that are not explicit. Most of what makes our most expert people expert has never been amenable to the techniques we use to compound everything else.</p>
+    </section>
+
+    <!-- IV -->
+    <section class="section col" id="s-expert">
+      <span class="roman">IV</span>
+      <h2 class="section-title">What an expert actually does.</h2>
+      <p class="t12">To understand why the inexplicit parts of expertise are so hard to transmit, it is useful to spend a moment on what is actually happening, cognitively, when an expert makes a decision in their domain.</p>
+      <p class="t12">The naïve picture, which is the picture an outsider tends to have, is that the expert applies a body of knowledge to a problem in front of them. They have learned the principles in textbooks, accumulated cases in practice, formed an internal codification of the rules of their domain, and they retrieve the relevant rule when a new case arrives. The decision is a matter of conscious reasoning over an internalised rulebook. On this picture, what makes an expert expert is simply that the rulebook in their head is bigger and more accurate than the rulebook in a novice's head.</p>
+      <p class="t12">This picture is wrong. It is wrong in a way that took the cognitive sciences several decades to establish, and the establishment of it is one of the more important results in twentieth-century psychology, even though it does not get much attention outside the academic specialty in which it was produced.</p>
+      <p class="t12">The work begins, in any serious sense, with Michael Polanyi's <em>The Tacit Dimension</em> in 1966.<sup class="cite" tabindex="0">2<span class="cite-pop"><strong>Polanyi</strong>Polanyi, M. (1966). The Tacit Dimension. University of Chicago Press. "We can know more than we can tell" appears on p.4 of the 2009 reissue.</span></sup> Polanyi was a chemist who had become a philosopher of science, and his project was to explain why so much of what scientists know cannot be reduced to the explicit propositions in their published papers. His central formulation, repeated often enough that it has become a small monument in the philosophy of knowledge, is that "we can know more than we can tell." A skilled cyclist knows how to ride a bicycle, but cannot, when pressed, give a complete account of the corrections she is making to maintain her balance. A skilled radiologist can discern that a particular shadow on a film indicates a tumour, but cannot fully reconstruct, in language, the perceptual cascade that led her to the judgement. The knowledge is real, and operative, and not equal to anything she could put on paper.</p>
+      <p class="t12">Polanyi's work was philosophical. It became empirical in the hands of Hubert and Stuart Dreyfus, the brothers at Berkeley who in the 1980s constructed a five-stage model of skill acquisition that ran from novice to expert.<sup class="cite" tabindex="0">3<span class="cite-pop"><strong>Dreyfus</strong>Dreyfus, H. L. &amp; Dreyfus, S. E. (1986). Mind Over Machine. Free Press. See also Dreyfus, S. E. (2004), Bulletin of Science, Technology &amp; Society, 24(3).</span></sup> The Dreyfus model is now familiar enough that it has entered nursing curricula and pilot training, but its central observation is still under-appreciated. The novice operates on explicit rules. The advanced beginner operates on rules with contextual exceptions. The competent practitioner has internalised enough cases to chunk the rules into routines. The proficient practitioner sees the case as a whole rather than as a set of separate variables. The expert no longer operates on rules at all. The expert sees what to do. The transition from competent to expert is, in the Dreyfus picture, a transition from deliberative cognition to perceptual cognition. The expert's expertise has migrated out of the part of the mind that talks to itself and into the part of the mind that recognises patterns directly.</p>
+      <p class="t12">Gary Klein's career is, in many ways, the empirical demonstration of what the Dreyfus brothers proposed.<sup class="cite" tabindex="0">4<span class="cite-pop"><strong>Klein</strong>Klein, G. (1998). Sources of Power: How People Make Decisions. MIT Press. Originating text for Recognition-Primed Decision (RPD) theory.</span></sup> Beginning in the 1980s and continuing through the next four decades, Klein and his collaborators ran field studies of expert decision-making in domains where the standard laboratory paradigms of behavioural economics did not reach. They studied fireground commanders deciding which way to send a hose. They studied military officers improvising in conditions that had not been covered in any briefing. They studied nurses in neonatal intensive care units deciding, on the basis of a constellation of subtle signs, that an apparently stable infant was about to crash. The pattern they documented, across hundreds of these studies, was that expert decisions in these domains did not look anything like the rational deliberation model of decision theory. The experts did not weigh options. They did not compute expected utility. They saw the situation, recognised it as similar to situations they had seen before, generated a single course of action that fit the pattern, mentally simulated it briefly, and acted. Klein called this Recognition-Primed Decision making, and it has become the foundational result in the field now known as Naturalistic Decision Making.<sup class="cite" tabindex="0">5<span class="cite-pop"><strong>NDM</strong>Zsambok, C. E. &amp; Klein, G. (eds.) (1997). Naturalistic Decision Making. Lawrence Erlbaum.</span></sup></p>
+      <p class="t12">The implication is profound and largely unabsorbed outside the field that produced it. Expert cognition, in the domains where expertise actually matters, is not a faster or more accurate version of beginner cognition. It is a categorically different process. It runs on pattern recognition rather than rule application. It happens too fast for conscious introspection. It is, by construction, not fully accessible to the expert herself. If you ask a senior fireground commander why she sent the hose to the back of the building rather than the front, she will give you a reason. The reason will be coherent and plausible. It will also, on careful examination, be a post-hoc rationalisation of a decision that was made faster than any reasoning process can run. The conscious reasoning is epiphenomenal. The real cause was the perceptual pattern she recognised, and the perceptual pattern is not the kind of thing she has language for.</p>
+      <p class="t12">The mathematical formalism for what is happening came later, from a different research tradition. Karl Friston, Thomas Parr, and Giovanni Pezzulo published <em>Active Inference: The Free Energy Principle in Mind, Brain, and Behavior</em> in 2022.<sup class="cite" tabindex="0">6<span class="cite-pop"><strong>Active Inference</strong>Parr, Pezzulo &amp; Friston (2022). Active Inference. MIT Press. Expert cognition as precision-weighted online inference, opaque to introspection.</span></sup> The book is, on one level, a unified theory of how brains do anything. On another level, more relevant for our purposes, it is the most rigorous available account of what happens cognitively when an expert decides. The Active Inference picture holds that the brain is constantly running predictive models of its environment, updating those models against incoming sensory evidence, and generating actions that minimise the long-run difference between what the brain expected and what actually happened. Expertise, on this picture, is the accumulation of an exceptionally well-tuned predictive model in a particular domain. The expert does not consciously compute the prediction. The prediction is the substrate against which everything in her conscious field is measured, and the action she takes is the one her predictive model assigns the highest weight before any deliberation begins. This is what Klein documented empirically in the firegrounds. This is what Polanyi noticed philosophically a decade before that. It is a single phenomenon, examined from three different angles by three different research traditions across sixty years, and the conclusion is the same in each case. The expert's expertise is real, it is large, and it is not where her self-report says it is.</p>
+      <p class="t12">I have been describing this in the abstract. The concrete version is more useful.</p>
+      <p class="t12">A senior underwriter at a specialty insurance carrier looks at a submission. She reads the description of the business, glances at the financials, scans the broker's covering note. Something in the combination makes her pause. She is going to push back on the broker before she quotes, or she is going to ask for an additional document, or she is simply going to decline. If you ask her, on the way back to her desk, what made her decide, she will tell you a story. The story will mention the loss history and the industry classification. It will be plausible. It will also fail to capture what actually drove the decision, which was an intuitive recognition that a specific configuration of facts in this submission matched a specific configuration of facts in a past submission that paid out badly five years ago. She is not consciously retrieving the past case. The past case is shaping her perception of the present one. Her own report of the reason is, in the strict sense, a confabulation. The real reason lives in the predictive model her thirty years of cases have built, and the predictive model is not articulate.</p>
+      <p class="t12">This is what an expert actually does. This is what fifty years of cognitive science has established, and what the Naturalistic Decision Making researchers have documented in hundreds of operational settings, and what Active Inference has now given a mathematical account of. And this is what has been, by the same fifty years of work, almost completely missing from the methods we use to transmit expertise from one person to the next.</p>
+    </section>
+
+    <!-- V -->
+    <section class="section col" id="s-capture">
+      <span class="roman">V</span>
+      <h2 class="section-title">Why this knowledge has been almost impossible to capture.</h2>
+      <p class="t12">If the expert's expertise lives in the parts of her cognition that are not articulate, then any technique for capturing her expertise that begins with asking her what she knows is going to recover, at best, a thin and unrepresentative slice of the real thing.</p>
+      <p class="t12">This is what training programmes have been doing, ineffectively, since the institution of formal training programmes began. A senior person is asked to write down what she has learned. She does her honest best. She produces a document that is a mixture of policies, war stories, and rules of thumb. The document captures her explicit knowledge fairly well. It captures the things she knows she knows. It does not capture the things she does without knowing she does them, which is the larger and more valuable category. The training manual that results is useful in the way that a guidebook to a city is useful for a tourist. It will not turn the tourist into a resident, and it will not turn the resident into the woman who has lived in the city for forty years and knows which side street to take at four in the afternoon to avoid the school run.</p>
+      <p class="t12">This is what apprenticeship has been doing, more effectively, for as long as humans have had crafts. Apprenticeship works because the apprentice spends enough time with the master that the master's perceptual patterns gradually transfer through proximity, imitation, correction, and the long slow accumulation of cases watched closely. The mathematics of the transfer are bad. It takes ten years to make a journeyman a master, in most serious crafts, and at the end of those ten years you have one new master and you have not preserved the original master's expertise in any externally storable form. When the original master dies, the institutional capacity to make new masters depends entirely on whether one of her apprentices was good enough to absorb what she had. The medium of transmission is the apprentice's nervous system, which is a single point of failure and which cannot be backed up.</p>
+      <p class="t12">This is what knowledge management software has been trying to do, less effectively, for forty years. The first attempts, in the 1980s, were called expert systems. The idea was straightforward. You hire a trained knowledge engineer, you pair her with a senior expert in the domain, you have the knowledge engineer interview the expert for hundreds of hours, you have her decompose the expert's reasoning into formal rules, you encode the rules into a system, you deploy the system. By the end of the 1980s, several hundred such systems had been built and most of them had failed in operational use. The reason for the failure was not technical. The systems did what they were programmed to do. The reason was that the rules the knowledge engineer extracted were, almost by definition, the explicit knowledge the expert could articulate, which was the wrong layer. The expert systems plateaued at the rulebook level. They never reached the perceptual level. This is the lesson the field of artificial intelligence took from the failure of the first expert systems era, and it is the lesson that has shaped, mostly correctly, every subsequent generation of work.</p>
+      <p class="t12">The second generation of attempts moved away from expert systems toward knowledge management. The vendors of the 1990s and 2000s built sophisticated platforms for storing, indexing, and retrieving organisational documents. They built Wikis, search engines, document management systems, intranets, and eventually the modern enterprise stack of Confluence, SharePoint, Notion, and their peers. These platforms are, in their own terms, successful. They have captured the explicit organisational record of a million large enterprises across thirty years of operation. They have also, in the strict sense relevant here, captured exactly the wrong thing. They have built a vast and excellent infrastructure for storing the layer of organisational knowledge that was already being captured perfectly well by the previous generation of paper filing systems. They have built nothing for the layer that mattered.</p>
+      <p class="t12">The third generation of attempts has been the application of artificial intelligence to enterprise data. The current wave of this, beginning around 2022 and accelerating through the period in which I am writing, is built around large language models retrieving against the corpus of organisational documents. The technique is called retrieval-augmented generation, and it is, on its own terms, an impressive piece of engineering. A user can ask a question of an enterprise corpus and receive an answer that synthesises across thousands of documents in a way no human researcher could match. The technique has a hard ceiling, however, and the ceiling is the same insidious one the previous two generations hit. Retrieval-augmented generation retrieves what has been written down. It cannot retrieve what was never written down. The valuable layer remains untouched.</p>
+      <p class="t12">The pattern is consistent across sixty years. The technology of capture keeps improving. The fundamental capture problem keeps not being solved. We have built progressively better libraries of the explicit layer, and we have done almost nothing for the tacit one. The medium of transmission for the tacit layer remains, today, the same medium it was in the seventeenth century. It is the apprentice's nervous system. It still cannot be backed up.</p>
+    </section>
+
+    <!-- VI -->
+    <section class="section col" id="s-economics">
+      <span class="roman">VI</span>
+      <h2 class="section-title">The economics of why we never fixed it.</h2>
+      <p class="t12">There is an obvious question lurking in this history, which is why, given the importance of the problem, no one has built the missing infrastructure. The answer is not that nobody has tried. People have tried for sixty years. The answer is that until very recently, the unit economics were impossible.</p>
+      <p class="t12">To capture the tacit layer of an expert's expertise, in the methodology that the Naturalistic Decision Making researchers refined across the 1980s and 1990s, you needed a structured interview process called the critical decision method. The method involves walking the expert through past cases in extreme detail, probing for the cues she noticed, the comparisons she ran in her head, the alternatives she rejected before she even surfaced them to consciousness, the contextual factors that shaped her perception of the case before she began to analyse it. The interviews are not casual conversations. They follow a protocol developed over decades and they require a trained interviewer who knows how to ask the next question. A productive interview runs three to four hours and a complete capture of a single expert's working knowledge in a single domain runs to twenty or thirty interviews over the course of a year.</p>
+      <p class="t12">The cost of this, in the 1990s and 2000s, was on the order of six figures per expert per year. The cost was not in the expert's time, although her time mattered. The cost was in the interviewer's time. A trained cognitive task analyst commands a senior consultant's day rate, and the methodology cannot be parallelised across multiple experts without losing the structured continuity that makes it work. At six figures per expert per year, multiplied by the number of experts a serious institution would want to capture, multiplied by the multi-year duration of the capture, the cost ran into the tens of millions of dollars. For most institutions, in most industries, the cost was not justifiable on any plausible return calculation. The methodology became an anachronism almost as soon as it was developed, confined to a small number of defence programmes, aerospace operators, and nuclear plant operations groups where the cost of an expertise loss was high enough to make the cost of the capture defensible.</p>
+      <p class="t12">The economics did not change for thirty years. They changed, suddenly, in 2024.</p>
+      <p class="t12">What changed was that the foundation models reached a level of capability at which the structured interview itself could be conducted by an AI agent trained in the elicitation protocols the human researchers had developed. The agent could ask the next question. The agent could probe for the cue the expert had not surfaced. The agent could run the case-by-case structure that the critical decision method requires. The output of the interview could be decomposed by another model trained against a cognitive taxonomy, encoded into a structured graph representation with provenance and confidence intact, and stored at a unit cost that puts the entire methodology inside reach of any institution that needs it. The cost moved from six figures per expert per year to a small fraction of that, and the throughput moved from twenty or thirty interviews a year to twenty or thirty interviews a quarter, and the bottleneck shifted from the interviewer to the expert's own scheduling availability.</p>
+      <p class="t12">This is the change. It is the most important change in the practical economics of knowledge capture in sixty years. It is, in my view, more important than any single capability the foundation models have demonstrated, including the conversational capability and the code generation capability that have absorbed most of the public attention. It is the capability that unlocks a category of work that has been blocked, for purely economic reasons, for the entire history of the project. The foundation models have given us, almost as a side effect of their other capabilities, the ability to do at scale what we have only ever been able to do at boutique pricing in a small number of defence and aerospace programmes.</p>
+      <p class="t12">I want to be careful here, because the temptation is to overclaim. The foundation models are not running the interviews themselves, in the sense that no model is autonomously deciding what to ask or how to interpret the answer. The agent that conducts the structured interview is a carefully engineered system, with a protocol designed around the cognitive science of the elicitation methodology, with a series of guardrails that prevent it from drifting into the failure modes that a naïve conversational agent would exhibit. The decomposition of the transcript into a structured graph is performed by models running against a taxonomy that has been developed and validated against the academic literature on expert cognition. The provenance and confidence scoring is engineered into the pipeline as a first-class concern, not an afterthought. None of this is automatic. All of this is built. But the building of it has become possible, at a unit cost that makes commercial deployment defensible, for the first time since the project of capturing tacit knowledge was first articulated.</p>
+      <p class="t12">We have, suddenly, a way to back up the apprentice's nervous system.</p>
+    </section>
+
+    <!-- VII -->
+    <section class="section col" id="s-cliff">
+      <span class="roman">VII</span>
+      <h2 class="section-title">The cliff we are about to fall off.</h2>
+      <p class="t12">The economics changed at the moment they most needed to change. Two converging demographic and technological pressures are about to make the tacit layer matter more, and more urgently, than it has ever mattered before. The first is the retirement of the most expert cohort the modern economy has ever had. The second is the arrival of AI agents in production roles where, until recently, only senior humans operated.</p>
+      <p class="t12">The first pressure is the easier to see, although it has been startlingly under-discussed in the public conversation about AI. In the United States and the United Kingdom alone, approximately ten thousand baby boomers retire every working day.<sup class="cite" tabindex="0">7<span class="cite-pop"><strong>Demographics</strong>Pew Research Center, based on US Census data. UK from Office for National Statistics retirement and labour-force survey, 2024 release.</span></sup> This number has been roughly constant for the last decade and will remain roughly constant for at least the next ten years. The boomer generation is, by a considerable margin, the most concentrated repository of professional expertise the modern economy has ever assembled. Their working lives span the period from the late 1970s to the late 2020s, which is exactly the period in which most of the modern professional disciplines as we now know them were defined. They built the modern insurance underwriting practice. They built the modern commercial credit practice. They built the modern clinical diagnostic practice. They built the modern regulatory compliance practice. The senior layer of each of these disciplines is dominated by people in their late fifties and sixties, and the senior layer is the layer in which the tacit knowledge concentrates.</p>
+      <p class="t12">The replacement cohort is thin. The training cycle for a senior practitioner in any of these fields is five to ten years, sometimes longer, and the institutional apprenticeship structures that used to produce that training have been hollowed out by two decades of operational efficiency programmes. The number of senior practitioners being trained each year is, across most regulated industries, running at something close to sixty percent of what would be required to hold the institution's expert capacity steady against the retirement curve.<sup class="cite" tabindex="0">8<span class="cite-pop"><strong>Insurance workforce</strong>Jacobson Group &amp; Aon, U.S. Insurance Labor Market Study (2025). Cross-referenced against BLS occupational projections.</span></sup> The arithmetic is not subtle. By 2030, in most regulated industries, the senior layer will be substantially smaller than it is today and the gap will widen further every year that follows. Whatever tacit knowledge has not been captured by then will be permanently lost, in the same sense that the contents of the library at Alexandria were permanently lost. We will not know exactly what we lost, which is the point.</p>
+      <p class="t12">The second pressure is the harder to see, because it is happening in real time and because the people running it are mostly not thinking about it in these terms. AI agents are entering production roles in regulated industries at a rate that nobody five years ago expected. The investment in AI infrastructure across the global economy by 2030 is on the order of $1.8 trillion.<sup class="cite" tabindex="0">9<span class="cite-pop"><strong>AI capex</strong>Goldman Sachs Research, Global AI Capex Forecast (2024). IDC, Worldwide AI Spending Guide (2025).</span></sup> Most of this investment is going into the application of foundation models to operational work that was previously done by humans, including most of the work in which the tacit layer matters. The deployments are happening regardless of whether the institutions have figured out how to give the agents the runtime they need to do the work well. The agents are deployed, they perform on the explicit layer, they fail on the tacit one, and the institutions absorb the failure as part of the cost of being early.</p>
+      <p class="t12">The published numbers on this are bleak in a consistent way across every study that has examined them. Roughly eighty-eight percent of large enterprises have deployed AI in some form. Roughly five percent of those deployments produce measurable returns.<sup class="cite" tabindex="0">10<span class="cite-pop"><strong>BCG &amp; McKinsey</strong>BCG, Build for the Future: 2024-2025 AI Adoption Survey. McKinsey, The State of AI (2025).</span></sup> An MIT study of enterprise generative AI pilots in 2024 found that ninety-five percent of the pilots produced no measurable return on investment.<sup class="cite" tabindex="0">11<span class="cite-pop"><strong>MIT NANDA</strong>MIT, The GenAI Divide: State of AI in Business 2024 (NANDA Initiative).</span></sup> Gartner forecasts that approximately thirty percent of generative AI initiatives will be abandoned after proof of concept.<sup class="cite" tabindex="0">12<span class="cite-pop"><strong>Gartner</strong>Gartner, Predicts 2025: AI Deployment and Adoption Challenges. Press release, July 2024 (updated 2025).</span></sup> Klarna, one of the most publicly visible early adopters, walked back its customer service AI deployment in 2024 after the system failed to perform at the level of the human agents it had replaced, and quietly returned to hiring people.<sup class="cite" tabindex="0">13<span class="cite-pop"><strong>Klarna</strong>Public statements and earnings commentary, 2024–2025, on the rollback of customer-service AI automation. Bloomberg, Financial Times, May 2025.</span></sup> The Deloitte annual survey reports, across multiple iterations, that the failures of enterprise AI are organisational rather than technological, which is closer to the truth but is also a euphemism. The failures are not organisational in the sense of resistance from middle managers. They are structural in the sense that the agents are being asked to perform work whose runtime has never been observed.</p>
+      <p class="t12">The two pressures are converging on a single moment. The senior cohort is retiring out of the institution, faster than the institution can train replacements, just as the AI agents that will inherit their work are arriving without the runtime layer they need to do the work. If both pressures continue on their current trajectories, the institutions that depend on tacit expertise will find themselves, sometime around 2030, in a position where the senior humans who could have performed the work have left, and the AI agents that have replaced them cannot perform the work at the level the senior humans did. The institution will have lost both the human capacity and the substitute capacity in the same period. This is not a hypothetical. This is the explicit trajectory of the published numbers, projected forward five years.</p>
+      <p class="t12">The capture problem, in other words, has stopped being an academic problem. It has become an operational one with a hard deadline. The window in which the senior cohort can still be observed, captured, and used to calibrate the agents that will inherit their work is open right now. The window will close, in most regulated industries, sometime in the next thirty-six to sixty months. After that, the capture remains technically possible but the subject of the capture is gone.</p>
+      <p class="t12">The library is on fire. We have, finally, the methods to copy what is in it. We have the next eighteen to thirty-six months to do the copying.</p>
+    </section>
+
+    <!-- VIII -->
+    <section class="section col" id="s-possible">
+      <span class="roman">VIII</span>
+      <h2 class="section-title">What becomes possible.</h2>
+      <p class="t12">I want to spend the rest of this essay on what becomes possible if the capture happens. This is the part that is most often elided in discussions of AI infrastructure, partly because the people who think most carefully about the technology tend to be cautious about overclaiming, and partly because the magnitude of what is at stake is genuinely difficult to articulate without sounding grandiose. I am going to attempt it anyway, because the careful articulation seems to me more honest than the cautious silence.</p>
+      <p class="t12">Start with the conservative case, because it is the easiest to defend and because most of the actual commercial deployment in the next five years will be in this register. The conservative case is that institutions will use the capture infrastructure to preserve the working knowledge of their senior staff before they retire, to accelerate the development of their junior staff by giving them queryable access to the senior runtime, and to ground the AI agents they are deploying in production in the institution's own captured judgement rather than in generic model output. This is what we are building toward at Tacit Labs in the first vertical, and this is what the first generation of customers will pay for. The conservative case is enough to justify the entire venture, several times over, on commercial terms.</p>
+      <p class="t12">But the conservative case understates what becomes possible. The conservative case treats expertise capture as a defensive technology, like a backup system, useful in proportion to the loss it prevents. The more interesting argument is that captured expertise becomes generative once it is made queryable and recombinable at scale, and that the generativity opens possibilities the original experts themselves would not have been able to access.</p>
+      <p class="t12">Consider what happens when twenty senior underwriters at twenty different specialty carriers have each had their runtime captured into the same structural representation. Each of these underwriters has, over thirty or forty years of work, accumulated a set of idiosyncratic pattern recognitions specific to her own experience. Each of them has seen cases the others have not seen. Each of them has noticed things the others have not noticed. Each of them has developed heuristics that work in her own carrier's book of business and that have never been tested against the books of the others. In the world we have been living in, this accumulated diversity is essentially unrecoverable. Each underwriter retires and her particular slice of the collective expertise vanishes with her, and the next underwriter at her carrier starts over.</p>
+      <p class="t12">In a world where the runtime of each of these underwriters has been captured into a queryable graph, the diversity becomes a resource. A junior underwriter handling a difficult case can query not just her own carrier's captured graph but, with appropriate permissions and anonymisation, the cross-carrier reference library that the industry has accumulated. She can see how seven different senior underwriters would have approached the same case. She can see where they agree and where they disagree, and the disagreement itself is information. The decision-making capacity of the junior, in this picture, is not just her own training plus her carrier's graph. It is her training, plus her carrier's graph, plus a structured representation of the entire senior layer of her profession, all queryable in the moment of decision.</p>
+      <p class="t12">This is a different thing from any decision support that has ever existed. The closest analogy is the medical literature, which functions as a similar substrate of accumulated expertise for clinicians, but the medical literature has the limitations of explicit knowledge that we have been discussing throughout this essay. It captures what doctors have written down. It does not capture what they would have done. The captured-expertise substrate captures what they would have done. It is the medical literature plus the missing layer.</p>
+      <p class="t12">The generativity goes further. Once enough senior experts have been captured into a structural representation, the representation itself becomes a substrate against which novel cases can be tested. A new kind of insurance risk emerges that nobody on the senior layer has seen before, and the institution needs to make a decision about how to price it. In the old world, the institution would convene a senior committee and have the committee argue toward a decision over weeks. In the new world, the institution can do the same convening, and it can also synthesise across the captured runtimes of the entire senior layer, generating a structured analysis of how each of those underwriters' established heuristics would interact with the new case. The synthesis is not a replacement for the human committee. It is an input to the committee that the committee did not have before, and the input is the kind of input that is most useful precisely when the case is hardest.</p>
+      <p class="t12">I want to push further. The most consequential possibility, the one I am most reluctant to articulate because it is the easiest to dismiss as overreach, is that the captured-expertise substrate becomes the <em>medium for new kinds of expertise that no individual human has ever developed.</em> The argument runs as follows. Expertise is, in the Active Inference picture, a precision-weighted predictive model accumulated over thousands of cases. The model lives in the expert's nervous system and is bounded by what the expert has had the opportunity to see. A senior underwriter has seen, over the course of her career, perhaps twenty thousand cases. A senior cardiologist has seen, over the course of her career, perhaps thirty thousand patients. These are large numbers and they are also, on the relevant scale, very small numbers. The cases an individual expert has not seen vastly outnumber the ones she has. Her expertise is the model her particular career has trained, and the model is local to her particular career.</p>
+      <p class="t12">If the captured-expertise substrate aggregates the runtimes of a hundred senior underwriters, the aggregate has, in some computable sense, the predictive coverage of millions of cases. The aggregate is not a single person's runtime scaled up. It is something genuinely new. It is a predictive model in a particular domain whose ground truth is the accumulated case-recognition of an entire professional generation, made queryable. Querying it is not the same as consulting any one of the experts it was built from. It is, in principle, more informative, in the same way that the medical literature is more informative than any one doctor. But where the medical literature is constrained to the parts of expertise that have been written down, the aggregate captured-expertise substrate is constrained only by the parts that have been observed.</p>
+      <p class="t12">This is the substrate on which I believe <em>vertical artificial general intelligence</em> will have to be built, in any domain where the underlying decisions depend on tacit expertise. The foundation models, on their own, do not have access to this substrate. They are trained on the explicit record of the internet, which is the same explicit record that the previous generations of knowledge management software were built around. They will plateau at the same ceiling that knowledge management plateaued at, because the ceiling is set by the structure of the source data rather than by the capability of the model. The path to AI systems that operate at the level of senior human experts, in the domains where expertise actually matters, runs through the capture of the runtime that the senior humans use. There is no shortcut around this. The labs that are betting on more scaling, more context, more inference compute as the route to expert-level performance in regulated domains are betting against the cognitive science. The cognitive science has been settled on this for forty years.</p>
+      <p class="t12">The implications, if I am right, are larger than the implications of any single commercial deployment. The captured-expertise substrate becomes, over time and across institutions, a public infrastructure for the most valuable layer of human knowledge. Each generation of senior practitioners, in each profession, contributes their accumulated runtime to a substrate that the next generation inherits. The compounding that has defined the human species, but that has been so leaky in the layer that matters most, becomes finally, fully compounding. The library, this time, does not burn.</p>
+      <p class="t12">I am aware that this sounds grandiose. I have written enough investor decks and read enough founder essays to know what delusions of grandeur sound like, and I have tried to write this carefully enough that the steps from the conservative case to the aggressive one are explicit and individually defensible. I am also aware that I am stating, in plain language, a possibility that has not previously been articulable because the technology to make it possible did not previously exist. Articulating it for the first time is, by the structure of the thing, going to sound speculative. The speculation is no more speculative than the printing press would have sounded to a fifteenth-century monk asked to consider the future of the manuscript scriptorium. The structure of the change is the same. We are at the moment when a new medium for the transmission of human knowledge becomes available, and the medium is specifically capable of carrying the layer that no previous medium could carry.</p>
+      <p class="t12">This is the bet.</p>
+    </section>
+
+    <!-- IX -->
+    <section class="section col" id="s-dark">
+      <span class="roman">IX</span>
+      <h2 class="section-title">The dark side, briefly.</h2>
+      <p class="t12">I do not want to leave the optimistic case unmoored from its risks, because the risks are real and they are part of why getting the technology built well matters more than getting it built fast.</p>
+      <p class="t12">The most obvious risk is concentration. The infrastructure I have described is, in its mature form, a substrate on which most of the operationally consequential decisions in a regulated economy will be grounded. Whoever owns the substrate, or whoever controls the largest share of it, will have an enormous amount of influence over the texture of those decisions. The same way that whoever owns the largest social network has influence over public discourse, and whoever owns the largest search engine has influence over what counts as findable knowledge, whoever owns the largest captured-expertise substrate will have influence over how the next generation of professional work gets done. The history of platform infrastructure suggests that the natural endpoint of this kind of substrate is consolidation around a small number of providers. The history also suggests that the consolidation, once it happens, is durable.</p>
+      <p class="t12">The mitigations against this are partly structural and partly political. The structural mitigation is that the substrate should be interoperable across providers, with portability of captured expertise between systems, in the same way that the open standards of the early web prevented the consolidation of the document layer around a single vendor. This is a design choice. It is achievable. It is also, in the natural commercial dynamics of the early market, not the path of least resistance for any individual vendor. Someone will have to be deliberate about it. We have been deliberate about it. So will, I hope, others.</p>
+      <p class="t12">The political mitigation is regulatory. The substrate, in the regulated industries in which it will first be deployed, will be visible to regulators by construction. The EU AI Act, the prudential regulatory frameworks in banking, the NAIC bulletins in insurance, the model risk management guidance in credit, all of these require explainable and auditable AI decision-making in regulated functions.<sup class="cite" tabindex="0">14<span class="cite-pop"><strong>Regulatory frameworks</strong>EU AI Act (Reg 2024/1689); PRA SS1/23; NAIC Model Bulletin (2023); Fed/OCC SR 11-7 / Bulletin 2011-12.</span></sup> A captured-expertise substrate that produces decisions with full provenance back to named experts and named heuristics is, in fact, easier to regulate than a foundation model that produces decisions with no provenance at all. The regulatory framework is, in this sense, an ally of the kind of substrate I have been describing, and an obstacle to the kinds of substrates that try to do the same work without the provenance layer.</p>
+      <p class="t12">The second risk is the displacement of judgement. If the captured-expertise substrate works as I have described, it will mean that an enormous amount of operational decision-making, in the domains where expertise matters most, will be grounded in the captured judgement of a finite number of senior experts. The question of which experts get captured, and which do not, becomes a question of who gets to shape the next generation of decisions. The senior underwriters who happen to work at the carriers that adopt the capture infrastructure early will have an outsize influence on how the next generation of underwriting is done across the industry. The senior clinicians who happen to be at the hospitals that adopt early will have an outsize influence on the next generation of clinical practice. This is, in one sense, just a faster version of how influence has always propagated through professional communities. In another sense, it is qualitatively different, because the captured runtime persists indefinitely and continues to shape decisions long after the original expert has retired or died.</p>
+      <p class="t12">The mitigation here is diversity. The capture has to be done broadly enough, across enough experts, across enough institutions, across enough demographics and traditions of practice, that the resulting substrate represents the actual variety of how the work is done rather than a narrow slice of it. This is again a design choice. It is also, in the commercial dynamics of the early market, a choice that requires the institutions doing the capture to be deliberate about who they capture and to value the diversity for its own sake rather than for short-term commercial reasons. It is achievable. It requires care.</p>
+      <p class="t12">The third risk is the one I think about most, and the one I have the least good answer to. It is the question of what happens to the layer of human work that has, until now, been valuable precisely because it could not be automated. The senior underwriter has been irreplaceable, in part, because the institution has had no way to extract her runtime and operate it without her. If the runtime can be extracted, the irreplaceability disappears. The work that was hers, alone, becomes work that the institution owns and that the institution can run with progressively less of her input. The senior layer of every regulated profession, the layer that has built its entire compensation structure around its irreplaceability, is going to have to renegotiate its relationship with the institutions it works inside, and the renegotiation is not going to be uniformly favourable to the senior layer.</p>
+      <p class="t12">I do not know how this resolves. I think the most likely resolution is that the senior layer reconstitutes itself around the work that the captured-expertise substrate cannot do, which includes the original generation of new expertise in cases the substrate has not seen, the validation and curation of the substrate itself, the interpretation of the substrate's outputs in edge cases, and the parts of the work that are essentially relational rather than cognitive. I think this resolution preserves much of the senior layer's importance, and may make the work more interesting rather than less. I also think the resolution is not guaranteed, and that institutions that handle the transition badly will find themselves having extracted the runtime, dispensed with the experts, and discovered too late that the runtime decays in the absence of the people who built it. The substrate needs to be maintained. The maintenance requires the experts to remain in the loop. The institutions that treat the substrate as a replacement, rather than as an augmentation, will find themselves in a worse position than before they adopted it.</p>
+      <p class="t12">These are the risks I find most credible. There are others. I am writing as a builder rather than as a philosopher, and a fuller treatment of the risks would require a different essay. The point of including this section is that I do not believe the optimistic case can be honestly made without naming the failure modes openly. The failure modes are real. The work is worth doing anyway. The work is worth doing because the alternative, which is the continued generational loss of the most valuable layer of human knowledge at the same rate it has been lost for the entire history of our species, is worse than any of the risks I have just named.</p>
+    </section>
+
+    <!-- X — What we built (preserved methodology + runtime query artifact) -->
+    <section class="section col" id="s-built">
+      <span class="roman">X</span>
+      <h2 class="section-title">What we are building.</h2>
+      <p class="t12">I have spent most of this essay writing in the abstract, because the abstract is where the thesis lives and where it has to be defensible before any specific company is worth attention. The remaining part is more concrete.</p>
+      <p class="t12">Karan and I co-founded Tacit Labs in 2025, after spending the previous decade running an enterprise AI implementation consultancy, which was, in retrospect, a long apprenticeship rather than a destination. The toil of it taught us something that no shorter exposure to the enterprise AI market would have taught. Across more than fifteen large enterprise deployments in financial services, healthcare, and industrial domains, we watched the same pattern repeat, with a consistency that eventually stopped being a series of individual failures and started being a single structural finding. Each deployment shipped, performed well on the explicit knowledge layer, and then plateaued at the boundary where the implicit and tacit layers began. Each deployment was overridden by senior experts at rates between twenty-five and forty percent of the cases that reached them, and the overrides were, on careful examination, correct between eighty and ninety percent of the time. Each institution absorbed the override gap as friction. Each one paid the cost of the missing runtime twice. Once when the agent produced the wrong recommendation, and again when the senior expert had to override it and the reasoning behind the override evaporated into a help-desk ticket. We watched this pattern for seven years. By the time we had seen it across enough institutions and enough verticals to be sure it was not a vendor-specific or a sector-specific phenomenon, we had concluded that the problem was structural and that no amount of further investment in the existing approaches was going to solve it.</p>
+      <p class="t12">Tacit Labs exists to solve it. We are building the capture infrastructure that has, until 2024, been impossible to build at commercial scale. We are starting in insurance underwriting because it has the densest concentration of tacit expertise of any regulated decision function on earth, the steepest retirement curve, the most active regulatory pressure on explainability, and the strongest natural fit for the methodology we have built. We are deploying with a single live customer today, a clinical neurotechnology company called Brainoscope, which serves as a small but rigorous microcosm of the larger thesis: the methodology is actively capturing the cognitive runtime of three senior clinical and technical specialists. This is the demonstration that the methodology produces output that the experts themselves recognise as their own thinking. It is not the commercial wedge, which begins in insurance this year.</p>
+
+      <h3 class="section-title" style="font-size:clamp(20px,1.9vw,26px); margin-top:48px;">The methodology, in five parts.</h3>
+      <p class="t12">Tacit captures the cognitive runtime of expert decision-making through five complementary methods that run in parallel against the same population of decisions. There is no single capture trick that produces the runtime. Every method is built around the same constraint, which the cognitive science has been unambiguous about for forty years: the runtime is opaque to self-report and visible only in behaviour under operational conditions. The methods do not ask experts what they do. They observe what experts do, in the conditions where it matters.</p>
+      <p class="t10">The first method, which we call <strong>decision archaeology</strong>, mines the historical exhaust already sitting in the organisation's systems: platform decision logs, broker email threads, decision memos, claim files, call transcripts, escalation tickets. The data is messy and incomplete in every deployment we have seen. It is also sufficient to reconstruct the patterns of expert reasoning across millions of past cases once a properly designed extraction pipeline is running against it. The first useful insights typically arrive within two weeks of integration, and the experts are asked to change nothing about how they work.</p>
+      <p class="t10">The other four methods address the parts that the historical record cannot show. <strong>Contrastive cohort analysis</strong> statistically isolates the behavioural signature of expertise by comparing matched cohorts of senior and junior practitioners on the same population of cases, using Cohen's d effect sizes against carefully chosen variables. <strong>Perturbation probing</strong> generates synthetic edge cases through the parameter space of the decision and presents them to senior experts, which maps decision boundaries that the historical record cannot reach because the cases never occurred. The <strong>Structured Interview Agent</strong> runs deep epistemic interviews against the rare-case, new-observed-state, high-stakes patterns that neither historical mining nor contrastive analysis can produce. <strong>Live escalation capture</strong> records the reasoning whenever a production agent hands a case to a human, which turns every escalation event into a new node in the cognitive graph instead of letting the override signal evaporate into a help-desk ticket.</p>
+      <p class="t12">All five methods feed a single judgment graph that represents how the organisation's experts actually decide. Each node carries a confidence score, a decay rate, and full provenance to the expert, the session, and the source evidence that produced it. The graph is the runtime, made queryable. Agents hit it at decision time the way modern applications hit a database, except what they receive back is judgment with attribution and confidence, not a retrieved document.</p>
+
+      <p class="t10" style="margin-bottom:0; margin-top:36px;">Example of a runtime query and the response that comes back. Agents and underwriters call the same endpoint; the response cites only captured heuristics, with provenance.</p>
+
+      <div class="runtime-query" role="figure" aria-label="Runtime query example">
+        <div class="rq-meta">
+          <span class="rq-dot" aria-hidden="true"></span>
+          <span>runtime query · tacit judgment graph</span>
+          <span class="rq-meta-end">v1.0 · live</span>
+        </div>
+
+        <section class="rq-block">
+          <header class="rq-block-head">
+            <span class="rq-arrow" aria-hidden="true">→</span>
+            <span class="rq-block-label">request</span>
+            <span class="rq-block-meta">underwriter or agent</span>
+          </header>
+          <pre class="rq-code"><span class="fn">judgment.consult</span>(
+  situation:     { <span class="c">...</span> },      <span class="c">// structured description of the case</span>
+  decision_type: <span class="k">string</span>,        <span class="c">// "underwriting_price" | "diagnosis" | "claim_triage" | ...</span>
+  options?: {
+    min_confidence:      <span class="n">0.0–1.0</span>,
+    require_attribution: <span class="k">boolean</span>,
+    practice_id:         <span class="k">string</span>,    <span class="c">// which practice graph</span>
+    as_of:               <span class="k">timestamp</span>  <span class="c">// for time-travel queries</span>
+  }
+)</pre>
+        </section>
+
+        <section class="rq-block">
+          <header class="rq-block-head">
+            <span class="rq-arrow" aria-hidden="true">←</span>
+            <span class="rq-block-label">response</span>
+            <span class="rq-block-meta">confidence <strong>0.78</strong></span>
+          </header>
+          <pre class="rq-code">{
+  recommendations: [
+    {
+      action: <span class="s">"price at 4.1M with reserve adjustment for construction defect"</span>,
+      confidence: <span class="n">0.78</span>,
+      decay:      <span class="n">0.12</span>,            <span class="c">// how stale this judgment is</span>
+      attribution: {
+        experts:        [<span class="s">"expert_id_47"</span>, <span class="s">"expert_id_12"</span>],
+        sessions:       [<span class="s">"session_2024_q3_b14"</span>],
+        n_observations: <span class="n">23</span>,
+        last_observed:  <span class="s">"2026-03-14"</span>
+      },
+      reasoning_anchors: [
+        { cue: <span class="s">"loss_run_attritional_pattern"</span>, weight: <span class="n">0.41</span> },
+        { cue: <span class="s">"broker_quality_signal"</span>,       weight: <span class="n">0.22</span> }
+      ],
+      provenance_uri: <span class="uri">"tacit://judgment/insurer_x/node/d3f9..."</span>
+    }
+  ],
+  alternatives: [ <span class="c">/* dissenting judgments, if any */</span> ],
+  caveats: [
+    <span class="s">"Confidence below 0.6 on similar cases since 2025-Q4 due to market hardening"</span>
+  ]
+}</pre>
+        </section>
+      </div>
+
+      <p class="t10">Tacit in production. A senior underwriter asks the system what to do with a marginal loan. The system answers using only the heuristics captured from the institution's own senior officers, names the heuristics, grades the confidence of each, surfaces the caveats, and ends on a line of fine print that matters: answers cite captured heuristics only, no fabrication. Nothing is generated from the foundation model's general knowledge. Every claim is grounded in a node in the cognitive graph, with provenance traceable to the named expert who authored it.</p>
+
+      <aside class="authorial-note">
+        <p>A note on what follows. The next three sections are more concrete than the philosophical opening of this essay, and they describe what existing approaches to capturing expert judgement look like, what a serious methodology actually has to do, and where the various offerings in the broader AI-infrastructure category sit on a single map. I have included this material because the long-form argument feels incomplete without it. The philosophy is unfalsifiable until it touches the specific shape of what gets built. The risk is that these sections read as a product pitch for the company I have spent the previous section naming. I have tried to write them as argument rather than as sales material, and I have kept the worked examples specific enough that a reader who disagrees with me on the particulars can disagree productively. If they read as pitch, the failure is mine.</p>
+      </aside>
+    </section>
+
+    <!-- XI -->
+    <section class="section col" id="s-ai-today">
+      <span class="roman">XI</span>
+      <h2 class="section-title">The problem with how AI captures expertise today.</h2>
+      <p class="t12">If the argument so far has been right, the next question is what the existing attempts to capture expert judgement have actually been doing, and why they have not been enough. I want to spend a section on this, because the answer is not the one most people in the AI industry would give if you asked them at a conference.</p>
+      <p class="t12">Most attempts to capture expertise fall into one of two camps. Each camp has a long history of work behind it, each camp has serious people in it, and each camp has reached a ceiling for a structural reason that I think is worth being explicit about.</p>
+      <p class="t12">The first camp is imitation. The premise is that if you record enough of what an expert does, a model trained on the record will produce decisions that look like the expert's decisions. This is the dominant approach in the parts of AI where it has worked spectacularly well, which are the parts where the action is observable and the right answer is verifiable. Chess. Coding against a test suite. Customer service against a satisfaction score. Imitation works in these domains because there is a clean feedback loop between the model's behaviour and the ground truth, and the model can be tuned against the ground truth until the behaviour converges. The cognitive science is, in a strict sense, irrelevant. The model does not need to understand why a move is correct in order to learn to make the correct move.</p>
+      <p class="t12">In regulated decision-making, imitation breaks down at every link in the loop. The action is sparse: a senior underwriter might make twenty consequential decisions a day, not twenty thousand, and the consequential decisions are not evenly distributed. The right answer takes years to manifest: a credit decision in 2026 reveals itself as a good or bad decision in 2029 or 2031, by which point the model that made it has been retrained twice and the expert who would have made the human comparison has retired. The reason for the decision matters as much as the choice, because a regulator who reviews the file will not ask whether the agent matched the expert's behaviour. The regulator will ask why the decision was made, and "because the model learned to imitate experts who made similar decisions" is not a sentence that survives an EU AI Act audit. Imitation captures behaviour. It cannot decompose behaviour, which is what the regulator and the institution actually need.</p>
+      <p class="t12">The second camp is explicit knowledge engineering. Interview the experts, write down what they say, codify the result as rules, playbooks, decision trees, or fine-tuning datasets. This is the approach that has been tried, in some form, for the entire forty-year history of the project, from the original expert systems work in the 1980s through to the modern policy-as-prompt approach of the current generation. It fails for the reason the cognitive scientists established before any of the current AI infrastructure was built, which I spent Section IV laying out at length. Experts know more than they can tell. The runtime layer of judgement, which is the part that distinguishes the senior expert from the junior one, does not survive verbal articulation. What survives the interview is the part the expert can put into words, which is the explicit layer the model could already have read in the policy manual.</p>
+      <p class="t12">Neither of these approaches gives the institution what it actually needs, which is a structured, auditable account of how a specific expert makes specific decisions, grounded enough to defend in front of a regulator and rich enough to transfer to a new practitioner. The structured-and-auditable requirement rules out imitation, which produces decisions without a decomposable rationale. The grounded-and-rich requirement rules out explicit knowledge engineering, which produces decomposable rationale that misses everything the expert cannot articulate.</p>
+      <p class="t12">What is needed is something different from either approach. It needs to start from observation of what the expert actually does, rather than from her account of what she does. It needs to recover the structure underneath the behaviour, in a form that is decomposable rather than imitative. It needs to be auditable by design, with each captured element traceable to a specific expert in a specific moment of a specific session, so that a regulator can be answered when the regulator asks why. It needs to update as the world changes, because the heuristics that worked in 2018 are not always the heuristics that work in 2026. And it needs to be the kind of artifact that can be queried by agents, by junior practitioners, by audit teams, and by the senior experts themselves as a check on their own consistency.</p>
+      <p class="t12">The shape of that artifact is what I want to describe next.</p>
+    </section>
+
+    <!-- XII -->
+    <section class="section col" id="s-methodology">
+      <span class="roman">XII</span>
+      <h2 class="section-title">The methodology, in five layers.</h2>
+      <p class="t12">What a serious capture methodology has to do, derived from the cognitive science and the failure of the previous approaches, is five things. I have written elsewhere about what each of them requires in practical detail. Here I want to give the structural argument, so the reader can see the architecture before they see the implementation.</p>
+      <p class="t12">The first layer is <strong>behavioural telemetry</strong>. The runtime layer of judgement is, as I spent Section IV establishing, opaque to self-report. Any capture methodology that begins with the expert's account of what she does will recover, at best, a thin and unrepresentative slice of the real thing. The methodology has to begin with observation of what the expert does, under operational conditions, in the cases that matter. The observation surface is wider than the conventional interpretation of "telemetry" would suggest. It includes document interactions and the order in which the expert reads things, the attention patterns visible in where she pauses and where she does not, the revision sequences that show her reasoning changing as new evidence arrives, the communication artifacts that show her engaging with brokers or colleagues or counterparties, and the temporal patterns of where time is actually being spent inside a case. The substrate the rest of the pipeline operates on is this telemetry. It is not a substitute for engaging with the expert directly, which the methodology does in later layers. It is the foundation that prevents the expert's later self-report from drifting into confabulation, because the telemetry is the record against which the self-report can be checked.</p>
+      <p class="t12">The second layer is <strong>trace processing</strong>. Raw telemetry is messy, unstructured, and dense. To do anything useful with it, it has to be turned into something that can be analysed. The methodology structures the telemetry into time-aligned trajectory units, with semantic tagging for what kind of decision is being made at each moment, what cues the expert appears to be attending to, where she deviates from the documented procedure, and where her behaviour diverges from the behaviour of less experienced practitioners working on cases with similar characteristics. The intellectual lineage here combines two strands of work that are not usually combined. Process mining, which is the discipline of recovering operational processes from event logs, contributes the structural analysis. Trajectory-level skill extraction, which is the more recent line of work in reinforcement learning and behavioural analysis, contributes the techniques for identifying the boundaries between different kinds of cognitive activity inside a single session. The output of this layer is a structured trajectory of what the expert did, organised in a form that the next layer can fit against.</p>
+      <p class="t12">The third layer is <strong>structured recovery</strong>. This is where the methodology does the work that no previous approach has done at commercial scale. The structured trajectory from the previous layer gets fit against a parameterised cognitive model, recovering the cues the expert weights more heavily than the literature would predict, the priors she holds about the domain that shape her reading of any individual case, the way she updates her belief as evidence arrives across the trajectory of the decision, and the points at which her practice deviates from the normative reference that the textbook or the regulator would specify. The output is not a black-box policy that mimics her behaviour. It is a structured account of judgement that names what the expert is doing and, in a form that another human can interrogate, why. Where imitation produces a model that can act like the expert without anyone being able to say why, structured recovery produces an account that can be defended in front of a regulator and transferred to a new practitioner in a way that helps her develop her own judgement rather than substitute for it. The cognitive science behind this layer is dense enough that I have given references to the underlying work in the citation list. The headline is that the techniques are not new. Active Inference gives the formal framework. Recognition-Primed Decision research gives the empirical structure. The combination is what becomes possible commercially in 2024 and not before.</p>
+      <p class="t12">The fourth layer is the <strong>hybrid library</strong>. The recovered structure has to be stored somewhere, and the storage layer matters more than it usually does, because different consumers of the captured judgement need to query it in different ways. The methodology stores the recovered structure in a hybrid representation that combines four substrates. A typed temporal neurosymbolic graph supports relational queries, which is what audit and explainability workflows need when they ask which heuristic was applied, when, by which expert, on which evidence. A case library supports example-based reasoning, which is what a junior practitioner needs when she is looking for the closest precedent to the case in front of her. A fitted cognitive decision model supports counterfactual queries, which is what a senior reviewer needs when she wants to know what the captured runtime would have done in a hypothetical variant of the actual case. A skill library supports compositional procedures, which is what an agent in production needs when it has to assemble a decision from primitives at latency budgets the production system can actually afford. The four representations share the same underlying ground truth, which is the structured recovery from layer three. Different consumers query different representations. The library is the single backbone that makes the captured judgement useful at the front end of the institution, in audit, in training, and at decision time inside production agents.</p>
+      <p class="t12">The fifth layer is <strong>runtime and calibration</strong>. The library would be worthless if it ossified at the moment of capture. The methodology includes a runtime layer that lets agents and assistants consult the library at decision time and receive structured judgement back, with confidence scores attached to each element, attribution to the named expert who authored it, decay rates that reflect how quickly the heuristic ages in the domain, and provenance trails that go back to the specific session in which the element was captured. The runtime layer also lets the library update as new evidence arrives. When the production agent encounters a case and the senior expert overrides its recommendation, the override flows back through the trace-processing and structured-recovery layers as new behavioural data, and the relevant elements of the library are updated. Drift detection flags elements of the library whose confidence is decaying and queues them for re-fitting against more recent behaviour. The library stays current rather than aging into irrelevance, which is the failure mode that every previous generation of knowledge management infrastructure eventually hit.</p>
+      <p class="t12">These five layers are what Tacit's pipeline does. They are also, I think, what any serious capture pipeline in this category will eventually have to do, because the five layers are not Tacit's invention. They are derived from the cognitive science of expert decision-making, the empirical record of what has been tried, and the operational requirements that the regulators are setting out. A pipeline that omits any of the five layers will hit a structural ceiling at the point where the missing layer would have been doing its work. I am writing this in the form of an architecture rather than a product description because I think the architecture is the right level at which to evaluate offerings in this category, including ours.</p>
+    </section>
+
+    <!-- XIII -->
+    <section class="section col" id="s-landscape">
+      <span class="roman">XIII</span>
+      <h2 class="section-title">Where this sits in the broader landscape.</h2>
+      <p class="t12">I have been writing as if the methodology I have described sits in a category of one. This is not honest, and I want to spend a section being honest about where it actually sits.</p>
+      <p class="t12">There is a broader category of AI infrastructure work, mostly funded across the past three years, that orbits the same set of problems from different angles. The category includes vendors and research groups working on agent memory, retrieval, skills frameworks, context engineering, company-wide knowledge surfaces, and the various combinations of these. Most of the offerings are honestly described and useful for the problems they solve. They are not useful for the problem I have spent this essay describing, and the distinction is worth being clear about, because investors and operators evaluating offerings in this space need a map that does not pretend everything in the neighbourhood is doing the same work.</p>
+      <p class="t12">The simplest version of the map is that the broader category sits downstream of the problem the essay has been arguing about. Memory, skills, knowledge bases, and the various species of context engineering are all working on what to give an agent so that it performs better. None of them are working on capturing the runtime layer that the agent does not have. They assume the runtime layer exists, in some form, in the artifacts they retrieve over. The argument of this essay is that the runtime layer mostly does not exist in those artifacts, which is why the failure pattern is what it is.</p>
+      <p class="t12">Let me place a handful of specific reference points on the map, because the abstract version of the argument has been made and the specific version is what an operator or an investor will want.</p>
+      <p class="t12">Retrieval-augmented generation, as a category, is exactly the right answer to the problem of grounding a foundation model's output in the institution's own explicit documents. Pinecone, Weaviate, the modern enterprise RAG stacks, all of these do useful work and most of the modern enterprise AI applications need them. They retrieve what has been written down. They cannot retrieve what was never written down. They are infrastructure for the top 10% of organisational knowledge that we discussed in Section IV. They are not, despite occasional vendor positioning to the contrary, capable of reaching the layer below.</p>
+      <p class="t12">Andrej Karpathy's recent framing of LLM knowledge bases as the next critical infrastructure for production agents is precisely the right insight at the level he is operating on. His argument is that the generic knowledge in the foundation model is insufficient for any serious enterprise use case, that the institution-specific knowledge has to be made retrievable in a form the agent can use, and that the engineering work of building that infrastructure is significant. All of this is right. What the framing leaves implicit is that the institution-specific knowledge has the same three-layer structure as any other body of organisational knowledge, and that an LLM knowledge base built only against the explicit layer will plateau where every previous generation of explicit-layer infrastructure plateaued. The knowledge base needs to include the runtime layer, and the runtime layer requires a different capture methodology than the document-ingestion methodology that the modern knowledge-base stack is built around. Karpathy's framing is the correct frame; what we are building is the layer that has to sit underneath it.</p>
+      <p class="t12">Anthropic's Agent Skills framework, and the broader skills-engineering category that has emerged across the foundation labs over the past year, is another adjacent piece of work that solves a different problem. Skills are procedural primitives that an agent composes at runtime to accomplish a task. They are the right abstraction for the implicit layer, which is the middle layer in the three-layer model. A well-designed skills library captures the operational know-how that an institution has built up around its work. It does not capture the perceptual and decisional cognition that sits underneath the skills, which is what makes a senior practitioner choose one skill over another in an ambiguous case. The skills layer is what an agent does. The runtime layer is what an agent decides.</p>
+      <p class="t12">The context engineering work, which goes by various names across the industry and which includes the Harness AI offering and a range of others, is the most recent and the most rapidly evolving slice of the broader category. The technical work is real and the platforms are getting better quickly. The position they are solving for is the problem of giving an agent the right context at the right moment, which is a necessary condition for production performance. It is also not a sufficient condition. The right context is only useful if the agent has the judgement to interpret it correctly, and the judgement is the part that the broader context-engineering category does not address. Context is the input to judgement, not a substitute for it.</p>
+      <p class="t12">The Y Combinator request for a "company brain", which has produced a small wave of companies addressing the broader institutional-knowledge surface, is the most legible recent articulation of the demand from the buyer side. The category is real and the buyers are buying. Most of the offerings in this category are building what amounts to a better Confluence with retrieval and an agent interface, which is genuinely useful and which I do not want to dismiss. The honest description of the category is that it is infrastructure for the explicit layer, with a thin extension into the implicit one. It is not capture infrastructure for the runtime layer, and the offerings in the category are mostly not claiming to be.</p>
+      <p class="t12">Salesforce Agentforce, and the broader agentic-platform category that the large enterprise software vendors are now in, is a different kind of reference point. The Salesforce offering is principally an orchestration layer that lets the institution wire foundation models into the existing workflow infrastructure. It is the layer above what I have been describing. An institution that has captured the runtime layer of its experts and wants to put that captured runtime to work inside an existing Salesforce-anchored workflow will use Agentforce, or something like it, as the integration substrate. We are complementary to Salesforce in the same way that a specialised data product is complementary to a generalised workflow engine. We do the capture. They do the orchestration. The two are not in conflict.</p>
+      <p class="t12">The two offerings closest to the specific problem we are addressing are Interloom and Viven. Both deserve direct engagement, because the obvious investor question is what specifically differentiates the capture work, and the question deserves a serious answer rather than a wave.</p>
+      <p class="t12"><strong>Interloom</strong> is solving the right layer of the stack but treating it as a memory problem rather than as a cognition problem. The premise of the Interloom approach is that production agents fail at expert work because they lack persistent organisational context across the interactions they have, and that the answer is to build memory infrastructure that gives them that context. Memory is necessary. Memory is not sufficient. An agent with perfect recall of every past decision in the institution still does not have the runtime that makes the next decision in the first place. The cognitive science is unambiguous on this. Recall is not judgement. The Interloom approach builds better libraries for agents to read from. Better libraries do not produce better runtimes, in the same way that a junior practitioner with photographic memory is still a junior. The work is useful at the layer it operates on, which is the layer of persistent recall across agent interactions, but the layer below it is the one that the failure pattern of enterprise AI is occurring at, and the layer below is the one we are working on.</p>
+      <p class="t12"><strong>Viven</strong> is solving the right layer of the stack but betting on a methodology that the cognitive science has been clear about for forty years will not reach it. The Viven approach is that better self-report, achieved through richer interfaces, conversational AI elicitation, and multi-modal capture, will eventually surface the tacit layer. The bet is honest and the work is interesting at the surface level. The bet is also against the established result from the Naturalistic Decision Making tradition and from the cognitive science of expert performance, which is that the tacit runtime is opaque to self-report by construction. You can interview a senior underwriter for one hundred hours and capture none of the runtime, because the runtime is not the kind of thing she can introspect on. The Viven ceiling is the articulation ceiling. We are working below the articulation ceiling, by observing behaviour under conditions, which the science says is where the runtime is actually visible. This is the methodological disagreement, and a thoughtful operator or investor evaluating offerings in this space should ask each vendor where they sit on this question and make their own judgement.</p>
+      <p class="t12">The frontier labs, by which I mean Anthropic, OpenAI, and Google DeepMind, are not competitors in the present tense. The capability they are building is at a different layer of the stack and the go-to-market motion they run is different from the deployment-by-deployment motion that the capture work requires. I have been clear-eyed throughout this essay that the eventual relationship between the runtime layer and the frontier labs will be either partnership or acquisition, and I want to be explicit about it here as well. The labs are optimised for foundation-model capability and API-first distribution. The runtime layer is optimised for systems integration into regulated enterprise environments, domain-specific instrumentation, and applied behavioural science calibrated per vertical. These are different organisational muscles. The runtime layer is built one deployment at a time. The labs are built one model at a time. Our bet is to go deep into enough regulated deployments fast enough that we become the right shape for partnership rather than competition by the time the labs make their decisions, which I expect within the next eighteen to twenty-four months.</p>
+      <p class="t12">The map, summarised, is that the broader category is doing real and useful work, that almost all of it is operating on layers of the stack that sit downstream of the capture problem, and that the genuinely contested ground is occupied by two other companies and ourselves. The contest with those companies is not a contest about whether the runtime layer matters. We agree that it matters. It is a contest about what methodology will actually reach it, and the contest will be decided by which methodology produces output that domain experts recognise as their own thinking. That is the test. It is the test we have been running at Brainoscope. It is the test we will continue to run, in public, against the other approaches in the category.</p>
+      <p class="t12">If any part of this essay has connected with the way you think about the problem, the work, or the bet, I would be glad to talk. The door is at <a href="mailto:hi@tacitlabs.ai">hi@tacitlabs.ai</a>.</p>
+    </section>
+
+    <!-- XIV -->
+    <section class="section col" id="s-long">
+      <span class="roman">XIV</span>
+      <h2 class="section-title">The long view.</h2>
+      <p class="t12">I want to close where I started, because the species-scale view is the one that has held me to the work when the operational view would have let me leave it.</p>
+      <p class="t12">Humans are the species that compounds. We have built better and better methods for the compounding across the entire arc of our history. Speech, writing, printing, the library, the university, the journal, the database, the search engine, the foundation model. Each of these methods expanded what we could keep across generations. None of them, until now, has been able to keep the layer of human knowledge that lives below language.</p>
+      <p class="t12">We are at the moment when that layer becomes recordable. The recording will be done well in some places and badly in others. It will be commercialised by some institutions, made public by others, contested in some legal and political domains, embraced in others. The technology, like every transformative technology before it, will be neither pure good nor pure harm. It will be a thing that becomes part of the medium in which the species transmits itself to itself, and the long arc of how it gets used will be longer than any of the people working on it now will live to see.</p>
+      <p class="t12">What I believe, with as much conviction as I have ever had about anything in my professional life, is that the recording is going to happen. The methods exist. The economics work. The need is acute and getting more acute by the quarter. The senior experts are retiring, the agents are arriving, the regulators are tightening, the institutions are scrambling, and the technology that connects all of these forces into a single solvable problem has, finally, arrived. It is not a question of whether. It is a question of who, and how well, and with what care.</p>
+      <p class="t12">The library at Alexandria burned. We do not know exactly what was in it. We have spent two thousand years reconstructing what we can from the fragments that survived in other places, and we will never recover the rest. Every generation of senior experts who has retired without their runtime being captured has been a smaller, distributed Alexandria. Every craft tradition that lost its master without an adequate apprentice has been the same. The losses are real, and they are continuous, and they have been perpetuated across every generation of our history as one of its great underrecognised tragedies.</p>
+      <p class="t12">We do not have to keep losing what we know. For the first time, we do not have to. The window to begin is open now.</p>
+    </section>
+
+    <!-- Pull quote -->
+    <section class="section-quote">
+      <p class="q">"We do not have to keep losing what we know."</p>
+    </section>
+
+    <section class="section-cta cta-center">
+      <h2 class="h">Preserve expertise.</h2>
+      <div class="ctas">
+        <a class="cta" href="mailto:hi@tacitlabs.ai?subject=Operator">start the conversation
+          <svg width="14" height="14" viewBox="0 0 14 14" fill="none" aria-hidden="true">
+            <path d="M2 7h10M8 3l4 4-4 4" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
+          </svg>
+        </a>
+        <a class="cta-ghost" href="brief.html">back to brief</a>
+      </div>
+    </section>
+  </main>
+
+  <footer class="site-foot">
+    <div>
+      <div class="foot-brand" aria-label="tacitlabs"><img src="assets/tacit-wordmark.svg" alt="tacit"></div>
+      <p class="colophon">The judgment layer for AI agents in regulated industries.</p>
+    </div>
+    <div>
+      <h4>Company</h4>
+      <ul>
+        <li><a href="index.html">Home</a></li>
+        <li><a href="founders.html">Founders</a></li>
+        <li><a href="essays.html">Writing</a></li>
+        <li><a href="mailto:hi@tacitlabs.ai">Contact</a></li>
+      </ul>
+    </div>
+    <div>
+      <h4>Read deeper</h4>
+      <ul>
+        <li><a href="brief.html">Brief</a></li>
+        <li><a href="thesis.html">Full thesis</a></li>
+        <li><a href="product.html">Product</a></li>
+        <li><a href="atlas.html">Atlas</a></li>
+      </ul>
+    </div>
+    <div>
+      <h4>Contact</h4>
+      <ul>
+        <li><a href="mailto:hi@tacitlabs.ai?subject=Operator">hi@tacitlabs.ai · Operator</a></li>
+        <li><a href="mailto:hi@tacitlabs.ai?subject=Investor">hi@tacitlabs.ai · Investor</a></li>
+        <li><a href="mailto:hi@tacitlabs.ai?subject=Team">hi@tacitlabs.ai · Team</a></li>
+      </ul>
+    </div>
+    <div class="signoff">
+      <span>© 2026 Tacit Labs, Inc.</span>
+      <span><a href="index.html">back to home →</a></span>
+    </div>
+  </footer>
+
+  <script>
+  /* Clock-index renderer — 11 dials, cycling through 6 face styles.
+     The hand points to the section's reading time. */
+  (function(){
+    const sections = [
+      { href:'#s-species',     label:'The species that compounds',    mins:4, style:'numerals-out',   num:'01' },
+      { href:'#s-lost',        label:'What we have always lost',      mins:3, style:'ticks-minimal',  num:'02' },
+      { href:'#s-accelerant',  label:'The accelerant',                mins:3, style:'cm-inward',      num:'03' },
+      { href:'#s-expert',      label:'What an expert does',           mins:7, style:'shapes',         num:'04' },
+      { href:'#s-capture',     label:'Why capture is hard',           mins:4, style:'code',           num:'05' },
+      { href:'#s-economics',   label:'Economics of capture',          mins:4, style:'now',            num:'06' },
+      { href:'#s-cliff',       label:'The cliff we face',             mins:5, style:'numerals-out',   num:'07' },
+      { href:'#s-possible',    label:'What becomes possible',         mins:6, style:'ticks-minimal',  num:'08' },
+      { href:'#s-dark',        label:'The dark side, briefly',        mins:4, style:'cm-inward',      num:'09' },
+      { href:'#s-built',       label:'What we are building',          mins:3, style:'shapes',         num:'10' },
+      { href:'#s-ai-today',    label:'AI capture today',              mins:4, style:'code',           num:'11' },
+      { href:'#s-methodology', label:'Methodology, five layers',      mins:5, style:'now',            num:'12' },
+      { href:'#s-landscape',   label:'The broader landscape',         mins:7, style:'numerals-out',   num:'13' },
+      { href:'#s-long',        label:'The long view',                 mins:2, style:'ticks-minimal',  num:'14' }
+    ];
+
+    const cx = 70, cy = 70, R = 60;
+
+    function pos(angleDeg, radius){
+      const rad = (angleDeg - 90) * Math.PI/180;
+      return [cx + radius*Math.cos(rad), cy + radius*Math.sin(rad)];
+    }
+
+    function poly(kind, x, y, s){
+      if(kind==='circle')   return `<circle cx="${x}" cy="${y}" r="${s}" class="shape"/>`;
+      if(kind==='triangle'){
+        const p=[`${x},${y-s}`,`${x-s*0.866},${y+s*0.5}`,`${x+s*0.866},${y+s*0.5}`];
+        return `<polygon points="${p.join(' ')}" class="shape"/>`;
+      }
+      if(kind==='square')   return `<rect x="${x-s}" y="${y-s}" width="${s*2}" height="${s*2}" class="shape"/>`;
+      if(kind==='diamond'){
+        const p=[`${x},${y-s}`,`${x+s},${y}`,`${x},${y+s}`,`${x-s},${y}`];
+        return `<polygon points="${p.join(' ')}" class="shape"/>`;
+      }
+      if(kind==='pentagon' || kind==='hexagon' || kind==='octagon'){
+        const n = kind==='pentagon'?5:(kind==='hexagon'?6:8);
+        let p=[];
+        for(let i=0;i<n;i++){
+          const a=(i*(360/n)-90)*Math.PI/180;
+          p.push(`${x+s*Math.cos(a)},${y+s*Math.sin(a)}`);
+        }
+        return `<polygon points="${p.join(' ')}" class="shape"/>`;
+      }
+      if(kind==='ring')     return `<circle cx="${x}" cy="${y}" r="${s}" class="shape"/>`;
+      return '';
+    }
+
+    function dial(style, hour){
+      let s='';
+      switch(style){
+        case 'numerals-out': {
+          for(let i=1;i<=12;i++){
+            const a = i*30;
+            const [tx,ty] = pos(a, 48);
+            s += `<text x="${tx}" y="${ty}" transform="rotate(${a} ${tx} ${ty})" text-anchor="middle" dominant-baseline="central" class="num-lg">${i}</text>`;
+          }
+          break;
+        }
+        case 'ticks-minimal': {
+          for(let i=0;i<60;i++){
+            const a = i*6;
+            const isHour = i%5===0;
+            const outer = R-2;
+            const inner = outer - (isHour ? 6 : 3);
+            const [x1,y1] = pos(a, inner);
+            const [x2,y2] = pos(a, outer);
+            s += `<line x1="${x1}" y1="${y1}" x2="${x2}" y2="${y2}" class="tick${isHour?' major':''}"/>`;
+          }
+          [12,3,6,9].forEach(n=>{
+            const [tx,ty] = pos(n*30, 44);
+            s += `<text x="${tx}" y="${ty}" text-anchor="middle" dominant-baseline="central" class="num-md">${n}</text>`;
+          });
+          break;
+        }
+        case 'cm-inward': {
+          for(let i=0;i<12;i++){
+            const a = i*30;
+            const [tx,ty] = pos(a, 48);
+            s += `<text x="${tx}" y="${ty}" transform="rotate(${a+180} ${tx} ${ty})" text-anchor="middle" dominant-baseline="central" class="num-sm">${i}cm</text>`;
+          }
+          break;
+        }
+        case 'shapes': {
+          const seq = ['circle','triangle','square','pentagon','hexagon','diamond','octagon','triangle','square','pentagon','hexagon','circle'];
+          for(let i=1;i<=12;i++){
+            const a = i*30;
+            const [tx,ty] = pos(a, 48);
+            const size = (i===hour) ? 6 : 4.2;
+            s += poly(seq[(i-1)%seq.length], tx, ty, size);
+          }
+          break;
+        }
+        case 'code': {
+          for(let i=1;i<=12;i++){
+            const a = i*30;
+            const [tx,ty] = pos(a, 47);
+            const code = String(i).padStart(2,'0') + String((i*7) % 60).padStart(2,'0');
+            s += `<text x="${tx}" y="${ty}" transform="rotate(${a} ${tx} ${ty})" text-anchor="middle" dominant-baseline="central" class="num-xs">${code}</text>`;
+          }
+          break;
+        }
+        case 'now': {
+          for(let i=1;i<=12;i++){
+            const a = i*30;
+            const [tx,ty] = pos(a, 48);
+            const active = (i===hour) ? ' active' : '';
+            s += `<text x="${tx}" y="${ty}" transform="rotate(${a} ${tx} ${ty})" text-anchor="middle" dominant-baseline="central" class="word${active}">now</text>`;
+          }
+          break;
+        }
+      }
+      return s;
+    }
+
+    function targetRing(style, hour){
+      const [tx,ty] = pos(hour*30, 48);
+      const r = (style==='code' || style==='cm-inward') ? 9 : (style==='now' ? 9 : 7);
+      return `<circle cx="${tx}" cy="${ty}" r="${r}" class="target-ring"/>`;
+    }
+
+    function clockSVG(cfg){
+      const hour = ((cfg.mins-1) % 12) + 1;
+      const handTip = pos(hour*30, R-22);
+      return `
+        <svg viewBox="0 0 140 140" class="clock" role="img" aria-label="${cfg.label}, ${cfg.mins} minute read">
+          <circle cx="${cx}" cy="${cy}" r="${R}" class="face"/>
+          ${dial(cfg.style, hour)}
+          ${targetRing(cfg.style, hour)}
+          <line x1="${cx}" y1="${cy}" x2="${handTip[0]}" y2="${handTip[1]}" class="hand"/>
+          <circle cx="${cx}" cy="${cy}" r="1.6" class="pivot"/>
+        </svg>`;
+    }
+
+    const root = document.getElementById('clocks');
+    if(!root) return;
+    root.innerHTML = sections.map(s => `
+      <a class="clock-tile" href="${s.href}">
+        ${clockSVG(s)}
+        <span class="clock-meta">
+          <span class="clock-num">${s.num}</span>
+          <span class="clock-label">${s.label}</span>
+          <span class="clock-time">${String(s.mins).padStart(2,'0')} min read</span>
+        </span>
+      </a>`).join('');
+  })();
+  </script>
+
+</body>
+</html>

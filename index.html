@@ -1,0 +1,604 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>Tacit — The judgment layer for AI agents in regulated industries</title>
+<meta name="description" content="Tacit captures the cognitive runtime of senior experts and routes it into the AI agents your organisation is already deploying. The judgment layer for regulated industries.">
+<meta name="author" content="Tacit Labs">
+<meta name="theme-color" content="#a83246">
+<link rel="canonical" href="https://tacitlabs.ai/">
+<link rel="icon" type="image/svg+xml" href="assets/favicon.svg">
+<link rel="apple-touch-icon" href="assets/favicon.svg">
+
+<meta property="og:type" content="website">
+<meta property="og:site_name" content="Tacit">
+<meta property="og:title" content="Tacit — The judgment layer for AI agents in regulated industries">
+<meta property="og:description" content="Tacit captures the cognitive runtime of senior experts and routes it into the AI agents your organisation is already deploying.">
+<meta property="og:url" content="https://tacitlabs.ai/">
+<meta property="og:image" content="https://tacitlabs.ai/assets/og-card.svg">
+<meta property="og:image:type" content="image/svg+xml">
+<meta property="og:image:width" content="1200">
+<meta property="og:image:height" content="630">
+<meta property="og:image:alt" content="tacit — the judgment layer for AI agents in regulated industries">
+
+<meta name="twitter:card" content="summary_large_image">
+<meta name="twitter:title" content="Tacit — The judgment layer for AI agents in regulated industries">
+<meta name="twitter:description" content="Tacit captures the cognitive runtime of senior experts and routes it into the AI agents your organisation is already deploying.">
+<meta name="twitter:image" content="https://tacitlabs.ai/assets/og-card.svg">
+
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=IBM+Plex+Mono:wght@400;500;600&family=Inter:wght@300;400;500;600;700;800&family=Newsreader:ital,opsz,wght@0,6..72,400;0,6..72,500;0,6..72,600;0,6..72,700;1,6..72,400&family=Open+Sans:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+<style>
+  /* ===== Palettes (maroon + dark green) ===== */
+  :root, body.palette-maroon{
+    --bg:#0f1f17;
+    --bg-deep:#06120c;
+    --surface:rgba(18,38,28,.46);
+    --text:#f0e6d2;
+    --text-muted:rgba(240,230,210,.74);
+    --text-dim:rgba(240,230,210,.50);
+    --border:rgba(240,230,210,.18);
+    --border-strong:rgba(240,230,210,.30);
+    --accent:#a83246;
+    --accent-glow:rgba(168,50,70,.55);
+    --cta-fg:#f0e6d2;
+    --cta-bg:#8a2334;
+    --tint-top:rgba(10,24,16,.36);
+    --tint-bot:rgba(8,18,12,.82);
+    --tint-glow:rgba(168,50,70,.22);
+    --tint-mix:rgba(50,90,60,.30);
+    --tint-mix-mode:overlay;
+  }
+  body.palette-forest{
+    --bg:#0a1a12;
+    --bg-deep:#040d08;
+    --surface:rgba(16,34,24,.46);
+    --text:#e8dcc4;
+    --text-muted:rgba(232,220,196,.74);
+    --text-dim:rgba(232,220,196,.50);
+    --border:rgba(232,220,196,.18);
+    --border-strong:rgba(232,220,196,.30);
+    --accent:#2f6b46;
+    --accent-glow:rgba(47,107,70,.60);
+    --cta-fg:#0a1a12;
+    --cta-bg:#e8dcc4;
+    --tint-top:rgba(6,18,12,.40);
+    --tint-bot:rgba(4,12,8,.84);
+    --tint-glow:rgba(120,40,52,.20);
+    --tint-mix:rgba(30,70,46,.35);
+    --tint-mix-mode:multiply;
+  }
+  body.palette-claret{
+    --bg:#1c0e12;
+    --bg-deep:#0c0608;
+    --surface:rgba(48,20,26,.46);
+    --text:#f2e4cf;
+    --text-muted:rgba(242,228,207,.74);
+    --text-dim:rgba(242,228,207,.52);
+    --border:rgba(242,228,207,.20);
+    --border-strong:rgba(242,228,207,.32);
+    --accent:#c33d4f;
+    --accent-glow:rgba(195,61,79,.55);
+    --cta-fg:#1c0e12;
+    --cta-bg:#f2e4cf;
+    --tint-top:rgba(28,12,18,.36);
+    --tint-bot:rgba(18,8,12,.82);
+    --tint-glow:rgba(195,61,79,.24);
+    --tint-mix:rgba(70,20,32,.32);
+    --tint-mix-mode:overlay;
+  }
+
+  *{box-sizing:border-box}
+  body{
+    margin:0;
+    min-height:100svh;
+    background:var(--bg);
+    color:var(--text);
+    font-family:"Söhne","Söhne Web","Inter",system-ui,sans-serif;
+    overflow-x:hidden;
+    -webkit-font-smoothing:antialiased;
+    text-rendering:optimizeLegibility;
+  }
+
+  /* ===== Hero ===== */
+  .hero{
+    min-height:100svh;
+    position:relative;
+    background:#f5ecda;
+    padding:24px clamp(20px,4vw,58px);
+    display:flex;
+    flex-direction:column;
+    overflow:hidden;
+    isolation:isolate;
+  }
+
+  .hero-video{
+    position:absolute;
+    inset:0;
+    width:100%;
+    height:100%;
+    object-fit:cover;
+    object-position:center 46%;
+    z-index:0;
+    will-change:transform;
+    transform:translate3d(0,0,0) scale(1.06);
+    transition:transform 1.6s cubic-bezier(.2,.7,.2,1);
+  }
+
+  .hero::before{ content:none; }
+
+  .hero-tint{
+    position:absolute;inset:0;z-index:1;pointer-events:none;
+    background:var(--tint-mix);
+    mix-blend-mode:var(--tint-mix-mode);
+  }
+
+  .hero::after{ content:none; }
+
+  /* ===== Nav (frosted pill) ===== */
+  nav{
+    position:relative;
+    z-index:3;
+    align-self:center;
+    display:flex;
+    gap:12px;
+    align-items:center;
+    padding:10px 16px;
+    border:1px solid rgba(255,255,255,.22);
+    border-radius:999px;
+    background:
+      linear-gradient(180deg, rgba(255,255,255,.06), rgba(255,255,255,.01)),
+      rgba(48,58,22,.62);
+    backdrop-filter:blur(20px) saturate(160%);
+    -webkit-backdrop-filter:blur(20px) saturate(160%);
+    box-shadow:
+      inset 0 1px 0 rgba(255,255,255,.16),
+      0 14px 56px rgba(0,0,0,.34);
+    transition:background .35s ease, border-color .35s ease, box-shadow .35s ease, backdrop-filter .35s ease;
+  }
+  nav.sharp{
+    background:
+      linear-gradient(180deg, rgba(255,255,255,.08), rgba(255,255,255,.02)),
+      rgba(34,42,14,.78);
+    border-color:rgba(255,255,255,.28);
+    box-shadow:
+      inset 0 1px 0 rgba(255,255,255,.20),
+      0 20px 64px rgba(0,0,0,.42);
+    backdrop-filter:blur(28px) saturate(180%);
+    -webkit-backdrop-filter:blur(28px) saturate(180%);
+  }
+  nav a{
+    color:#f4d9b0;
+    font-family:"Söhne","Söhne Web","Inter",system-ui,sans-serif;
+    font-size:12px;
+    letter-spacing:.02em;
+    text-decoration:none;
+    padding:8px 12px;
+    border-radius:999px;
+    text-transform:lowercase;
+    transition:color .2s ease, background .2s ease;
+  }
+  nav a:hover{
+    color:var(--accent);
+    background:rgba(255,255,255,.06);
+  }
+  nav a:focus-visible{
+    outline:none;
+    color:var(--accent);
+    box-shadow:0 0 0 2px rgba(168,50,70,.55);
+  }
+  .logo-link{
+    display:inline-flex;
+    align-items:center;
+    justify-content:center;
+    padding:2px;
+    border-radius:999px;
+    text-decoration:none;
+    flex:0 0 auto;
+  }
+  .logo-link:focus-visible{
+    outline:none;
+    box-shadow:0 0 0 2px var(--accent);
+  }
+  .logo{
+    display:block;
+    width:34px;
+    height:34px;
+    border-radius:999px;
+    background:radial-gradient(circle at 38% 35%, #ffffff 0%, #f4d9b0 18%, #a83246 55%, rgba(168,50,70,.08) 100%);
+    box-shadow:
+      0 0 30px rgba(168,50,70,.55),
+      inset 0 0 14px rgba(255,255,255,.4);
+    animation:pulse 4.2s ease-in-out infinite;
+    flex:0 0 auto;
+  }
+  @keyframes pulse{
+    0%,100%{ box-shadow:0 0 30px rgba(156,236,255,.45), inset 0 0 14px rgba(255,255,255,.4) }
+    50%    { box-shadow:0 0 50px rgba(156,236,255,.7),  inset 0 0 18px rgba(255,255,255,.55) }
+  }
+
+  /* ===== Bottom composition ===== */
+  .bottom{
+    position:relative;
+    z-index:2;
+    margin-top:auto;
+    display:grid;
+    grid-template-columns:1.1fr .9fr;
+    gap:60px;
+    align-items:end;
+    padding-bottom:clamp(32px,6vh,76px);
+  }
+
+  .brand{
+    margin:0;
+    font-family:"Inter",system-ui,sans-serif;
+    font-size:clamp(74px,12vw,176px);
+    letter-spacing:-.055em;
+    line-height:.92;
+    font-weight:500;
+    text-transform:lowercase;
+    color:var(--text);
+    text-shadow:0 2px 40px rgba(3,12,20,.4);
+  }
+  .brand-mark{
+    display:block;
+    width:clamp(220px,32vw,460px);
+    height:auto;
+    margin:0 0 22px -6px;
+    filter:drop-shadow(0 6px 28px rgba(168,50,70,.35)) drop-shadow(0 2px 40px rgba(3,12,20,.4));
+  }
+  .hero-stamp{
+    position:absolute;
+    top:clamp(108px,12vh,168px);
+    left:clamp(20px,4vw,64px);
+    width:clamp(200px,22vw,360px);
+    height:auto;
+    z-index:1;
+    opacity:.85;
+    mix-blend-mode:multiply;
+    pointer-events:none;
+    filter:drop-shadow(0 8px 36px rgba(168,50,70,.35));
+  }
+  @media (max-width:720px){ .hero-stamp{ display:none; } }
+
+  .tag{
+    font-family:"Newsreader",Georgia,serif;
+    font-size:clamp(20px,2.1vw,34px);
+    color:#0d0d0f;
+    margin-top:0;
+    line-height:1.25;
+    max-width:22ch;
+    text-wrap:balance;
+    font-weight:500;
+    font-style:italic;
+    text-shadow:0 1px 0 rgba(255,255,255,.35);
+  }
+
+  .right{
+    background:
+      linear-gradient(180deg, rgba(255,255,255,.05), rgba(255,255,255,.01)),
+      rgba(15,28,20,.62);
+    border:1px solid rgba(255,255,255,.14);
+    border-radius:18px;
+    backdrop-filter:blur(22px) saturate(160%);
+    -webkit-backdrop-filter:blur(22px) saturate(160%);
+    box-shadow:
+      inset 0 1px 0 rgba(255,255,255,.12),
+      0 18px 60px rgba(0,0,0,.32);
+    padding:26px 28px;
+    max-width:560px;
+    justify-self:end;
+  }
+  .right .meta{
+    font:11px/1 "IBM Plex Mono",monospace;
+    letter-spacing:.18em;
+    color:var(--text-dim);
+    margin-bottom:14px;
+    display:flex;
+    align-items:center;
+    gap:10px;
+  }
+  .right .meta::before{
+    content:"";
+    width:6px;height:6px;border-radius:999px;
+    background:var(--accent);
+    box-shadow:0 0 12px var(--accent-glow);
+  }
+  p{
+    color:var(--text-muted);
+    line-height:1.65;
+    margin:0;
+    font-family:"Söhne","Söhne Web","Inter",system-ui,sans-serif;
+    font-size:clamp(15px,1vw,17px);
+    text-wrap:pretty;
+  }
+
+  .ctas{ display:flex; gap:12px; align-items:center; margin-top:24px; flex-wrap:wrap; }
+
+  .cta{
+    display:inline-flex;
+    align-items:center;
+    gap:10px;
+    color:var(--cta-fg);
+    background:var(--cta-bg);
+    border-radius:999px;
+    padding:15px 24px;
+    text-decoration:none;
+    font-family:"Söhne","Söhne Web","Inter",system-ui,sans-serif;
+    font-weight:500;
+    font-size:14px;
+    letter-spacing:.005em;
+    text-transform:lowercase;
+    box-shadow:0 0 40px rgba(156,236,255,.35);
+    transition:transform .25s ease, box-shadow .25s ease, background .25s ease;
+    position:relative;
+  }
+  .cta:hover{
+    transform:translateY(-3px);
+    box-shadow:0 8px 60px rgba(156,236,255,.6);
+  }
+  .cta:focus-visible{
+    outline:none;
+    box-shadow:0 0 0 3px rgba(156,236,255,.55), 0 0 40px rgba(156,236,255,.45);
+  }
+  .cta .arrow{ transition:transform .25s ease; }
+  .cta:hover .arrow{ transform:translateX(4px); }
+
+  .cta-ghost{
+    display:inline-flex;
+    align-items:center;
+    gap:8px;
+    padding:14px 20px;
+    border-radius:999px;
+    border:1px solid var(--border-strong);
+    background:rgba(8,22,34,.32);
+    backdrop-filter:blur(14px);
+    -webkit-backdrop-filter:blur(14px);
+    color:var(--text);
+    text-decoration:none;
+    font-family:"Söhne","Söhne Web","Inter",system-ui,sans-serif;
+    font-size:13px;
+    letter-spacing:.005em;
+    text-transform:lowercase;
+    transition:background .2s ease, border-color .2s ease;
+  }
+  .cta-ghost:hover{ background:rgba(8,22,34,.52); border-color:rgba(238,250,255,.45); }
+  .cta-ghost .kbd{
+    font:10px/1 "IBM Plex Mono",monospace;
+    padding:3px 6px;
+    border-radius:6px;
+    border:1px solid var(--border);
+    color:var(--text-muted);
+  }
+
+  /* ===== Footer ===== */
+  .foot{
+    position:relative;
+    z-index:2;
+    display:flex;
+    justify-content:space-between;
+    font:11px/1 "IBM Plex Mono",monospace;
+    color:var(--text-dim);
+    letter-spacing:.16em;
+    padding-bottom:10px;
+  }
+  .foot span{ display:flex; align-items:center; gap:10px; }
+  .foot .dot{
+    width:6px;height:6px;border-radius:999px;
+    background:var(--accent);
+    box-shadow:0 0 10px var(--accent-glow);
+    animation:pulse 3.2s ease-in-out infinite;
+  }
+
+  /* ===== Site footer (parchment, matches sub-pages) ===== */
+  .site-foot{
+    padding:clamp(40px,4vw,72px) clamp(20px,4vw,56px) 32px;
+    display:grid;
+    grid-template-columns:2fr 1fr 1fr 1fr;
+    gap:40px;
+    background:#f5ecda;
+    color:#1f1810;
+    border-top:1px solid #d4c9a8;
+    font-family:"Söhne","Inter",system-ui,sans-serif;
+  }
+  .site-foot a{ color:#5a4d3a; text-decoration:none; transition:color .2s ease; }
+  .site-foot a:hover{ color:#a83246; }
+  .site-foot h4{
+    font-family:"IBM Plex Mono", monospace;
+    font-size:12px;
+    letter-spacing:.10em;
+    text-transform:uppercase;
+    color:#8a7c66;
+    margin:0 0 18px;
+    font-weight:600;
+  }
+  .site-foot ul{ list-style:none; padding:0; margin:0; display:flex; flex-direction:column; gap:10px; font-size:14px; }
+  .site-foot .colophon{ font-size:14px; color:#5a4d3a; line-height:1.5; max-width:360px; margin:0; }
+  .site-foot .foot-brand{ display:flex; align-items:center; gap:14px; margin-bottom:20px; }
+  .site-foot .foot-brand img{ height:46px; width:auto; display:block; margin-left:-6px; }
+  .site-foot .signoff{
+    grid-column:1 / -1;
+    display:flex; justify-content:space-between; align-items:center;
+    padding-top:32px; border-top:1px solid #d4c9a8; margin-top:16px;
+    font-family:"IBM Plex Mono", monospace; font-size:12px; color:#8a7c66; letter-spacing:.05em;
+  }
+  @media (max-width:900px){
+    .site-foot{ grid-template-columns:1fr 1fr; gap:32px; }
+    .site-foot > div:first-child{ grid-column:1 / -1; }
+  }
+  @media (max-width:560px){
+    .site-foot{ grid-template-columns:1fr; gap:28px; padding:40px 24px 28px; }
+    .site-foot .signoff{ flex-direction:column; gap:10px; text-align:center; }
+  }
+
+  /* ===== Responsive ===== */
+  @media (max-width:780px){
+    body{ overflow:auto; }
+    .hero{ background-position:center; min-height:100svh; padding:18px 16px 28px; }
+    nav{ padding:6px 8px; gap:2px; flex-wrap:wrap; justify-content:center; max-width:100%; }
+    nav a{ font-size:10px; padding:6px 8px; letter-spacing:.02em; }
+    .logo{ width:24px; height:24px; }
+    .bottom{
+      grid-template-columns:1fr;
+      gap:22px;
+      padding-top:24vh;
+      padding-bottom:24px;
+    }
+    .brand{ font-size:clamp(56px,18vw,84px); letter-spacing:-.04em; line-height:.95; }
+    .tag{ font-size:clamp(17px,4.5vw,22px); max-width:none; margin-top:14px; }
+    .right{
+      justify-self:stretch;
+      max-width:none;
+      padding:20px 18px;
+      border-radius:16px;
+    }
+    .right p{ font-size:14px; }
+    .ctas{ margin-top:18px; gap:10px; }
+    .cta{ padding:12px 18px; font-size:13px; }
+    .cta-ghost{ padding:11px 16px; font-size:12px; }
+    .foot{ display:none; }
+  }
+
+  @media (prefers-reduced-motion: reduce){
+    .hero-video{ animation:none !important; transform:none !important; transition:none !important; }
+    .hero::after{ animation:none !important; }
+    .logo, .foot .dot{ animation:none !important; }
+    .cta, .cta:hover, .cta .arrow{ transition:none !important; transform:none !important; }
+  }
+</style>
+</head>
+<body class="palette-maroon">
+  <main class="hero" id="hero">
+
+    <video
+      class="hero-video"
+      autoplay
+      loop
+      muted
+      playsinline
+      preload="auto"
+      disableRemotePlayback>
+      <source src="assets/strategy.mp4" type="video/mp4">
+    </video>
+    <div class="hero-tint" aria-hidden="true"></div>
+
+    <nav id="nav" aria-label="Primary">
+      <a href="brief.html" data-nav="brief">brief</a>
+      <a href="thesis.html" data-nav="thesis">thesis</a>
+      <a href="product.html" data-nav="product">product</a>
+      <a href="index.html" class="logo-link" aria-label="Home"><span class="logo" aria-hidden="true"></span></a>
+      <a href="founders.html" data-nav="founders">founders</a>
+      <a href="essays.html" data-nav="essays">essays</a>
+    </nav>
+
+    <section class="bottom">
+      <div>
+        <h1 class="brand" aria-label="tacitlabs">
+          <img class="brand-mark" src="assets/tacit-wordmark.svg" alt="tacit">
+        </h1>
+        <p class="tag">the judgment layer for AI agents in regulated industries.</p>
+      </div>
+      <div class="right">
+        <p>senior experts spend careers building unwritten judgement — the calls that don't fit a checklist, the patterns that don't surface in training data. Tacit captures that runtime and makes it queryable by the AI agents your organisation is already deploying.</p>
+        <div class="ctas">
+          <a class="cta" href="thesis.html">
+            read the thesis
+            <svg class="arrow" width="14" height="14" viewBox="0 0 14 14" fill="none" aria-hidden="true">
+              <path d="M2 7h10M8 3l4 4-4 4" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
+            </svg>
+          </a>
+          <a class="cta-ghost" href="founders.html">
+            founders
+            <span class="kbd">f</span>
+          </a>
+        </div>
+      </div>
+    </section>
+
+    <div class="foot" hidden></div>
+  </main>
+
+  <footer class="site-foot">
+    <div>
+      <div class="foot-brand" aria-label="tacitlabs"><img src="assets/tacit-wordmark.svg" alt="tacit"></div>
+      <p class="colophon">The judgment layer for AI agents in regulated industries.</p>
+    </div>
+    <div>
+      <h4>Company</h4>
+      <ul>
+        <li><a href="index.html">Home</a></li>
+        <li><a href="founders.html">Founders</a></li>
+        <li><a href="essays.html">Writing</a></li>
+        <li><a href="mailto:hi@tacitlabs.ai">Contact</a></li>
+      </ul>
+    </div>
+    <div>
+      <h4>Read deeper</h4>
+      <ul>
+        <li><a href="brief.html">Brief</a></li>
+        <li><a href="thesis.html">Full thesis</a></li>
+        <li><a href="product.html">Product</a></li>
+        <li><a href="atlas.html">Atlas</a></li>
+      </ul>
+    </div>
+    <div>
+      <h4>Contact</h4>
+      <ul>
+        <li><a href="mailto:hi@tacitlabs.ai?subject=Operator">hi@tacitlabs.ai · Operator</a></li>
+        <li><a href="mailto:hi@tacitlabs.ai?subject=Investor">hi@tacitlabs.ai · Investor</a></li>
+        <li><a href="mailto:hi@tacitlabs.ai?subject=Team">hi@tacitlabs.ai · Team</a></li>
+      </ul>
+    </div>
+    <div class="signoff">
+      <span>© 2026 Tacit Labs, Inc.</span>
+    </div>
+  </footer>
+
+  <script>
+    const nav = document.getElementById('nav');
+    const hero = document.getElementById('hero');
+    function updateNav(){
+      const y = window.scrollY || document.documentElement.scrollTop;
+      if (y > 12) nav.classList.add('sharp'); else nav.classList.remove('sharp');
+    }
+    window.addEventListener('scroll', updateNav, { passive: true });
+
+    const video = document.querySelector('.hero-video');
+    const reduce = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+
+    if (!reduce){
+      let mx = 0, my = 0, tx = 0, ty = 0;
+      let push = 1.06;
+      let t0 = performance.now();
+
+      hero.addEventListener('pointermove', (e) => {
+        const r = hero.getBoundingClientRect();
+        const nx = (e.clientX - r.left) / r.width  - 0.5;
+        const ny = (e.clientY - r.top)  / r.height - 0.5;
+        tx = -nx * 18;
+        ty = -ny * 12;
+      });
+      hero.addEventListener('pointerleave', () => { tx = 0; ty = 0; });
+
+      function frame(now){
+        const dt = (now - t0) / 1000;
+        push = 1.06 + Math.sin(dt * 0.12) * 0.012;
+        mx += (tx - mx) * 0.06;
+        my += (ty - my) * 0.06;
+        video.style.transform = `translate3d(${mx}px, ${my}px, 0) scale(${push})`;
+        requestAnimationFrame(frame);
+      }
+      requestAnimationFrame(frame);
+    }
+
+    document.addEventListener('keydown', (e) => {
+      if (e.key.toLowerCase() === 'd' && !e.metaKey && !e.ctrlKey){
+        const ghost = document.querySelector('.cta-ghost');
+        if (ghost) ghost.focus();
+      }
+    });
+  </script>
+</body>
+</html>

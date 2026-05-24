@@ -1,0 +1,1295 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<title>Brief — Tacit</title>
+<meta name="description" content="A short read of the Tacit thesis. Knowledge creating company — the expert judgment layer for AI agents in regulated industries.">
+<meta name="author" content="Tacit Labs">
+<meta name="theme-color" content="#a83246">
+<link rel="canonical" href="https://tacitlabs.ai/brief.html">
+<link rel="icon" type="image/svg+xml" href="assets/favicon.svg">
+<link rel="apple-touch-icon" href="assets/favicon.svg">
+
+<meta property="og:type" content="article">
+<meta property="og:site_name" content="Tacit">
+<meta property="og:title" content="Brief — Tacit">
+<meta property="og:description" content="A short read of the Tacit thesis. Knowledge creating company — the expert judgment layer for AI agents in regulated industries.">
+<meta property="og:url" content="https://tacitlabs.ai/brief.html">
+<meta property="og:image" content="https://tacitlabs.ai/assets/og-card.svg">
+<meta property="og:image:type" content="image/svg+xml">
+<meta property="og:image:width" content="1200">
+<meta property="og:image:height" content="630">
+
+<meta name="twitter:card" content="summary_large_image">
+<meta name="twitter:title" content="Brief — Tacit">
+<meta name="twitter:description" content="A short read of the Tacit thesis. The expert judgment layer for AI agents in regulated industries.">
+<meta name="twitter:image" content="https://tacitlabs.ai/assets/og-card.svg">
+
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=IBM+Plex+Mono:wght@400;500;600&family=Inter:wght@300;400;500;600;700&family=Manrope:wght@400;500;600;700;800&family=Newsreader:ital,opsz,wght@0,6..72,400;0,6..72,500;0,6..72,600;0,6..72,700;1,6..72,400&family=Open+Sans:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+
+<style>
+  /* Editorial palette (cream + maroon) · Wide layout — locked */
+  :root {
+    --bg: #efe7d6;
+    --bg-deep: #e6dcc6;
+    --ink: #2a1d18;
+    --ink-dim: #5c4a40;
+    --accent: #a8321f;
+    --accent-soft: #c14a31;
+    --rule: rgba(42,29,24,0.18);
+    --rule-strong: rgba(42,29,24,0.4);
+    --card-warm: #a8321f;
+    --card-warm-ink: #efe7d6;
+
+    /* Website-matched fonts */
+    --display-font: 'Newsreader', Georgia, serif;
+    --body-font: 'Söhne', 'Söhne Web', 'Inter', system-ui, sans-serif;
+    --serif-font: 'Newsreader', Georgia, serif;
+    --mono-font: 'IBM Plex Mono', ui-monospace, monospace;
+
+    /* Website-matched display sizing (page-title scale) */
+    --display-weight: 500;
+    --display-tracking: -0.018em;
+    --max-content: 1440px;
+    --gutter: clamp(20px, 3vw, 56px);
+
+    /* Wide layout */
+    --hero-grid: 1.4fr 0.6fr;
+    --display-size: clamp(32px, 3.8vw, 54px);
+    --body-align: left;
+  }
+
+  /* ────────── Shared sticky nav (matches other sub-pages) ────────── */
+  .nav-wrap{
+    position:sticky; top:18px; z-index:50;
+    display:flex; justify-content:center;
+    padding:18px clamp(16px,4vw,40px) 0;
+    margin-bottom:0;
+  }
+  nav.tacit-nav{
+    display:flex; gap:12px; align-items:center;
+    padding:10px 16px;
+    border:1px solid rgba(255,255,255,.22);
+    border-radius:999px;
+    background:
+      linear-gradient(180deg, rgba(255,255,255,.06), rgba(255,255,255,.01)),
+      rgba(48,58,22,.62);
+    backdrop-filter:blur(20px) saturate(160%);
+    -webkit-backdrop-filter:blur(20px) saturate(160%);
+    box-shadow:
+      inset 0 1px 0 rgba(255,255,255,.16),
+      0 14px 56px rgba(0,0,0,.34);
+  }
+  nav.tacit-nav a{
+    color:#f4d9b0;
+    font-family:'Open Sans', system-ui, sans-serif;
+    font-size:12px;
+    letter-spacing:.02em;
+    text-decoration:none;
+    padding:8px 12px;
+    border-radius:999px;
+    text-transform:lowercase;
+    transition:color .2s ease, background .2s ease;
+  }
+  nav.tacit-nav a:hover{ color:#ffe4b8; background:rgba(255,255,255,.08); }
+  nav.tacit-nav a.current{ color:#ffe4b8; background:rgba(168,50,31,.45); }
+  nav.tacit-nav a:focus-visible{ outline:none; color:var(--accent); box-shadow:0 0 0 2px rgba(168,50,31,.55); }
+  .logo-link{
+    display:inline-flex; align-items:center; justify-content:center;
+    padding:2px; border-radius:999px; text-decoration:none; flex:0 0 auto;
+  }
+  .logo-link:focus-visible{ outline:none; box-shadow:0 0 0 2px var(--accent); }
+  .logo{
+    display:block;
+    width:30px; height:30px; border-radius:999px;
+    background:radial-gradient(circle at 38% 35%, #ffffff 0%, #f4d9b0 18%, var(--accent) 60%, rgba(168,50,31,.08) 100%);
+    box-shadow:0 0 24px rgba(168,50,31,.55), inset 0 0 12px rgba(255,255,255,.3);
+    flex:0 0 auto;
+  }
+  @media (max-width:720px){
+    .nav-wrap{ top:10px; padding-top:10px; }
+    nav.tacit-nav{ gap:6px; padding:8px 10px; }
+    nav.tacit-nav a{ font-size:11px; padding:6px 9px; }
+    .logo{ width:22px; height:22px; }
+  }
+
+  * { box-sizing: border-box; }
+  html, body {
+    margin: 0;
+    background: var(--bg);
+    color: var(--ink);
+    font-family: var(--body-font);
+    font-feature-settings: "ss01", "cv11";
+    -webkit-font-smoothing: antialiased;
+    text-rendering: optimizeLegibility;
+  }
+  body { overflow-x: hidden; }
+  a { color: inherit; text-decoration: none; }
+
+  /* ────────── HERO ────────── */
+  .hero {
+    position: relative;
+    min-height: 78vh;
+    padding: 0;
+    border-bottom: 1px solid var(--rule-strong);
+    overflow: hidden;
+  }
+  .hero-bg { position: absolute; inset: 0; z-index: 0; }
+  .hero-bg svg { width: 100%; height: 100%; display: block; }
+  .hero-grid-overlay {
+    position: absolute; inset: 0;
+    background-image:
+      linear-gradient(to right, var(--rule) 1px, transparent 1px),
+      linear-gradient(to bottom, var(--rule) 1px, transparent 1px);
+    background-size: calc(100% / 12) calc(100% / 4);
+    pointer-events: none;
+    z-index: 1;
+  }
+  .hero-inner {
+    position: relative;
+    z-index: 2;
+    display: grid;
+    grid-template-columns: var(--hero-grid);
+    gap: var(--gutter);
+    padding: clamp(40px, 5vw, 88px) var(--gutter) clamp(56px, 8vw, 120px);
+    min-height: 78vh;
+    align-content: space-between;
+    text-align: var(--body-align);
+  }
+  .banner {
+    grid-column: 1 / -1;
+    justify-self: start;
+    max-width: 620px;
+    background: var(--bg);
+    border: 1px solid var(--rule-strong);
+    padding: 16px 22px;
+    font-size: 15px;
+    line-height: 1.45;
+    color: var(--ink);
+    display: flex;
+    gap: 10px;
+    align-items: flex-start;
+  }
+  .banner .dot {
+    width: 8px; height: 8px;
+    border-radius: 50%;
+    background: var(--accent);
+    flex-shrink: 0;
+    margin-top: 7px;
+    animation: pulse 2.2s infinite;
+  }
+  @keyframes pulse {
+    0%, 100% { opacity: 0.5; transform: scale(1); }
+    50% { opacity: 1; transform: scale(1.3); }
+  }
+  .banner a {
+    color: var(--accent);
+    font-weight: 600;
+    border-bottom: 1px solid currentColor;
+  }
+  /* Hero display — keeps its own loud Manrope identity, separate from the
+     website-matched body type below. Magazine-cover scale. */
+  .display {
+    font-family: 'Manrope', system-ui, sans-serif;
+    font-weight: 800;
+    font-size: clamp(64px, 11vw, 200px);
+    line-height: 0.93;
+    letter-spacing: -0.025em;
+    color: var(--accent);
+    margin: 0;
+    text-wrap: balance;
+  }
+  .hero-right {
+    align-self: end;
+    display: flex;
+    flex-direction: column;
+    gap: 40px;
+    max-width: 520px;
+  }
+  .hero-lede {
+    font-family: var(--body-font);
+    font-size: clamp(17px, 1.4vw, 20px);
+    line-height: 1.5;
+    color: var(--ink);
+    margin: 0;
+    text-wrap: pretty;
+  }
+  .vertical-links {
+    display: flex;
+    flex-wrap: wrap;
+    gap: clamp(20px, 3vw, 56px);
+  }
+  .vert-link {
+    display: inline-flex;
+    align-items: center;
+    gap: 10px;
+    font-family: var(--body-font);
+    font-size: 15px;
+    font-weight: 500;
+    padding-bottom: 6px;
+    border-bottom: 1px solid var(--rule);
+    transition: border-color 0.2s, color 0.2s;
+  }
+  .vert-link:hover { border-color: var(--accent); color: var(--accent); }
+  .vert-link svg { transition: transform 0.2s; }
+  .vert-link:hover svg { transform: translate(2px, -2px); }
+
+  /* ────────── PLATFORM SPLIT ────────── */
+  .platform {
+    display: grid;
+    grid-template-columns: 1.2fr 2fr;
+    border-bottom: 1px solid var(--rule-strong);
+  }
+  .platform-panel {
+    background: var(--bg);
+    padding: clamp(28px, 4vw, 56px) var(--gutter);
+    position: relative;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+    min-height: 540px;
+    border-right: 1px solid var(--rule-strong);
+  }
+  .panel-eyebrow {
+    display: flex; align-items: center; justify-content: space-between;
+    font-size: 14px;
+    letter-spacing: 0.04em;
+    text-transform: uppercase;
+    color: var(--ink-dim);
+    font-weight: 600;
+  }
+  .panel-eyebrow .arrow { width: 22px; height: 22px; }
+  .panel-title {
+    font-family: var(--display-font);
+    font-weight: 500;
+    font-size: clamp(24px, 2.4vw, 34px);
+    line-height: 1.18;
+    letter-spacing: -0.012em;
+    color: var(--accent);
+    margin: 0;
+    text-wrap: balance;
+  }
+  .platform-media {
+    position: relative;
+    min-height: 540px;
+    overflow: hidden;
+    background: var(--bg-deep);
+  }
+  .platform-media svg { width: 100%; height: 100%; display: block; }
+
+  /* ────────── EDITORIAL SECTIONS ────────── */
+  section.editorial {
+    border-bottom: 1px solid var(--rule-strong);
+    position: relative;
+    z-index: 2;
+  }
+  .section-head {
+    display: grid;
+    grid-template-columns: 1fr auto;
+    align-items: end;
+    gap: var(--gutter);
+    padding: clamp(36px, 5vw, 80px) var(--gutter) clamp(20px, 2.5vw, 36px);
+    border-bottom: 1px solid var(--rule);
+  }
+  .section-num {
+    font-family: var(--mono-font);
+    font-size: 14px;
+    color: var(--ink-dim);
+    letter-spacing: 0.08em;
+    margin: 0 0 14px;
+  }
+  .section-title {
+    font-family: var(--display-font);
+    font-weight: 500;
+    font-size: clamp(24px, 2.4vw, 34px);
+    line-height: 1.18;
+    letter-spacing: -0.012em;
+    margin: 0;
+    text-wrap: balance;
+  }
+  .section-meta {
+    font-family: var(--mono-font);
+    font-size: 13px;
+    color: var(--ink-dim);
+    text-align: right;
+    letter-spacing: 0.05em;
+  }
+  .section-title a.title-link {
+    color: inherit;
+    text-decoration: none;
+    background-image: linear-gradient(var(--accent), var(--accent));
+    background-size: 0% 2px;
+    background-repeat: no-repeat;
+    background-position: 0 100%;
+    transition: background-size .35s ease, color .25s ease;
+  }
+  .section-title a.title-link:hover {
+    color: var(--accent);
+    background-size: 100% 2px;
+  }
+  .section-meta a.meta-link {
+    color: var(--ink-dim);
+    text-decoration: none;
+    border-bottom: 1px solid rgba(42,29,24,0.18);
+    padding-bottom: 1px;
+    transition: color .2s ease, border-color .2s ease;
+  }
+  .section-meta a.meta-link:hover {
+    color: var(--accent);
+    border-bottom-color: var(--accent);
+  }
+
+  /* THESIS BRIEFLY */
+  .thesis-body {
+    padding: clamp(40px, 5vw, 80px) var(--gutter);
+    display: grid;
+    grid-template-columns: 1fr 2.5fr;
+    gap: clamp(32px, 4vw, 80px);
+    align-items: start;
+  }
+  .thesis-aside {
+    font-family: var(--mono-font);
+    font-size: 13px;
+    color: var(--ink-dim);
+    line-height: 1.6;
+    letter-spacing: 0.02em;
+  }
+  .thesis-aside .aside-cta {
+    display: inline-flex;
+    align-items: center;
+    gap: 8px;
+    margin-top: 24px;
+    padding: 10px 16px;
+    border: 1px solid var(--accent);
+    color: var(--accent);
+    font-family: var(--mono-font);
+    font-size: 11px;
+    letter-spacing: 0.10em;
+    text-transform: uppercase;
+    text-decoration: none;
+    transition: background 0.2s, color 0.2s, transform 0.2s;
+  }
+  .thesis-aside .aside-cta:hover {
+    background: var(--accent);
+    color: var(--bg);
+    transform: translateY(-1px);
+  }
+  .thesis-aside .aside-cta svg {
+    stroke: currentColor;
+    fill: none;
+    stroke-width: 1.6;
+  }
+  .thesis-aside strong {
+    display: block;
+    color: var(--ink);
+    text-transform: uppercase;
+    font-size: 12px;
+    letter-spacing: 0.1em;
+    margin-bottom: 8px;
+    font-weight: 600;
+  }
+  .thesis-prose p {
+    font-family: var(--body-font);
+    font-weight: 400;
+    font-size: 15px;
+    line-height: 1.6;
+    margin: 0 0 1.1em;
+    color: var(--ink);
+    letter-spacing: 0;
+    text-wrap: pretty;
+  }
+  .thesis-prose p:last-child { margin-bottom: 0; }
+  .thesis-prose em {
+    font-family: var(--serif-font);
+    font-style: italic;
+    color: var(--accent);
+    font-weight: 400;
+  }
+  .thesis-prose .drop {
+    color: var(--accent);
+    font-weight: 600;
+  }
+
+  /* SHAPE OF THE PROBLEM */
+  .problem-body {
+    display: grid;
+    grid-template-columns: 1.2fr 1fr;
+    gap: 0;
+  }
+  .problem-list {
+    padding: clamp(40px, 5vw, 72px) var(--gutter);
+    border-right: 1px solid var(--rule);
+    list-style: none;
+    margin: 0;
+    counter-reset: prob;
+  }
+  .problem-list li {
+    counter-increment: prob;
+    display: grid;
+    grid-template-columns: 56px 1fr;
+    gap: 20px;
+    padding: 24px 0;
+    border-bottom: 1px dashed var(--rule);
+    align-items: baseline;
+  }
+  .problem-list li:last-child { border-bottom: none; }
+  .problem-list li::before {
+    content: counter(prob, decimal-leading-zero);
+    font-family: var(--mono-font);
+    font-size: 13px;
+    color: var(--accent);
+    letter-spacing: 0.05em;
+  }
+  .problem-list li p {
+    margin: 0;
+    font-family: var(--body-font);
+    font-size: 15px;
+    line-height: 1.6;
+    color: var(--ink);
+    font-weight: 400;
+  }
+  .problem-list li p strong {
+    color: var(--accent);
+    font-weight: 700;
+  }
+  .pullquote {
+    padding: clamp(40px, 5vw, 72px) var(--gutter);
+    background: var(--bg-deep);
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+    gap: 40px;
+    min-height: 100%;
+    position: relative;
+  }
+  .pullquote::before {
+    content: "\201C";
+    font-family: var(--serif-font);
+    font-size: 240px;
+    line-height: 0.6;
+    color: var(--accent);
+    position: absolute;
+    top: 40px;
+    left: var(--gutter);
+    opacity: 0.4;
+    pointer-events: none;
+  }
+  .pullquote blockquote {
+    position: relative;
+    margin: 60px 0 0;
+    font-family: var(--serif-font);
+    font-style: italic;
+    font-size: clamp(24px, 3vw, 38px);
+    line-height: 1.25;
+    color: var(--ink);
+    text-wrap: balance;
+  }
+  .pullquote cite {
+    font-family: var(--mono-font);
+    font-style: normal;
+    font-size: 13px;
+    color: var(--ink-dim);
+    letter-spacing: 0.05em;
+    text-transform: uppercase;
+  }
+
+  /* WHAT WE BUILT */
+  .built-grid {
+    display: grid;
+    grid-template-columns: repeat(4, 1fr);
+    border-top: 1px solid var(--rule);
+  }
+  .built-cell {
+    padding: clamp(28px, 3.5vw, 48px) clamp(22px, 2.5vw, 36px);
+    border-right: 1px solid var(--rule);
+    min-height: 380px;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+    gap: 24px;
+    position: relative;
+  }
+  .built-cell:last-child { border-right: none; }
+  .built-cell .num {
+    font-family: var(--mono-font);
+    font-size: 13px;
+    color: var(--accent);
+    letter-spacing: 0.05em;
+  }
+  .built-cell h3 {
+    font-family: var(--display-font);
+    font-weight: 500;
+    font-size: clamp(19px, 1.7vw, 24px);
+    line-height: 1.2;
+    margin: 12px 0 16px;
+    letter-spacing: -0.01em;
+    color: var(--ink);
+  }
+  .built-cell p {
+    font-family: var(--body-font);
+    font-size: 15px;
+    line-height: 1.6;
+    color: var(--ink-dim);
+    margin: 0;
+  }
+  .built-cell .glyph-box {
+    width: 84px; height: 84px;
+    border: 1px solid var(--rule-strong);
+    display: grid; place-items: center;
+    margin-bottom: 8px;
+  }
+  .built-cell .glyph-box svg {
+    width: 44px; height: 44px;
+    stroke: var(--accent);
+    fill: none;
+    stroke-width: 1.4;
+  }
+
+  /* WHY NOW */
+  .why-grid {
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+  }
+  .why-cell {
+    padding: clamp(36px, 4.5vw, 64px) var(--gutter);
+    border-right: 1px solid var(--rule);
+    border-bottom: 1px solid var(--rule);
+    display: grid;
+    grid-template-columns: auto 1fr;
+    gap: clamp(20px, 3vw, 48px);
+    align-items: baseline;
+  }
+  .why-cell:nth-child(2n) { border-right: none; }
+  .why-cell:nth-last-child(-n+2) { border-bottom: none; }
+  .why-cell .big-num {
+    font-family: "Times New Roman", Times, serif;
+    font-weight: 400;
+    font-size: clamp(48px, 7vw, 92px);
+    line-height: 0.95;
+    color: var(--accent);
+    letter-spacing: -0.035em;
+    font-variant-numeric: tabular-nums;
+  }
+  .why-cell h3 {
+    font-family: var(--display-font);
+    font-weight: 500;
+    font-size: clamp(20px, 1.9vw, 26px);
+    line-height: 1.2;
+    margin: 0 0 14px;
+    letter-spacing: -0.012em;
+    color: var(--ink);
+  }
+  .why-cell p {
+    margin: 0;
+    font-family: var(--body-font);
+    font-size: 15px;
+    line-height: 1.6;
+    color: var(--ink-dim);
+  }
+  .why-cell p em {
+    font-family: var(--serif-font);
+    font-style: italic;
+    color: var(--accent);
+  }
+
+  /* VERTICALS */
+  .verticals-grid {
+    display: grid;
+    grid-template-columns: 1.2fr 1fr 1fr;
+  }
+  .vert-card {
+    padding: clamp(28px, 3.5vw, 52px) clamp(24px, 2.5vw, 40px);
+    border-right: 1px solid var(--rule-strong);
+    min-height: 460px;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+    gap: 32px;
+    background: var(--bg);
+    position: relative;
+    overflow: hidden;
+  }
+  .vert-card:last-child { border-right: none; }
+  .vert-card.warm {
+    background: var(--card-warm);
+    color: var(--card-warm-ink);
+  }
+  .vert-card.warm .vert-eyebrow,
+  .vert-card.warm h3,
+  .vert-card.warm p { color: var(--card-warm-ink); }
+  .vert-eyebrow {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    font-size: 14px;
+    letter-spacing: 0.04em;
+    text-transform: uppercase;
+    font-weight: 600;
+    color: var(--ink-dim);
+    border-bottom: 1px solid currentColor;
+    padding-bottom: 14px;
+    opacity: 0.9;
+  }
+  .vert-card.warm .vert-eyebrow { opacity: 1; }
+  .vert-eyebrow .arrow { width: 18px; height: 18px; }
+  .vert-card h3 {
+    font-family: var(--display-font);
+    font-weight: 500;
+    font-size: clamp(20px, 2vw, 28px);
+    line-height: 1.2;
+    letter-spacing: -0.012em;
+    margin: 0;
+    color: var(--accent);
+    text-wrap: balance;
+  }
+  .vert-card.warm h3 { color: var(--card-warm-ink); }
+  .vert-card p {
+    font-family: var(--body-font);
+    font-size: 15px;
+    line-height: 1.6;
+    color: var(--ink);
+    margin: 0;
+  }
+  .vert-stats {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 16px;
+    padding-top: 24px;
+    border-top: 1px solid currentColor;
+    opacity: 0.95;
+  }
+  .vert-stat .k {
+    font-family: var(--mono-font);
+    font-size: 11px;
+    text-transform: uppercase;
+    letter-spacing: 0.08em;
+    opacity: 0.7;
+    display: block;
+    margin-bottom: 6px;
+  }
+  .vert-stat .v {
+    font-family: "Times New Roman", Times, serif;
+    font-weight: 400;
+    font-size: clamp(22px, 1.8vw, 28px);
+    letter-spacing: -0.02em;
+    font-variant-numeric: tabular-nums;
+  }
+
+  /* CLOSING */
+  .closing {
+    padding: clamp(60px, 8vw, 140px) var(--gutter);
+    text-align: center;
+    border-bottom: 1px solid var(--rule-strong);
+    position: relative;
+  }
+  .closing .kicker {
+    font-family: var(--mono-font);
+    font-size: 13px;
+    letter-spacing: 0.12em;
+    text-transform: uppercase;
+    color: var(--ink-dim);
+    margin-bottom: 24px;
+  }
+  .closing .manifesto {
+    font-family: var(--display-font);
+    font-weight: 500;
+    font-size: clamp(32px, 3.8vw, 54px);
+    line-height: 1.1;
+    letter-spacing: -0.018em;
+    color: var(--accent);
+    margin: 0 auto 48px;
+    text-wrap: balance;
+    max-width: 1100px;
+  }
+  .cta-row {
+    display: flex;
+    justify-content: center;
+    gap: 16px;
+    flex-wrap: wrap;
+  }
+  .btn {
+    padding: 16px 28px;
+    border: 1px solid var(--rule-strong);
+    font-size: 16px;
+    font-weight: 600;
+    display: inline-flex;
+    align-items: center;
+    gap: 10px;
+    transition: all 0.2s;
+    cursor: pointer;
+    font-family: inherit;
+    background: transparent;
+    color: var(--ink);
+  }
+  .btn.primary {
+    background: var(--accent);
+    color: var(--bg);
+    border-color: var(--accent);
+  }
+  .btn:hover { transform: translateY(-2px); }
+  .btn.primary:hover { background: var(--accent-soft); border-color: var(--accent-soft); }
+
+  /* FOOTER */
+  footer {
+    padding: clamp(40px, 4vw, 72px) var(--gutter) 32px;
+    display: grid;
+    grid-template-columns: 2fr 1fr 1fr 1fr;
+    gap: 40px;
+    border-top: 1px solid var(--rule);
+  }
+  footer h4 {
+    font-family: var(--mono-font);
+    font-size: 12px;
+    letter-spacing: 0.1em;
+    text-transform: uppercase;
+    color: var(--ink-dim);
+    margin: 0 0 18px;
+    font-weight: 600;
+  }
+  footer ul { list-style: none; padding: 0; margin: 0; display: flex; flex-direction: column; gap: 10px; }
+  footer a:hover { color: var(--accent); }
+  footer .colophon {
+    font-size: 14px;
+    color: var(--ink-dim);
+    line-height: 1.5;
+    max-width: 360px;
+  }
+  footer .wordmark {
+    display: flex;
+    align-items: center;
+    gap: 14px;
+    font-family: var(--display-font);
+    font-weight: 800;
+    font-size: 22px;
+    letter-spacing: -0.01em;
+  }
+  footer .wordmark .glyph {
+    width: 34px; height: 34px;
+    border: 1.5px solid var(--ink);
+    border-radius: 6px;
+    display: grid; place-items: center;
+    position: relative;
+  }
+  footer .wordmark .glyph::before {
+    content: "";
+    width: 12px; height: 12px;
+    background: var(--accent);
+    border-radius: 2px;
+    transform: rotate(45deg);
+  }
+  footer .signoff {
+    grid-column: 1 / -1;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding-top: 32px;
+    border-top: 1px solid var(--rule);
+    margin-top: 16px;
+    font-family: var(--mono-font);
+    font-size: 12px;
+    color: var(--ink-dim);
+    letter-spacing: 0.05em;
+  }
+
+  /* Responsive */
+  @media (max-width: 900px) {
+    .hero-inner { grid-template-columns: 1fr !important; }
+    .hero-right { align-self: start; margin-top: 32px; }
+    .platform { grid-template-columns: 1fr; }
+    .platform-panel { border-right: none; border-bottom: 1px solid var(--rule-strong); min-height: 320px; }
+    .platform-media { min-height: 320px; }
+    .thesis-body { grid-template-columns: 1fr; }
+    .problem-body { grid-template-columns: 1fr; }
+    .problem-list { border-right: none; border-bottom: 1px solid var(--rule); }
+    .built-grid { grid-template-columns: 1fr 1fr; }
+    .built-cell { min-height: 280px; }
+    .why-grid { grid-template-columns: 1fr; }
+    .why-cell { border-right: none !important; }
+    .verticals-grid { grid-template-columns: 1fr; }
+    .vert-card { border-right: none; border-bottom: 1px solid var(--rule-strong); min-height: auto; }
+    footer { grid-template-columns: 1fr 1fr; }
+  }
+</style>
+</head>
+
+<body>
+
+<div class="nav-wrap">
+  <nav class="tacit-nav" aria-label="Primary">
+    <a href="brief.html" data-nav="brief" class="current">brief</a>
+    <a href="thesis.html" data-nav="thesis">thesis</a>
+    <a href="product.html" data-nav="product">product</a>
+    <a href="index.html" class="logo-link" aria-label="Home"><span class="logo" aria-hidden="true"></span></a>
+    <a href="founders.html" data-nav="founders">founders</a>
+    <a href="essays.html" data-nav="essays">essays</a>
+  </nav>
+</div>
+
+<!-- Hidden SVG defs: duotone filters re-tuned for cream → maroon (Editorial palette) -->
+<svg width="0" height="0" style="position:absolute" aria-hidden="true">
+  <defs>
+    <filter id="duotone-terrain" x="0%" y="0%" width="100%" height="100%">
+      <feTurbulence type="fractalNoise" baseFrequency="0.004 0.011" numOctaves="5" seed="14" stitchTiles="stitch" result="noise"/>
+      <feColorMatrix in="noise" type="matrix" values="
+        0.33 0.33 0.33 0 0
+        0.33 0.33 0.33 0 0
+        0.33 0.33 0.33 0 0
+        0    0    0    1 0" result="gray"/>
+      <feComponentTransfer in="gray" result="duo">
+        <feFuncR tableValues="0.93 0.88 0.82 0.76 0.71 0.66"/>
+        <feFuncG tableValues="0.90 0.76 0.62 0.48 0.34 0.20"/>
+        <feFuncB tableValues="0.84 0.70 0.55 0.40 0.26 0.12"/>
+        <feFuncA tableValues="1 1"/>
+      </feComponentTransfer>
+      <feTurbulence type="turbulence" baseFrequency="0.02 0.003" numOctaves="2" seed="3" result="ridges"/>
+      <feColorMatrix in="ridges" type="matrix" values="
+        0 0 0 0 0
+        0 0 0 0 0
+        0 0 0 0 0
+        0.4 0.4 0.4 0 -0.2" result="ridgeAlpha"/>
+      <feComposite in="duo" in2="duo" operator="over" result="base"/>
+      <feMerge>
+        <feMergeNode in="base"/>
+        <feMergeNode in="ridgeAlpha"/>
+      </feMerge>
+    </filter>
+
+    <filter id="duotone-lab" x="0%" y="0%" width="100%" height="100%">
+      <feTurbulence type="fractalNoise" baseFrequency="0.008 0.018" numOctaves="4" seed="42" stitchTiles="stitch" result="n"/>
+      <feColorMatrix in="n" type="matrix" values="
+        0.33 0.33 0.33 0 0
+        0.33 0.33 0.33 0 0
+        0.33 0.33 0.33 0 0
+        0    0    0    1 0" result="g"/>
+      <feComponentTransfer in="g">
+        <feFuncR tableValues="0.93 0.86 0.80 0.73 0.66"/>
+        <feFuncG tableValues="0.90 0.72 0.55 0.37 0.20"/>
+        <feFuncB tableValues="0.84 0.66 0.48 0.30 0.12"/>
+      </feComponentTransfer>
+    </filter>
+
+    <symbol id="ic-arrow-ur" viewBox="0 0 24 24">
+      <path d="M7 17 L17 7 M9 7 H17 V15" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"/>
+    </symbol>
+  </defs>
+</svg>
+
+<!-- ════════ HERO ════════ -->
+<header class="hero">
+  <div class="hero-bg" aria-hidden="true">
+    <svg viewBox="0 0 1600 900" preserveAspectRatio="xMidYMid slice">
+      <rect width="1600" height="900" filter="url(#duotone-terrain)"/>
+    </svg>
+  </div>
+  <div class="hero-grid-overlay" aria-hidden="true"></div>
+
+  <div class="hero-inner">
+    <div class="banner">
+      <span class="dot" aria-hidden="true"></span>
+      <span>
+        Pre-seed, raising. If you operate inside regulated underwriting or invest in vertical AI infrastructure, the door is open.
+        <a href="mailto:hi@tacitlabs.ai">Get in touch</a>
+      </span>
+    </div>
+
+    <h1 class="display">
+      Knowledge<br/>creating<br/>company.
+    </h1>
+
+    <div class="hero-right">
+      <p class="hero-lede">
+        Tacit is the expert judgment layer for AI agents that operate in regulated industries. We capture the cognitive process of senior experts &mdash; the live decision process that determines what they attend to, how they weight uncertainty, and which heuristic fires when a case is ambiguous &mdash; and route it into the agents your organisation is already deploying.
+      </p>
+      <div class="vertical-links">
+        <a class="vert-link" href="product.html">
+          Insurance Underwriting
+          <svg width="18" height="18" viewBox="0 0 24 24"><use href="#ic-arrow-ur"/></svg>
+        </a>
+        <a class="vert-link" href="#verticals">
+          Diagnostics
+          <svg width="18" height="18" viewBox="0 0 24 24"><use href="#ic-arrow-ur"/></svg>
+        </a>
+        <a class="vert-link" href="#verticals">
+          Nuclear
+          <svg width="18" height="18" viewBox="0 0 24 24"><use href="#ic-arrow-ur"/></svg>
+        </a>
+      </div>
+    </div>
+  </div>
+</header>
+
+<!-- ════════ PLATFORM SPLIT ════════ -->
+<section class="platform">
+  <div class="platform-panel">
+    <div class="panel-eyebrow">
+      <span>The Tacit platform</span>
+      <svg class="arrow" viewBox="0 0 24 24"><use href="#ic-arrow-ur"/></svg>
+    </div>
+    <h2 class="panel-title">Built to make<br/>the expert judgement<br/>machine-legible.</h2>
+  </div>
+  <div class="platform-media">
+    <svg viewBox="0 0 1200 700" preserveAspectRatio="xMidYMid slice">
+      <rect width="1200" height="700" filter="url(#duotone-lab)"/>
+      <g stroke="rgba(42,29,24,0.22)" fill="none" stroke-width="1">
+        <circle cx="600" cy="380" r="120"/>
+        <circle cx="600" cy="380" r="200"/>
+        <circle cx="600" cy="380" r="280"/>
+        <line x1="0" y1="380" x2="1200" y2="380"/>
+        <line x1="600" y1="0" x2="600" y2="700"/>
+      </g>
+      <g stroke="rgba(168,50,31,0.55)" fill="rgba(168,50,31,0.15)">
+        <rect x="320" y="240" width="240" height="160" stroke-width="1.5"/>
+        <rect x="640" y="280" width="180" height="120" stroke-width="1.5"/>
+        <rect x="380" y="430" width="200" height="100" stroke-width="1.5"/>
+      </g>
+    </svg>
+  </div>
+</section>
+
+<!-- ════════ §01 THESIS BRIEFLY ════════ -->
+<section class="editorial" id="thesis">
+  <div class="section-head">
+    <div>
+      <p class="section-num">§ 01 / Thesis</p>
+      <h2 class="section-title">Thesis, briefly.</h2>
+    </div>
+    <p class="section-meta">A read of ~ 2 minutes</p>
+  </div>
+
+  <div class="thesis-body">
+    <aside class="thesis-aside">
+      <strong>For the reader in a hurry</strong>
+      AI agents are extraordinary at retrieval and language. They are unreliable at judgement. About 70% of the operational decisions that matter in a regulated organisation have never been written down and the part of expertise that defines the senior expert is not a body of knowledge, it is a runtime. Tacit makes that runtime observable.
+      <p style="margin-top:18px; color:var(--accent); letter-spacing:0.04em;">runtime = heuristics * situation * decay</p>
+      <a href="thesis.html" class="aside-cta">
+        Read the full thesis
+        <svg width="14" height="14" viewBox="0 0 24 24"><use href="#ic-arrow-ur"/></svg>
+      </a>
+    </aside>
+
+    <div class="thesis-prose">
+      <p><span class="drop">AI agents</span> are good at retrieval. They are good at language. In regulated work they fail at the one thing that matters most: <em>judgement</em>.</p>
+      <p>The published evidence on enterprise AI is now consistent enough to read as a pattern. BCG and McKinsey report 88% adoption against 5% meaningful returns. Gartner reports 85% of projects never reach production. MIT's 2024 study found 95% of enterprise generative AI pilots produced no measurable ROI. The standard explanation is that the models are immature, that retrieval needs to be better &mdash; that explanation has been wrong for at least two years.</p>
+      <p>The agents are failing because the AI industry has been trying to capture expertise as <em>content</em>. About 70% of the meta decisions that matter have never been written down. The part of expertise that defines the senior expert is not knowledge that can be made larger or more accessible. It is a runtime construct, a live cognitive process that decides, under uncertainty, which heuristic fires. We make that runtime observable, persistent, and queryable for the agents that will inherit the work.</p>
+    </div>
+  </div>
+</section>
+
+<!-- ════════ §02 SHAPE OF THE PROBLEM ════════ -->
+<section class="editorial" id="problem">
+  <div class="section-head">
+    <div>
+      <p class="section-num">§ 02 / Diagnosis</p>
+      <h2 class="section-title">The shape of<br/>the problem.</h2>
+    </div>
+    <p class="section-meta">Eight observations</p>
+  </div>
+
+  <div class="problem-body">
+    <ol class="problem-list">
+      <li><p><strong>Tacit knowledge does not exist on paper.</strong> The documents an LLM can read describe the world after the experts have already left the room.</p></li>
+      <li><p>A thirty-year underwriter cannot tell you, in words, why she declined a submission in four seconds. She just declined it.</p></li>
+      <li><p>A senior radiologist sees the malignancy before they can articulate why. The <em>seeing</em> is the expertise. The words are a post-hoc reconstruction.</p></li>
+      <li><p>A control-room operator detects a drift through a posture, a hum, a feel. The SCADA log shows nothing yet.</p></li>
+      <li><p><strong>These signals do not survive into training data.</strong> So they do not survive into the model. So they do not survive into the agent.</p></li>
+      <li><p>What survives is the documentation: the safety bulletins, the discharge summaries, the underwriting guidelines &mdash; the thin paper trail of decisions, not the decisions themselves.</p></li>
+      <li><p>LLMs trained on that paper trail are fluent but ungrounded. They are plausible at the centre of the distribution and dangerous at the margins.</p></li>
+      <li><p><strong>The margins are where money, lives and licenses live.</strong> Which is exactly where regulated work spends its time.</p></li>
+    </ol>
+
+    <aside class="pullquote">
+      <blockquote>
+        The methods do not ask experts what they do. They observe what experts do.
+        <footer style="margin-top:24px"><cite>— Tacit methodology</cite></footer>
+      </blockquote>
+      <div>
+        <p style="font-family: var(--mono-font); font-size: 13px; color: var(--ink-dim); letter-spacing: 0.04em; line-height:1.6; margin:0;">
+          At the Brainoscope deployment, <strong style="color:var(--accent)">722</strong> behavioural events captured across <strong style="color:var(--accent)">54</strong> sessions. Contrastive cohort analysis across three expert tiers produced Cohen's d effect sizes between <strong style="color:var(--accent)">0.92 and 1.82</strong> &mdash; separation almost nothing in social science research achieves.
+        </p>
+      </div>
+    </aside>
+  </div>
+</section>
+
+<!-- ════════ §03 WHAT WE ARE BUILDING ════════ -->
+<section class="editorial" id="built">
+  <div class="section-head">
+    <div>
+      <p class="section-num">§ 03 / Product</p>
+      <h2 class="section-title"><a href="product.html" class="title-link">What we are building.</a></h2>
+    </div>
+    <p class="section-meta"><a href="product.html" class="meta-link">live in insurance underwriting &nbsp;→</a></p>
+  </div>
+
+  <div class="built-grid">
+    <div class="built-cell">
+      <div>
+        <div class="glyph-box">
+          <svg viewBox="0 0 44 44" aria-hidden="true">
+            <circle cx="22" cy="22" r="14"/>
+            <circle cx="22" cy="22" r="6"/>
+            <line x1="22" y1="4" x2="22" y2="12"/>
+            <line x1="22" y1="32" x2="22" y2="40"/>
+          </svg>
+        </div>
+        <p class="num">01 — Capture</p>
+        <h3>Five methods</h3>
+        <p>Decision archaeology against historical exhaust, contrastive cohort analysis, perturbation probing, the Structured Interview Agent, and live escalation capture in production. The runtime is opaque to self-report and visible only in behaviour.</p>
+      </div>
+    </div>
+
+    <div class="built-cell">
+      <div>
+        <div class="glyph-box">
+          <svg viewBox="0 0 44 44" aria-hidden="true">
+            <circle cx="10" cy="10" r="4"/>
+            <circle cx="34" cy="10" r="4"/>
+            <circle cx="22" cy="22" r="4"/>
+            <circle cx="10" cy="34" r="4"/>
+            <circle cx="34" cy="34" r="4"/>
+            <line x1="10" y1="10" x2="22" y2="22"/>
+            <line x1="34" y1="10" x2="22" y2="22"/>
+            <line x1="22" y1="22" x2="10" y2="34"/>
+            <line x1="22" y1="22" x2="34" y2="34"/>
+          </svg>
+        </div>
+        <p class="num">02 — Structure</p>
+        <h3>Judgement graph</h3>
+        <p>Every captured node carries a confidence score, a decay rate, and a provenance trail to the named expert and source session. Organised against a seven-layer, 103-marker cognitive taxonomy grounded in Naturalistic Decision Making research.</p>
+      </div>
+    </div>
+
+    <div class="built-cell">
+      <div>
+        <div class="glyph-box">
+          <svg viewBox="0 0 44 44" aria-hidden="true">
+            <rect x="6" y="14" width="32" height="16" rx="2"/>
+            <line x1="14" y1="22" x2="30" y2="22"/>
+            <line x1="22" y1="6" x2="22" y2="14"/>
+            <line x1="22" y1="30" x2="22" y2="38"/>
+          </svg>
+        </div>
+        <p class="num">03 — Route</p>
+        <h3>Context API</h3>
+        <p>Agents hit the graph at decision time through a small set of well-defined endpoints. Queries return judgment ranked by confidence, recency, and relevance &mdash; at latency budgets production agents can actually afford.</p>
+      </div>
+    </div>
+
+    <div class="built-cell">
+      <div>
+        <div class="glyph-box">
+          <svg viewBox="0 0 44 44" aria-hidden="true">
+            <path d="M8 36 L16 24 L22 30 L30 14 L38 22"/>
+            <line x1="8" y1="36" x2="38" y2="36"/>
+            <circle cx="30" cy="14" r="2.5" fill="currentColor"/>
+          </svg>
+        </div>
+        <p class="num">04 — Audit</p>
+        <h3>Decision provenance</h3>
+        <p>Every agent recommendation cites only captured heuristics, with provenance to the named expert who authored it. Regulator-ready for the EU AI Act, SR 11-7, NAIC Model Bulletin, and PRA SS1/23.</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ════════ §04 WHY NOW ════════ -->
+<section class="editorial" id="why-now">
+  <div class="section-head">
+    <div>
+      <p class="section-num">§ 04 / Timing</p>
+      <h2 class="section-title">Why now.</h2>
+    </div>
+    <p class="section-meta">Four forces, converging</p>
+  </div>
+
+  <div class="why-grid">
+    <div class="why-cell">
+      <div class="big-num">01</div>
+      <div>
+        <h3>The technology threshold lifted in 2024.</h3>
+        <p>Foundation models can now parse unstructured expert reasoning, tag it against a cognitive taxonomy, and store it with provenance and confidence &mdash; at a cost low enough that the methodology is commercially viable for the first time in the forty-year history of expert-systems research.</p>
+      </div>
+    </div>
+
+    <div class="why-cell">
+      <div class="big-num">02</div>
+      <div>
+        <h3>"RAG over PDFs" is no longer a defensible answer to liability.</h3>
+        <p>The EU AI Act enters staged enforcement in August 2026, alongside SR 11-7, the NAIC Model Bulletin, and PRA SS1/23. Auditors, regulators, and trial lawyers now ask the second question: <em>why did the model decide that?</em> Documents alone cannot answer it.</p>
+      </div>
+    </div>
+
+    <div class="why-cell">
+      <div class="big-num">03</div>
+      <div>
+        <h3>Senior expertise is retiring faster than the next generation can absorb it.</h3>
+        <p>Roughly half of senior underwriters and a quarter of claims adjusters will retire within ten years. Ten thousand baby boomers retire every working day in the US and UK. The training cycle is five to ten years; the replacement pipeline runs at 60% of capacity. The window in which the senior cohort can still be observed is open right now &mdash; and substantively closed by 2030.</p>
+      </div>
+    </div>
+
+    <div class="why-cell">
+      <div class="big-num">04</div>
+      <div>
+        <h3>The first generation of agents shipped without judgement. The second won't.</h3>
+        <p>The leading buyers in regulated work are no longer asking <em>can the model write the report?</em> They are asking <em>whose judgement is in this decision?</em> That is the question Tacit was built to answer.</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ════════ §05 VERTICALS ════════ -->
+<section class="editorial" id="verticals">
+  <div class="section-head">
+    <div>
+      <p class="section-num">§ 05 / Verticals</p>
+      <h2 class="section-title">Where we work.</h2>
+    </div>
+    <p class="section-meta">One wedge, two expansion paths</p>
+  </div>
+
+  <div class="verticals-grid">
+    <article class="vert-card warm">
+      <div>
+        <div class="vert-eyebrow">
+          <span>Cyber insurance underwriting</span>
+          <svg class="arrow" viewBox="0 0 24 24"><use href="#ic-arrow-ur"/></svg>
+        </div>
+        <h3 style="margin-top:32px">The wedge. Specialty risk where unwritten judgement is widest.</h3>
+        <p style="margin-top:20px">Senior underwriters decline in seconds for reasons they cannot easily write down. We capture the patterns &mdash; submission shape, broker history, second-order exposures &mdash; and route them into the agent triaging tomorrow's queue. Cyber is where the gap between the model's native capability and the underwriter's judgement is widest, and where the specialty MGAs are moving fastest on AI procurement.</p>
+      </div>
+      <div class="vert-stats">
+        <div class="vert-stat"><span class="k">Override rate</span><span class="v">25–40%</span></div>
+        <div class="vert-stat"><span class="k">Target reduction</span><span class="v">30–50% @ m6</span></div>
+      </div>
+    </article>
+
+    <article class="vert-card">
+      <div>
+        <div class="vert-eyebrow">
+          <span>Clinical decision support</span>
+          <svg class="arrow" viewBox="0 0 24 24"><use href="#ic-arrow-ur"/></svg>
+        </div>
+        <h3 style="margin-top:32px">The pattern recognition of senior specialists, available at every read.</h3>
+        <p style="margin-top:20px">A radiologist sees the malignancy before they can describe it. We encode that <em>seeing</em>: the gestalt cues, the comparative anchors, the second-look heuristics. The Brainoscope deployment is where the methodology is being calibrated against three expert cohorts in clinical neurotechnology &mdash; a diagnostic agent inherits the eye of the specialist, not the prose of the textbook.</p>
+      </div>
+      <div class="vert-stats">
+        <div class="vert-stat"><span class="k">Capture sessions</span><span class="v">54 · Brainoscope</span></div>
+        <div class="vert-stat"><span class="k">Cohen's d</span><span class="v">0.92–1.82</span></div>
+      </div>
+    </article>
+
+    <article class="vert-card">
+      <div>
+        <div class="vert-eyebrow">
+          <span>Nuclear &amp; industrial control</span>
+          <svg class="arrow" viewBox="0 0 24 24"><use href="#ic-arrow-ur"/></svg>
+        </div>
+        <h3 style="margin-top:32px">Preserving the control room as a generation of operators retires.</h3>
+        <p style="margin-top:20px">A reactor operator hears a drift before any alarm flags it. We capture the felt-sense of the plant &mdash; what counts as normal, what counts as worth waking the shift supervisor &mdash; before the people who hold it walk out for the last time. The expansion path through years three to five, alongside oil and gas and complex industrial process control.</p>
+      </div>
+      <div class="vert-stats">
+        <div class="vert-stat"><span class="k">Phase</span><span class="v">Expansion</span></div>
+        <div class="vert-stat"><span class="k">Horizon</span><span class="v">Year 3–5</span></div>
+      </div>
+    </article>
+  </div>
+</section>
+
+<!-- ════════ CLOSING ════════ -->
+<section class="closing" id="closing">
+  <p class="kicker">— The knowledge creating company —</p>
+  <h2 class="manifesto">
+    Every AI agent inherits someone's judgment. We make sure <em style="font-family:var(--serif-font); font-style:italic; font-weight:400;">it's</em> <em style="font-family:var(--serif-font); font-style:italic; font-weight:400;">yours</em>
+  </h2>
+  <div class="cta-row">
+    <a class="btn primary" href="mailto:hi@tacitlabs.ai">
+      Talk to us
+      <svg width="16" height="16" viewBox="0 0 24 24"><use href="#ic-arrow-ur"/></svg>
+    </a>
+    <a class="btn" href="thesis.html">
+      Read the full thesis
+      <svg width="16" height="16" viewBox="0 0 24 24"><use href="#ic-arrow-ur"/></svg>
+    </a>
+  </div>
+</section>
+
+<!-- ════════ FOOTER ════════ -->
+<footer class="site-foot">
+  <div>
+    <div class="wordmark" style="margin-bottom:20px" aria-label="tacitlabs">
+      <img src="assets/tacit-wordmark.svg" alt="tacit" style="height:46px; width:auto; display:block; margin-left:-6px;">
+    </div>
+    <p class="colophon">
+      The judgment layer for AI agents in regulated industries.
+    </p>
+  </div>
+  <div>
+    <h4>Company</h4>
+    <ul>
+      <li><a href="index.html">Home</a></li>
+      <li><a href="founders.html">Founders</a></li>
+      <li><a href="essays.html">Writing</a></li>
+      <li><a href="mailto:hi@tacitlabs.ai">Contact</a></li>
+    </ul>
+  </div>
+  <div>
+    <h4>Read deeper</h4>
+    <ul>
+      <li><a href="brief.html">Brief</a></li>
+      <li><a href="thesis.html">Full thesis</a></li>
+      <li><a href="product.html">Product</a></li>
+      <li><a href="atlas.html">Atlas</a></li>
+    </ul>
+  </div>
+  <div>
+    <h4>Contact</h4>
+    <ul>
+      <li><a href="mailto:hi@tacitlabs.ai?subject=Operator">hi@tacitlabs.ai · Operator</a></li>
+      <li><a href="mailto:hi@tacitlabs.ai?subject=Investor">hi@tacitlabs.ai · Investor</a></li>
+      <li><a href="mailto:hi@tacitlabs.ai?subject=Team">hi@tacitlabs.ai · Team</a></li>
+    </ul>
+  </div>
+  <div class="signoff">
+    <span>© 2026 Tacit Labs, Inc.</span>
+  </div>
+</footer>
+
+<script>
+(function () {
+  document.querySelectorAll('a[href^="#"]').forEach(a => {
+    a.addEventListener('click', (e) => {
+      const id = a.getAttribute('href').slice(1);
+      const el = document.getElementById(id);
+      if (el) {
+        e.preventDefault();
+        const top = el.getBoundingClientRect().top + window.scrollY;
+        window.scrollTo({ top, behavior: 'smooth' });
+      }
+    });
+  });
+
+  if ('IntersectionObserver' in window && !window.matchMedia('(prefers-reduced-motion: reduce)').matches) {
+    const obs = new IntersectionObserver((entries) => {
+      entries.forEach(en => {
+        if (en.isIntersecting) {
+          en.target.style.opacity = '1';
+          en.target.style.transform = 'translateY(0)';
+          obs.unobserve(en.target);
+        }
+      });
+    }, { threshold: 0.08 });
+    document.querySelectorAll('section.editorial, section.platform, section.closing').forEach(s => {
+      s.style.opacity = '0';
+      s.style.transform = 'translateY(24px)';
+      s.style.transition = 'opacity 0.7s ease, transform 0.7s ease';
+      obs.observe(s);
+    });
+  }
+})();
+</script>
+
+</body>
+</html>
