@@ -1,6 +1,10 @@
 {
   "cleanUrls": true,
   "trailingSlash": false,
+  "redirects": [
+    { "source": "/product", "destination": "/insurance", "permanent": true },
+    { "source": "/product.html", "destination": "/insurance", "permanent": true }
+  ],
   "headers": [
     {
       "source": "/robots.txt",

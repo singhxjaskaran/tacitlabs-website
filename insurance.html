@@ -1,0 +1,430 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<meta name="description" content="Tacit captures cyber underwriting judgment from your senior UWs and routes it into the AI agents already in your workflow — structured, auditable, and grounded in your carrier's actual practice.">
+<meta name="author" content="Tacit Labs">
+<meta name="theme-color" content="#a83246">
+<link rel="canonical" href="https://tacitlabs.ai/insurance.html">
+<link rel="icon" type="image/svg+xml" href="assets/favicon.svg">
+<link rel="apple-touch-icon" href="assets/favicon.svg">
+
+<meta property="og:type" content="article">
+<meta property="og:site_name" content="Tacit">
+<meta property="og:title" content="Insurance — Tacit">
+<meta property="og:description" content="Cyber underwriting is the hardest line in specialty insurance to systematize. Tacit captures the judgment your senior UWs hold and makes it queryable.">
+<meta property="og:url" content="https://tacitlabs.ai/insurance.html">
+<meta property="og:image" content="https://tacitlabs.ai/assets/og-card.svg">
+<meta property="og:image:type" content="image/svg+xml">
+<meta property="og:image:width" content="1200">
+<meta property="og:image:height" content="630">
+
+<meta name="twitter:card" content="summary_large_image">
+<meta name="twitter:title" content="Insurance — Tacit">
+<meta name="twitter:description" content="Cyber underwriting is the hardest line in specialty insurance to systematize. Tacit captures the judgment your senior UWs hold and makes it queryable.">
+<meta name="twitter:image" content="https://tacitlabs.ai/assets/og-card.svg">
+
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=IBM+Plex+Mono:wght@400;500;600&family=Inter:wght@300;400;500;600;700&family=Newsreader:ital,opsz,wght@0,6..72,400;0,6..72,500;0,6..72,600;0,6..72,700;1,6..72,400&family=Open+Sans:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="tacit-reading.css">
+<title>Insurance — Tacit</title>
+<style>
+  /* Hero kicker */
+  .ins-kicker{
+    display:inline-flex; align-items:center; gap:14px;
+    font:600 11px/1 "IBM Plex Mono",monospace;
+    letter-spacing:.22em; text-transform:uppercase;
+    color:var(--text-dim);
+    margin:0 0 22px;
+  }
+  .ins-kicker::before{
+    content:""; width:48px; height:1px; background:var(--accent);
+  }
+
+  /* Numbered scenario list */
+  .scenarios{
+    list-style:none; padding:0; margin:18px 0 0;
+    counter-reset:scn;
+  }
+  .scenarios > li{
+    counter-increment:scn;
+    display:grid;
+    grid-template-columns:96px 1fr;
+    gap:clamp(20px,3vw,40px);
+    padding:clamp(36px,5vh,56px) 0;
+    border-top:1px solid var(--border);
+  }
+  .scenarios > li:last-child{ border-bottom:1px solid var(--border); }
+  .scenarios > li::before{
+    content:counter(scn, decimal-leading-zero);
+    font:500 18px/1 "IBM Plex Mono",monospace;
+    letter-spacing:.10em;
+    color:var(--accent);
+    padding-top:6px;
+  }
+  .scenario-kicker{
+    display:block;
+    font-family:"Newsreader",Georgia,serif;
+    font-style:italic;
+    font-weight:500;
+    font-size:clamp(20px,2.0vw,26px);
+    line-height:1.2;
+    color:var(--text);
+    margin:0 0 18px;
+    letter-spacing:-.005em;
+    text-wrap:balance;
+  }
+  .scenario-body p{ margin:0 0 14px; }
+  .scenario-body p:last-child{ margin-bottom:0; }
+  .scenario-aside{
+    margin:18px 0;
+    padding:14px 0 14px 18px;
+    border-left:1.5px solid var(--accent);
+    font:italic 14px/1.6 "Newsreader",Georgia,serif;
+    color:var(--text-muted);
+  }
+
+  /* Judgment card — stylised structured-output sample */
+  .judgment-card{
+    margin:22px 0;
+    background:var(--bg-deep);
+    border:1px solid var(--border-strong);
+    border-radius:6px;
+    overflow:hidden;
+    box-shadow:0 1px 0 rgba(255,255,255,.5) inset, 0 18px 40px -28px rgba(48,42,28,.18);
+  }
+  .judgment-card .jc-head{
+    display:flex; align-items:center; gap:10px;
+    padding:11px clamp(18px,2.4vw,26px);
+    border-bottom:1px solid var(--border-strong);
+    background:linear-gradient(180deg, rgba(255,255,255,.4), rgba(168,50,70,.03));
+    font:10px/1 "IBM Plex Mono",monospace;
+    letter-spacing:.20em; text-transform:lowercase;
+    color:var(--text-muted);
+  }
+  .judgment-card .jc-dot{
+    width:7px; height:7px; border-radius:999px;
+    background:var(--accent);
+    box-shadow:0 0 10px var(--accent-glow);
+  }
+  .judgment-card .jc-meta-end{ margin-left:auto; color:var(--text-dim); letter-spacing:.18em; }
+  .judgment-card ul{
+    list-style:none;
+    margin:0; padding:18px clamp(18px,2.4vw,26px) 22px;
+  }
+  .judgment-card li{
+    position:relative;
+    padding:10px 0 10px 22px;
+    font:14px/1.55 "Söhne","Inter",system-ui,sans-serif;
+    color:var(--text);
+    border-bottom:1px dashed var(--border);
+  }
+  .judgment-card li:last-child{ border-bottom:none; }
+  .judgment-card li::before{
+    content:""; position:absolute;
+    left:0; top:18px;
+    width:8px; height:8px; border-radius:999px;
+    background:var(--accent);
+  }
+  .judgment-card li em{ font-style:italic; color:var(--text-muted); }
+
+  /* "What we're not" grid */
+  .not-grid{
+    display:grid;
+    grid-template-columns:1fr 1fr;
+    gap:clamp(24px,3vw,40px);
+    margin-top:clamp(32px,5vh,48px);
+  }
+  @media (max-width:760px){ .not-grid{ grid-template-columns:1fr; gap:24px; } }
+  .not-item{
+    padding:24px;
+    border:1px solid var(--border);
+    border-radius:6px;
+    background:rgba(255,255,255,.18);
+  }
+  .not-item .neg{
+    display:block;
+    font:600 14px/1.35 "Söhne","Inter",system-ui,sans-serif;
+    letter-spacing:-.005em;
+    color:var(--text);
+    margin:0 0 8px;
+  }
+  .not-item .neg-strike{
+    color:var(--accent);
+    font-weight:600;
+    margin-right:6px;
+  }
+  .not-item p{
+    margin:0;
+    font:14px/1.6 "Söhne","Inter",system-ui,sans-serif;
+    color:var(--text-muted);
+  }
+
+  /* How it works — numbered steps */
+  .how-meta{
+    display:inline-flex; align-items:center; gap:12px;
+    font:600 11px/1 "IBM Plex Mono",monospace;
+    letter-spacing:.18em; text-transform:uppercase;
+    color:var(--accent);
+    margin:8px 0 0;
+  }
+  .how-meta::before{
+    content:""; width:32px; height:1px; background:var(--accent);
+  }
+  .how-steps{
+    list-style:none; padding:0; margin:24px 0 0;
+    counter-reset:howstep;
+    display:grid; gap:clamp(28px,4vh,40px);
+  }
+  .how-steps > li{
+    counter-increment:howstep;
+    display:grid;
+    grid-template-columns:64px 1fr;
+    gap:clamp(16px,2.5vw,28px);
+    align-items:baseline;
+  }
+  .how-steps > li::before{
+    content:counter(howstep, decimal-leading-zero);
+    font:500 22px/1 "Newsreader",Georgia,serif;
+    color:var(--accent);
+    letter-spacing:-.01em;
+  }
+  .how-steps > li > div h3{
+    font:600 16px/1.3 "Söhne","Inter",system-ui,sans-serif;
+    color:var(--text);
+    margin:0 0 10px;
+    letter-spacing:-.005em;
+  }
+  .how-steps > li > div p{
+    margin:0;
+    font:15px/1.65 "Söhne","Inter",system-ui,sans-serif;
+    color:var(--text);
+  }
+
+  /* CTA contact row */
+  .ins-contacts{
+    display:flex; gap:20px; flex-wrap:wrap;
+    margin-top:8px;
+    font:13px/1.5 "IBM Plex Mono",monospace;
+    color:var(--text-dim);
+    letter-spacing:.06em;
+  }
+  .ins-contacts a{
+    color:var(--text-muted);
+    text-decoration:none;
+    border-bottom:1px solid var(--border-strong);
+    transition:color .2s ease, border-color .2s ease;
+  }
+  .ins-contacts a:hover{ color:var(--accent); border-bottom-color:var(--accent); }
+</style>
+</head>
+<body class="palette-maroon">
+
+  <div class="nav-wrap">
+    <nav class="tacit-nav" aria-label="Primary">
+      <a href="brief.html" data-nav="brief">brief</a>
+      <a href="thesis.html" data-nav="thesis">thesis</a>
+      <a href="insurance.html" data-nav="insurance" class="current">insurance</a>
+      <a href="index.html" class="logo-link" aria-label="Home"><span class="logo" aria-hidden="true"></span></a>
+      <a href="founders.html" data-nav="founders">founders</a>
+      <a href="essays.html" data-nav="essays">essays</a>
+    </nav>
+  </div>
+
+  <main class="page">
+
+    <!-- Hero -->
+    <header>
+      <span class="ins-kicker">Insurance · cyber underwriting</span>
+      <h1 class="page-title">Cyber underwriting is the hardest line in specialty insurance to systematize.</h1>
+      <p class="t10 lead">Risk profiles change faster than guidelines. New attack vectors emerge in months. Two submissions can look identical on the application and behave catastrophically differently in practice. Your seniors know the difference. Most of that knowledge doesn't exist on paper anywhere in your carrier.</p>
+    </header>
+
+    <!-- Where we fit -->
+    <section class="section col">
+      <h2 class="section-title">Where we fit in your day.</h2>
+      <p class="t12">Tacit is the judgment layer your AI agents and your team consult. It does not run the workflow. It surfaces what your practice would notice.</p>
+
+      <ol class="scenarios">
+
+        <li>
+          <div class="scenario-body">
+            <span class="scenario-kicker">When you open a submission.</span>
+            <p class="t12">Your platform shows you the application, loss runs if any, the broker's narrative, the security questionnaire. You start working through it. Tacit is in the background, having already read the same submission, and surfaces — in a side panel or via an MCP-connected agent if your carrier has one deployed — what your team's senior cyber UWs would attend to on this kind of risk.</p>
+            <p class="t12">Not "here are 10 similar past submissions." Structured judgment:</p>
+
+            <div class="judgment-card" role="figure" aria-label="Example structured judgment Tacit returns">
+              <div class="jc-head">
+                <span class="jc-dot" aria-hidden="true"></span>
+                <span>tacit · structured judgment</span>
+                <span class="jc-meta-end">your team · your book</span>
+              </div>
+              <ul>
+                <li>Your team typically prices ransomware-exposed manufacturers in this revenue band at <strong>0.85–1.10% of TIV</strong>. This submission sits at the edge — the multi-factor coverage on privileged accounts is partial.</li>
+                <li>Senior UWs in your team have declined three submissions from this broker in the last 18 months citing inflated control claims. <em>Confidence on broker's hardening narrative: low.</em></li>
+                <li>The MFA-everywhere claim is not corroborated by the technical questionnaire response on legacy systems. Worth a clarifying question.</li>
+              </ul>
+            </div>
+
+            <p class="scenario-aside">You decide. Tacit never decides. It surfaces what your practice would notice.</p>
+          </div>
+        </li>
+
+        <li>
+          <div class="scenario-body">
+            <span class="scenario-kicker">When you're stuck on a borderline case.</span>
+            <p class="t12">The submission doesn't cleanly fit your appetite. Normally you'd grab a senior for a quick consult, or escalate, or just sit with it. Tacit gives you the consultation without the interrupt: "Here's how three senior UWs in your team would think about this kind of risk, the cases in our practice graph that are closest, and where they diverge. Two of them would decline; one would bind with sub-limit on social engineering. Here's why each."</p>
+            <p class="t12">When you do escalate, you walk in with a structured starting point, not a blank request.</p>
+          </div>
+        </li>
+
+        <li>
+          <div class="scenario-body">
+            <span class="scenario-kicker">When you're training a new UW on your team.</span>
+            <p class="t12">The hardest part of bringing a new cyber UW up is teaching them to recognize what to attend to. Your seniors point at things in submissions and say "this matters" and the junior nods, but the pattern doesn't transfer in a meeting. Tacit's practice graph is the substrate for actual rehearsal: present new UWs with real anonymized cases from your portfolio, ask them what they'd do, show them what your senior team would do and why. The pattern transfers through reps, not through documentation.</p>
+          </div>
+        </li>
+
+        <li>
+          <div class="scenario-body">
+            <span class="scenario-kicker">When your CRO or compliance team asks about the AI you've deployed.</span>
+            <p class="t12">Carriers are starting to deploy AI agents into underwriting workflows. Submission triage, schedule extraction, draft binding recommendations. Regulators — MAS in Singapore, OJK in Indonesia, BoT in Thailand, Bank Negara in Malaysia — are tightening AI risk management requirements for financial institutions including insurers. Your CRO needs to demonstrate that AI-assisted decisions are grounded in your carrier's actual practice, not generic LLM judgment.</p>
+            <p class="t12">Tacit is what AI agents consult before they recommend. Every AI-assisted decision can be compared to your practice graph. The 90%+ that align go forward; the small percentage that diverge get flagged. This is the audit artifact regulators are looking for, designed to map directly to the frameworks (MAS AI Risk Management Guidelines, similar OJK / BoT / BNM guidance) that are coming into force.</p>
+          </div>
+        </li>
+
+        <li>
+          <div class="scenario-body">
+            <span class="scenario-kicker">When your senior UWs leave.</span>
+            <p class="t12">A senior cyber UW leaves your team. Three years of accumulated judgment about broker quality, control efficacy, threat-actor patterns, and your specific carrier's loss experience walks out the door. The next hire spends 18 months redeveloping it. Tacit captures that judgment in structured form <em>before</em> it leaves — not as documents, but as a practice graph your team can continue to consult.</p>
+          </div>
+        </li>
+
+      </ol>
+    </section>
+
+    <!-- What we're not -->
+    <section class="section col">
+      <h2 class="section-title">What we're not.</h2>
+      <p class="t12">A clean map of what we sit beside, what we don't do, and what we are not pretending to be.</p>
+      <div class="not-grid">
+
+        <div class="not-item">
+          <span class="neg"><span class="neg-strike">Not</span>a workflow tool.</span>
+          <p>We don't replace Guidewire, Duck Creek, your AMS, or your pricing platform. We sit beside them.</p>
+        </div>
+
+        <div class="not-item">
+          <span class="neg"><span class="neg-strike">Not</span>a chatbot.</span>
+          <p>We don't generate text. We return structured judgment with attribution, confidence, and provenance.</p>
+        </div>
+
+        <div class="not-item">
+          <span class="neg"><span class="neg-strike">Not</span>generic AI for insurance.</span>
+          <p>We don't pretend the same model that does claims fraud detection should also do underwriting judgment capture.</p>
+        </div>
+
+        <div class="not-item">
+          <span class="neg"><span class="neg-strike">Not</span>a synthetic-data vendor.</span>
+          <p>We don't repackage your existing knowledge base. We capture how your team actually decides — from observed work, not interviews.</p>
+        </div>
+
+      </div>
+    </section>
+
+    <!-- How it works -->
+    <section class="section col">
+      <h2 class="section-title">How it works.</h2>
+      <span class="how-meta">In 60 seconds</span>
+
+      <ol class="how-steps">
+        <li>
+          <div>
+            <h3>Start with one decision domain.</h3>
+            <p>We pick one — say, your team's mid-market cyber appetite. We observe how your senior UWs actually handle submissions in that domain: decisions, document interactions, peer consultations, override patterns. Not interviews.</p>
+          </div>
+        </li>
+        <li>
+          <div>
+            <h3>Recover the structured signature of your practice.</h3>
+            <p>Which cues drive which decisions, where your team converges, where they diverge from guidelines, where they diverge from each other. The cognitive signature is what we extract — not a transcript of what people say about their work.</p>
+          </div>
+        </li>
+        <li>
+          <div>
+            <h3>Build a queryable practice graph.</h3>
+            <p>Specific to your carrier's cyber book. AI agents consult it via MCP. Human UWs consult it via a side panel or dashboard. The graph is the substrate.</p>
+          </div>
+        </li>
+        <li>
+          <div>
+            <h3>Return structured judgment, every time.</h3>
+            <p>Recommendation, confidence (how strongly your practice supports this), alternatives (what the dissenting senior UW would do), decay (how current the supporting evidence is), and provenance (which senior UWs, on which submissions, with what evidence).</p>
+          </div>
+        </li>
+      </ol>
+
+      <p class="t10" style="margin-top:32px;">The methodology is grounded in two decades of cognitive science — Klein's recognition-primed decision-making, the van der Schaar lab's inverse decision modeling, active inference research from UCL. We didn't invent the science. We're the first to operationalize it for AI-augmented regulated decisions.</p>
+    </section>
+
+    <!-- CTA -->
+    <section class="section-cta cta-center">
+      <h2 class="h">Talk to us about your cyber book.</h2>
+      <div class="ctas">
+        <a class="cta" href="mailto:hi@tacitlabs.ai?subject=Cyber%20underwriting">hi@tacitlabs.ai
+          <svg width="14" height="14" viewBox="0 0 14 14" fill="none" aria-hidden="true">
+            <path d="M2 7h10M8 3l4 4-4 4" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
+          </svg>
+        </a>
+        <a class="cta-ghost" href="thesis.html">read the thesis</a>
+      </div>
+      <div class="ins-contacts" aria-label="Direct contacts">
+        <span>direct:</span>
+        <a href="mailto:jas@tacitlabs.ai">jas@tacitlabs.ai</a>
+        <a href="mailto:karann@tacitlabs.ai">karann@tacitlabs.ai</a>
+        <span>·</span>
+        <span>singapore · london</span>
+      </div>
+    </section>
+  </main>
+
+  <footer class="site-foot">
+    <div>
+      <div class="foot-brand" aria-label="tacitlabs"><img src="assets/tacit-wordmark.svg" alt="tacit"></div>
+      <p class="colophon">The judgment layer for AI agents in regulated industries.</p>
+    </div>
+    <div>
+      <h4>Company</h4>
+      <ul>
+        <li><a href="index.html">Home</a></li>
+        <li><a href="founders.html">Founders</a></li>
+        <li><a href="essays.html">Writing</a></li>
+        <li><a href="mailto:hi@tacitlabs.ai">Contact</a></li>
+      </ul>
+    </div>
+    <div>
+      <h4>Read deeper</h4>
+      <ul>
+        <li><a href="brief.html">Brief</a></li>
+        <li><a href="thesis.html">Full thesis</a></li>
+        <li><a href="insurance.html">Insurance</a></li>
+        <li><a href="atlas.html">Atlas</a></li>
+      </ul>
+    </div>
+    <div>
+      <h4>Contact</h4>
+      <ul>
+        <li><a href="mailto:hi@tacitlabs.ai?subject=Operator">hi@tacitlabs.ai · Operator</a></li>
+        <li><a href="mailto:hi@tacitlabs.ai?subject=Investor">hi@tacitlabs.ai · Investor</a></li>
+        <li><a href="mailto:hi@tacitlabs.ai?subject=Team">hi@tacitlabs.ai · Team</a></li>
+      </ul>
+    </div>
+    <div class="signoff">
+      <span>© 2026 Tacit Labs, Inc.</span>
+      <span><a href="index.html">back to home →</a></span>
+    </div>
+  </footer>
+</body>
+</html>
