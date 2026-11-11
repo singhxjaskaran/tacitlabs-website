@@ -3,8 +3,8 @@
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width,initial-scale=1">
-<title>Tacit — The judgment layer for AI agents in regulated industries</title>
-<meta name="description" content="Tacit captures the cognitive runtime of senior experts and routes it into the AI agents your organisation is already deploying. The judgment layer for regulated industries.">
+<title>Tacit — the judgement your business runs on</title>
+<meta name="description" content="Tacit recovers the judgement behind the decisions your people and your AI already make, and shows how far you can rely on it. Underwriting for MGAs and Lloyd's coverholders. CyberSOC for CISOs at regulated firms.">
 <meta name="author" content="Tacit Labs">
 <meta name="theme-color" content="#a83246">
 <link rel="canonical" href="https://tacitlabs.ai/">
@@ -13,18 +13,18 @@
 
 <meta property="og:type" content="website">
 <meta property="og:site_name" content="Tacit">
-<meta property="og:title" content="Tacit — The judgment layer for AI agents in regulated industries">
-<meta property="og:description" content="Tacit captures the cognitive runtime of senior experts and routes it into the AI agents your organisation is already deploying.">
+<meta property="og:title" content="Tacit — the judgement your business runs on">
+<meta property="og:description" content="Your business runs on judgement nobody wrote down. Tacit recovers it from the decisions your people and your AI already make, and shows how far you can rely on it.">
 <meta property="og:url" content="https://tacitlabs.ai/">
 <meta property="og:image" content="https://tacitlabs.ai/assets/og-card.svg">
 <meta property="og:image:type" content="image/svg+xml">
 <meta property="og:image:width" content="1200">
 <meta property="og:image:height" content="630">
-<meta property="og:image:alt" content="tacit — the judgment layer for AI agents in regulated industries">
+<meta property="og:image:alt" content="tacit — recovering the judgement that was never written down">
 
 <meta name="twitter:card" content="summary_large_image">
-<meta name="twitter:title" content="Tacit — The judgment layer for AI agents in regulated industries">
-<meta name="twitter:description" content="Tacit captures the cognitive runtime of senior experts and routes it into the AI agents your organisation is already deploying.">
+<meta name="twitter:title" content="Tacit — the judgement your business runs on">
+<meta name="twitter:description" content="Your business runs on judgement nobody wrote down. Tacit recovers it from the decisions your people and your AI already make, and shows how far you can rely on it.">
 <meta name="twitter:image" content="https://tacitlabs.ai/assets/og-card.svg">
 
 <link rel="preconnect" href="https://fonts.googleapis.com">
@@ -315,63 +315,31 @@
     text-wrap:pretty;
   }
 
-  .ctas{ display:flex; gap:12px; align-items:center; margin-top:24px; flex-wrap:wrap; }
-
-  .cta{
-    display:inline-flex;
-    align-items:center;
-    gap:10px;
-    color:var(--cta-fg);
-    background:var(--cta-bg);
-    border-radius:999px;
-    padding:15px 24px;
-    text-decoration:none;
-    font-family:"Söhne","Söhne Web","Inter",system-ui,sans-serif;
-    font-weight:500;
-    font-size:14px;
-    letter-spacing:.005em;
-    text-transform:lowercase;
-    box-shadow:0 0 40px rgba(156,236,255,.35);
-    transition:transform .25s ease, box-shadow .25s ease, background .25s ease;
+  .right p + p{ margin-top:.85em; }
+  .right p strong{ color:var(--text); font-weight:600; }
+  .products{
+    display:grid; grid-template-columns:1fr 1fr; gap:10px;
+    margin-top:22px;
+  }
+  .product{
     position:relative;
-  }
-  .cta:hover{
-    transform:translateY(-3px);
-    box-shadow:0 8px 60px rgba(156,236,255,.6);
-  }
-  .cta:focus-visible{
-    outline:none;
-    box-shadow:0 0 0 3px rgba(156,236,255,.55), 0 0 40px rgba(156,236,255,.45);
-  }
-  .cta .arrow{ transition:transform .25s ease; }
-  .cta:hover .arrow{ transform:translateX(4px); }
-
-  .cta-ghost{
-    display:inline-flex;
-    align-items:center;
-    gap:8px;
-    padding:14px 20px;
-    border-radius:999px;
-    border:1px solid var(--border-strong);
-    background:rgba(8,22,34,.32);
-    backdrop-filter:blur(14px);
-    -webkit-backdrop-filter:blur(14px);
+    display:flex; flex-direction:column; gap:4px;
+    padding:14px 40px 14px 16px;
+    border-radius:12px;
+    border:1px solid var(--border);
+    background:rgba(255,255,255,.04);
     color:var(--text);
     text-decoration:none;
-    font-family:"Söhne","Söhne Web","Inter",system-ui,sans-serif;
-    font-size:13px;
-    letter-spacing:.005em;
-    text-transform:lowercase;
-    transition:background .2s ease, border-color .2s ease;
+    transition:background .2s ease, border-color .2s ease, box-shadow .2s ease;
   }
-  .cta-ghost:hover{ background:rgba(8,22,34,.52); border-color:rgba(238,250,255,.45); }
-  .cta-ghost .kbd{
-    font:10px/1 "IBM Plex Mono",monospace;
-    padding:3px 6px;
-    border-radius:6px;
-    border:1px solid var(--border);
-    color:var(--text-muted);
-  }
+  .product:hover,
+  .product:focus-visible{ background:#8a2334; border-color:#a83246; box-shadow:0 8px 28px rgba(138,35,52,.35); }
+  .product:focus-visible{ outline:2px solid #f0e6d2; outline-offset:2px; }
+  .product:hover .p-sub, .product:focus-visible .p-sub{ color:rgba(245,236,218,.88); }
+  .product .p-name{ font:500 18px/1.2 "Newsreader",Georgia,serif; letter-spacing:-.005em; color:var(--text); }
+  .product .p-sub{ font:12.5px/1.4 "Söhne","Söhne Web","Inter",system-ui,sans-serif; color:var(--text-muted); }
+  .product .arrow{ position:absolute; right:16px; top:18px; color:var(--text-muted); transition:transform .25s ease, color .2s ease; }
+  .product:hover .arrow, .product:focus-visible .arrow{ transform:translateX(3px); color:var(--text); }
 
   /* ===== Footer ===== */
   .foot{
@@ -455,9 +423,11 @@
       border-radius:16px;
     }
     .right p{ font-size:14px; }
-    .ctas{ margin-top:18px; gap:10px; }
-    .cta{ padding:12px 18px; font-size:13px; }
-    .cta-ghost{ padding:11px 16px; font-size:12px; }
+    .products{ grid-template-columns:1fr; gap:8px; margin-top:16px; }
+    .product{ padding:11px 36px 11px 14px; gap:2px; }
+    .product .p-name{ font-size:17px; }
+    .product .p-sub{ font-size:12px; }
+    .product .arrow{ top:15px; right:14px; }
     .foot{ display:none; }
   }
 
@@ -465,9 +435,12 @@
     .hero-video{ animation:none !important; transform:none !important; transition:none !important; }
     .hero::after{ animation:none !important; }
     .logo, .foot .dot{ animation:none !important; }
-    .cta, .cta:hover, .cta .arrow{ transition:none !important; transform:none !important; }
+    .product, .product .arrow{ transition:none !important; transform:none !important; }
   }
 </style>
+<script defer src="/_vercel/insights/script.js"></script>
+<link rel="stylesheet" href="nav-menu.css">
+<script defer src="nav-menu.js"></script>
 </head>
 <body class="palette-maroon">
   <main class="hero" id="hero">
@@ -485,9 +458,15 @@
     <div class="hero-tint" aria-hidden="true"></div>
 
     <nav id="nav" aria-label="Primary">
-      <a href="brief.html" data-nav="brief">brief</a>
+      <div class="nav-menu" data-nav="product">
+        <button type="button" class="nav-menu-btn" aria-expanded="false" aria-controls="nav-product-menu">product<svg class="chev" viewBox="0 0 10 10" aria-hidden="true"><path d="M2 3.5l3 3 3-3" fill="none" stroke="currentColor" stroke-width="1.4" stroke-linecap="round" stroke-linejoin="round"/></svg></button>
+        <div class="nav-menu-panel" id="nav-product-menu">
+          <a class="nav-menu-item" href="insurance.html"><span class="nm-title">Underwriting</span><span class="nm-sub">For MGAs and Lloyd’s coverholders</span></a>
+          <a class="nav-menu-item" href="cybersoc.html"><span class="nm-title">CyberSOC</span><span class="nm-sub">For CISOs at regulated firms</span></a>
+        </div>
+      </div>
       <a href="thesis.html" data-nav="thesis">thesis</a>
-      <a href="insurance.html" data-nav="insurance">insurance</a>
+      <a href="brief.html" data-nav="brief">brief</a>
       <a href="index.html" class="logo-link" aria-label="Home"><span class="logo" aria-hidden="true"></span></a>
       <a href="founders.html" data-nav="founders">founders</a>
       <a href="essays.html" data-nav="essays">essays</a>
@@ -498,20 +477,21 @@
         <h1 class="brand" aria-label="tacitlabs">
           <img class="brand-mark" src="assets/tacit-wordmark.svg" alt="tacit">
         </h1>
-        <p class="tag">the judgment layer for AI agents in regulated industries.</p>
+        <p class="tag">your business runs on judgement nobody wrote down.</p>
       </div>
       <div class="right">
-        <p>senior experts spend careers building unwritten judgement — the calls that don't fit a checklist, the patterns that don't surface in training data. Tacit captures that runtime and makes it queryable by the AI agents your organisation is already deploying.</p>
-        <div class="ctas">
-          <a class="cta" href="thesis.html">
-            read the thesis
-            <svg class="arrow" width="14" height="14" viewBox="0 0 14 14" fill="none" aria-hidden="true">
-              <path d="M2 7h10M8 3l4 4-4 4" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
-            </svg>
+        <p><strong>The calls that matter most are rarely written down.</strong></p>
+        <p>Tacit recovers the judgement behind the decisions your people and your AI already make, and shows how far you can rely on it.</p>
+        <div class="products" role="group" aria-label="Products">
+          <a class="product" href="insurance.html">
+            <span class="p-name">Underwriting</span>
+            <span class="p-sub">For MGAs and Lloyd’s coverholders</span>
+            <svg class="arrow" width="14" height="14" viewBox="0 0 14 14" fill="none" aria-hidden="true"><path d="M2 7h10M8 3l4 4-4 4" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg>
           </a>
-          <a class="cta-ghost" href="founders.html">
-            founders
-            <span class="kbd">f</span>
+          <a class="product" href="cybersoc.html">
+            <span class="p-name">CyberSOC</span>
+            <span class="p-sub">For CISOs at regulated firms</span>
+            <svg class="arrow" width="14" height="14" viewBox="0 0 14 14" fill="none" aria-hidden="true"><path d="M2 7h10M8 3l4 4-4 4" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg>
           </a>
         </div>
       </div>
@@ -523,7 +503,8 @@
   <footer class="site-foot">
     <div>
       <div class="foot-brand" aria-label="tacitlabs"><img src="assets/tacit-wordmark.svg" alt="tacit"></div>
-      <p class="colophon">The judgment layer for AI agents in regulated industries.</p>
+      <p class="colophon">Recovering the judgement that was never written down.</p>
+      <p class="colophon" style="margin-top:14px;font-size:12.5px;color:#8a7c66">Raising pre-seed. Investors: <a href="brief.html" style="color:#5a4d3a;border-bottom:1px solid #d4c9a8;padding-bottom:1px">the brief</a>.</p>
     </div>
     <div>
       <h4>Company</h4>
@@ -539,7 +520,8 @@
       <ul>
         <li><a href="brief.html">Brief</a></li>
         <li><a href="thesis.html">Full thesis</a></li>
-        <li><a href="insurance.html">Product</a></li>
+        <li><a href="insurance.html">Product · Underwriting</a></li>
+        <li><a href="cybersoc.html">Product · CyberSOC</a></li>
         <li><a href="atlas.html">Atlas</a></li>
       </ul>
     </div>
@@ -547,6 +529,7 @@
       <h4>Contact</h4>
       <ul>
         <li><a href="mailto:hi@tacitlabs.ai?subject=Operator">hi@tacitlabs.ai · Operator</a></li>
+        <li><a href="mailto:hi@tacitlabs.ai?subject=CyberSOC">hi@tacitlabs.ai · CyberSOC</a></li>
         <li><a href="mailto:hi@tacitlabs.ai?subject=Investor">hi@tacitlabs.ai · Investor</a></li>
         <li><a href="mailto:hi@tacitlabs.ai?subject=Team">hi@tacitlabs.ai · Team</a></li>
       </ul>
@@ -593,12 +576,6 @@
       requestAnimationFrame(frame);
     }
 
-    document.addEventListener('keydown', (e) => {
-      if (e.key.toLowerCase() === 'd' && !e.metaKey && !e.ctrlKey){
-        const ghost = document.querySelector('.cta-ghost');
-        if (ghost) ghost.focus();
-      }
-    });
   </script>
 </body>
 </html>

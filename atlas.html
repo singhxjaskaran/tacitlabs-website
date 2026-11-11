@@ -3,7 +3,7 @@
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width,initial-scale=1">
-<meta name="description" content="An atlas of expert judgement: the three layers of organisational knowledge, the intellectual lineage Tacit draws on, and the methodological commitments it forces.">
+<meta name="description" content="An atlas of expert judgement: the cognitive science, regulatory references and market evidence behind the Tacit thesis, with further reading.">
 <meta name="author" content="Tacit Labs">
 <meta name="theme-color" content="#a83246">
 <link rel="canonical" href="https://tacitlabs.ai/atlas.html">
@@ -13,7 +13,7 @@
 <meta property="og:type" content="article">
 <meta property="og:site_name" content="Tacit">
 <meta property="og:title" content="Atlas — Tacit">
-<meta property="og:description" content="An atlas of expert judgement: the three layers of organisational knowledge, the intellectual lineage, and the commitments it forces.">
+<meta property="og:description" content="An atlas of expert judgement: the cognitive science, regulatory references and market evidence behind the Tacit thesis.">
 <meta property="og:url" content="https://tacitlabs.ai/atlas.html">
 <meta property="og:image" content="https://tacitlabs.ai/assets/og-card.svg">
 <meta property="og:image:type" content="image/svg+xml">
@@ -22,7 +22,7 @@
 
 <meta name="twitter:card" content="summary_large_image">
 <meta name="twitter:title" content="Atlas — Tacit">
-<meta name="twitter:description" content="An atlas of expert judgement: the three layers of organisational knowledge and the intellectual lineage.">
+<meta name="twitter:description" content="An atlas of expert judgement: the cognitive science, regulatory references and market evidence behind the Tacit thesis.">
 <meta name="twitter:image" content="https://tacitlabs.ai/assets/og-card.svg">
 
 <link rel="preconnect" href="https://fonts.googleapis.com">
@@ -203,14 +203,23 @@
     vertical-align:1px;
   }
 </style>
+<script defer src="/_vercel/insights/script.js"></script>
+<link rel="stylesheet" href="nav-menu.css">
+<script defer src="nav-menu.js"></script>
 </head>
 <body class="palette-maroon">
 
   <div class="nav-wrap">
     <nav class="tacit-nav" aria-label="Primary">
-      <a href="brief.html" data-nav="brief">brief</a>
+      <div class="nav-menu" data-nav="product">
+        <button type="button" class="nav-menu-btn" aria-expanded="false" aria-controls="nav-product-menu">product<svg class="chev" viewBox="0 0 10 10" aria-hidden="true"><path d="M2 3.5l3 3 3-3" fill="none" stroke="currentColor" stroke-width="1.4" stroke-linecap="round" stroke-linejoin="round"/></svg></button>
+        <div class="nav-menu-panel" id="nav-product-menu">
+          <a class="nav-menu-item" href="insurance.html"><span class="nm-title">Underwriting</span><span class="nm-sub">For MGAs and Lloyd’s coverholders</span></a>
+          <a class="nav-menu-item" href="cybersoc.html"><span class="nm-title">CyberSOC</span><span class="nm-sub">For CISOs at regulated firms</span></a>
+        </div>
+      </div>
       <a href="thesis.html" data-nav="thesis">thesis</a>
-      <a href="insurance.html" data-nav="insurance">insurance</a>
+      <a href="brief.html" data-nav="brief">brief</a>
       <a href="index.html" class="logo-link" aria-label="Home"><span class="logo" aria-hidden="true"></span></a>
       <a href="founders.html" data-nav="founders">founders</a>
       <a href="essays.html" data-nav="essays">essays</a>
@@ -299,7 +308,7 @@
   <footer class="site-foot">
     <div>
       <div class="foot-brand" aria-label="tacitlabs"><img src="assets/tacit-wordmark.svg" alt="tacit"></div>
-      <p class="colophon">The judgment layer for AI agents in regulated industries.</p>
+      <p class="colophon">Recovering the judgement that was never written down.</p>
     </div>
     <div>
       <h4>Company</h4>
@@ -315,7 +324,8 @@
       <ul>
         <li><a href="brief.html">Brief</a></li>
         <li><a href="thesis.html">Full thesis</a></li>
-        <li><a href="insurance.html">Product</a></li>
+        <li><a href="insurance.html">Product · Underwriting</a></li>
+        <li><a href="cybersoc.html">Product · CyberSOC</a></li>
         <li><a href="atlas.html">Atlas</a></li>
       </ul>
     </div>
@@ -323,6 +333,7 @@
       <h4>Contact</h4>
       <ul>
         <li><a href="mailto:hi@tacitlabs.ai?subject=Operator">hi@tacitlabs.ai · Operator</a></li>
+        <li><a href="mailto:hi@tacitlabs.ai?subject=CyberSOC">hi@tacitlabs.ai · CyberSOC</a></li>
         <li><a href="mailto:hi@tacitlabs.ai?subject=Investor">hi@tacitlabs.ai · Investor</a></li>
         <li><a href="mailto:hi@tacitlabs.ai?subject=Team">hi@tacitlabs.ai · Team</a></li>
       </ul>

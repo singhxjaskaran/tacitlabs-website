@@ -1,0 +1,519 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>Independent Assurance for AI in Your SOC | Tacit Labs</title>
+<meta name="description" content="Is the AI in your SOC right? Tacit Labs checks its calls on your own alerts against real outcomes, and shows where the evidence lets it act alone.">
+<meta name="author" content="Tacit Labs">
+<meta name="theme-color" content="#02070A">
+<link rel="canonical" href="https://tacitlabs.ai/cybersoc">
+<link rel="icon" type="image/svg+xml" href="assets/favicon.svg">
+<link rel="apple-touch-icon" href="assets/favicon.svg">
+
+<meta property="og:type" content="website">
+<meta property="og:site_name" content="Tacit Labs">
+<meta property="og:title" content="An AI analyst joined your SOC. Nobody interviewed it.">
+<meta property="og:description" content="Independent evidence on the AI agents in your SOC. Is each one right, consistent, drifting, overruled, and ready to act alone?">
+<meta property="og:url" content="https://tacitlabs.ai/cybersoc">
+<meta property="og:image" content="https://tacitlabs.ai/assets/og-cybersoc.png">
+<meta property="og:image:type" content="image/png">
+<meta property="og:image:width" content="1200">
+<meta property="og:image:height" content="630">
+<meta property="og:image:alt" content="Example autonomy map: four alert types, each marked act alone, act and log for review, recommend, or off, with the reason. Illustrative, synthetic data.">
+
+<meta name="twitter:card" content="summary_large_image">
+<meta name="twitter:title" content="An AI analyst joined your SOC. Nobody interviewed it.">
+<meta name="twitter:description" content="Independent evidence on the AI agents in your SOC. Is each one right, consistent, drifting, overruled, and ready to act alone?">
+<meta name="twitter:image" content="https://tacitlabs.ai/assets/og-cybersoc.png">
+<meta name="twitter:image:alt" content="Example autonomy map: four alert types, each marked act alone, act and log for review, recommend, or off, with the reason. Illustrative, synthetic data.">
+
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=IBM+Plex+Mono:wght@400;500;600&family=Inter:wght@300;400;500;600;700&family=Newsreader:ital,opsz,wght@0,6..72,400;0,6..72,500;0,6..72,600;1,6..72,400;1,6..72,500&family=Open+Sans:wght@400;500;600&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="tacit-reading.css">
+<link rel="stylesheet" href="cybersoc.css">
+<link rel="stylesheet" href="cybersoc-theme.css">
+
+<script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@graph": [
+    {
+      "@type": "Organization",
+      "@id": "https://tacitlabs.ai/#org",
+      "name": "Tacit Labs",
+      "url": "https://tacitlabs.ai/",
+      "logo": "https://tacitlabs.ai/assets/favicon.svg",
+      "email": "hi@tacitlabs.ai"
+    },
+    {
+      "@type": "BreadcrumbList",
+      "itemListElement": [
+        {
+          "@type": "ListItem",
+          "position": 1,
+          "name": "Home",
+          "item": "https://tacitlabs.ai/"
+        },
+        {
+          "@type": "ListItem",
+          "position": 2,
+          "name": "CyberSOC",
+          "item": "https://tacitlabs.ai/cybersoc"
+        }
+      ]
+    }
+  ]
+}
+</script>
+<script defer src="/_vercel/insights/script.js"></script>
+<link rel="stylesheet" href="nav-menu.css">
+<script defer src="nav-menu.js"></script>
+</head>
+<body class="palette-maroon page-cybersoc">
+
+  <!--
+    Open launch decisions (copy doc §23) that touch this page:
+    - BOOKING_URL (script at the foot) is empty, so every "Book a 30-minute call" opens an email until the calendar exists.
+    - Hero secondary button and §15 sample-report button switch after the 13 Nov demo.
+    - Lines marked "pending:" in comments below still need sign-off before launch.
+  -->
+
+  <div class="nav-wrap">
+    <nav class="tacit-nav" aria-label="Primary">
+      <div class="nav-menu" data-nav="product">
+        <button type="button" class="nav-menu-btn current" aria-expanded="false" aria-controls="nav-product-menu">product<svg class="chev" viewBox="0 0 10 10" aria-hidden="true"><path d="M2 3.5l3 3 3-3" fill="none" stroke="currentColor" stroke-width="1.4" stroke-linecap="round" stroke-linejoin="round"/></svg></button>
+        <div class="nav-menu-panel" id="nav-product-menu">
+          <a class="nav-menu-item" href="insurance.html"><span class="nm-title">Underwriting</span><span class="nm-sub">For MGAs and Lloyd’s coverholders</span></a>
+          <a class="nav-menu-item" href="cybersoc.html" aria-current="page"><span class="nm-title">CyberSOC</span><span class="nm-sub">For CISOs at regulated firms</span></a>
+        </div>
+      </div>
+      <a href="thesis.html" data-nav="thesis">thesis</a>
+      <a href="brief.html" data-nav="brief">brief</a>
+      <a href="index.html" class="logo-link" aria-label="Home"><span class="logo" aria-hidden="true"></span></a>
+      <a href="founders.html" data-nav="founders">founders</a>
+      <a href="essays.html" data-nav="essays">essays</a>
+    </nav>
+  </div>
+
+  <main class="page cs" id="top">
+    <!-- ============== Tom hero (shared with the underwriting page) ============== -->
+    <section class="tom-hero" aria-label="Tom for CyberSOC">
+      <div class="hero-bg-wrap" aria-hidden="true">
+        <video class="hero-bg-video" autoplay loop muted playsinline preload="auto">
+          <source src="assets/insurance-bg.mp4" type="video/mp4">
+        </video>
+        <div class="hero-bg-tint"></div>
+      </div>
+      <div class="tom-copy">
+        <p class="tom-title">judgment as <span class="flourish">owned</span> infrastructure</p>
+        <hr class="tom-rule">
+        <div class="tom-sub">
+          <p class="tom-sub-main">Tom checks the calls the AI in your SOC has already made against what actually happened, and shows you where the evidence supports letting it act alone.</p>
+          <p class="tom-sub-accent">Beside your SOC today. Plugged into your stack tomorrow.</p>
+        </div>
+        <a class="tom-cta js-book" href="mailto:hi@tacitlabs.ai?subject=CyberSOC%20%E2%80%94%2030-minute%20call&amp;body=Our%20platform%3A%20%0D%0AOur%20provider%3A%20%0D%0AWhich%20AI%20is%20switched%20on%3A%20%0D%0ATimes%20that%20suit%20us%20(and%20our%20time%20zone)%3A%20">
+          Book a 30-minute call
+          <svg width="15" height="15" viewBox="0 0 14 14" fill="none" aria-hidden="true">
+            <path d="M2 7h10M8 3l4 4-4 4" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
+          </svg>
+        </a>
+        <button type="button" class="motion-toggle" aria-pressed="false" hidden><span class="mt-icon" aria-hidden="true"></span><span class="mt-label">pause motion</span></button>
+      </div>
+
+      <div class="tom-stack" aria-hidden="true">
+        <figure class="tom-fig">
+          <img class="ts-art" src="assets/tom-apprentice.webp" alt="" loading="lazy" style="width:60%;height:178px;object-fit:cover;object-position:center;">
+          <figcaption>&ldquo;apprenticeship&rdquo;</figcaption>
+        </figure>
+        <figure class="tom-fig">
+          <img class="ts-art" src="assets/tom-alexandria.jpg" alt="" loading="lazy" style="width:54%;height:142px;object-fit:cover;object-position:center;">
+          <figcaption>&ldquo;library of alexandria&rdquo;</figcaption>
+        </figure>
+        <figure class="tom-fig">
+          <img class="ts-art" src="assets/tom-shipwright.jpg" alt="" loading="lazy" style="width:60%;height:360px;object-fit:cover;object-position:center 20%;">
+          <figcaption>&ldquo;master shipwright at work&rdquo;</figcaption>
+        </figure>
+        <figure class="tom-fig">
+          <img class="ts-art" src="assets/tom-doctor.jpg" alt="" loading="lazy" style="width:56%;height:178px;object-fit:cover;object-position:center;">
+          <figcaption>&ldquo;the diagnostician, judgment under uncertainty&rdquo;</figcaption>
+        </figure>
+      </div>
+
+      <div class="tom-mark" aria-hidden="true">
+        <span class="tom-wordmark">t<span class="o">o</span>m</span>
+        <span class="tom-sublabel">a tacit product</span>
+      </div>
+    </section>
+
+    <!-- ============== Scrolling ticker ============== -->
+    <div class="ticker-bar" aria-hidden="true">
+      <div class="ticker-track">
+        <!-- set 1 (the six items three times, so the loop never runs short on wide screens) -->
+        <span class="ticker-item">CISOs</span><span class="ticker-sep">◆</span>
+        <span class="ticker-item">Heads of SOC</span><span class="ticker-sep">◆</span>
+        <span class="ticker-item">Model risk, compliance and audit</span><span class="ticker-sep">◆</span>
+        <span class="ticker-item">In-house SOCs</span><span class="ticker-sep">◆</span>
+        <span class="ticker-item">Co-managed SOCs</span><span class="ticker-sep">◆</span>
+        <span class="ticker-item">MDR and MSSP providers</span><span class="ticker-sep">◆</span>
+        <span class="ticker-item">CISOs</span><span class="ticker-sep">◆</span>
+        <span class="ticker-item">Heads of SOC</span><span class="ticker-sep">◆</span>
+        <span class="ticker-item">Model risk, compliance and audit</span><span class="ticker-sep">◆</span>
+        <span class="ticker-item">In-house SOCs</span><span class="ticker-sep">◆</span>
+        <span class="ticker-item">Co-managed SOCs</span><span class="ticker-sep">◆</span>
+        <span class="ticker-item">MDR and MSSP providers</span><span class="ticker-sep">◆</span>
+        <span class="ticker-item">CISOs</span><span class="ticker-sep">◆</span>
+        <span class="ticker-item">Heads of SOC</span><span class="ticker-sep">◆</span>
+        <span class="ticker-item">Model risk, compliance and audit</span><span class="ticker-sep">◆</span>
+        <span class="ticker-item">In-house SOCs</span><span class="ticker-sep">◆</span>
+        <span class="ticker-item">Co-managed SOCs</span><span class="ticker-sep">◆</span>
+        <span class="ticker-item">MDR and MSSP providers</span><span class="ticker-sep">◆</span>
+        <!-- set 2 — duplicate for seamless loop -->
+        <span class="ticker-item">CISOs</span><span class="ticker-sep">◆</span>
+        <span class="ticker-item">Heads of SOC</span><span class="ticker-sep">◆</span>
+        <span class="ticker-item">Model risk, compliance and audit</span><span class="ticker-sep">◆</span>
+        <span class="ticker-item">In-house SOCs</span><span class="ticker-sep">◆</span>
+        <span class="ticker-item">Co-managed SOCs</span><span class="ticker-sep">◆</span>
+        <span class="ticker-item">MDR and MSSP providers</span><span class="ticker-sep">◆</span>
+        <span class="ticker-item">CISOs</span><span class="ticker-sep">◆</span>
+        <span class="ticker-item">Heads of SOC</span><span class="ticker-sep">◆</span>
+        <span class="ticker-item">Model risk, compliance and audit</span><span class="ticker-sep">◆</span>
+        <span class="ticker-item">In-house SOCs</span><span class="ticker-sep">◆</span>
+        <span class="ticker-item">Co-managed SOCs</span><span class="ticker-sep">◆</span>
+        <span class="ticker-item">MDR and MSSP providers</span><span class="ticker-sep">◆</span>
+        <span class="ticker-item">CISOs</span><span class="ticker-sep">◆</span>
+        <span class="ticker-item">Heads of SOC</span><span class="ticker-sep">◆</span>
+        <span class="ticker-item">Model risk, compliance and audit</span><span class="ticker-sep">◆</span>
+        <span class="ticker-item">In-house SOCs</span><span class="ticker-sep">◆</span>
+        <span class="ticker-item">Co-managed SOCs</span><span class="ticker-sep">◆</span>
+        <span class="ticker-item">MDR and MSSP providers</span><span class="ticker-sep">◆</span>
+      </div>
+    </div>
+
+    <!-- ============== 1 · Hero ============== -->
+    <header class="cs-hero">
+      <div>
+        <p class="cs-eyebrow">CyberSOC · for CISOs at regulated firms</p>
+        <h1 class="cs-h1">An AI analyst joined your SOC. Nobody interviewed it.</h1>
+        <p class="cs-deck">Tacit Labs is the independent judge for the AI in your security operations centre. We check its calls on your own alerts against what actually happened, and show you where the evidence supports letting it act alone.</p>
+        <div class="cs-ctas">
+          <a class="cs-btn js-book" href="mailto:hi@tacitlabs.ai?subject=CyberSOC%20%E2%80%94%2030-minute%20call&amp;body=Our%20platform%3A%20%0D%0AOur%20provider%3A%20%0D%0AWhich%20AI%20is%20switched%20on%3A%20%0D%0ATimes%20that%20suit%20us%20(and%20our%20time%20zone)%3A%20">Book a 30-minute call
+            <svg width="14" height="14" viewBox="0 0 14 14" fill="none" aria-hidden="true"><path d="M2 7h10M8 3l4 4-4 4" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg>
+          </a>
+          <!-- After the 13 Nov demo: change to "Get the sample report" -->
+          <a class="cs-btn-ghost" href="#how">See how it works</a>
+        </div>
+        <ul class="cs-trust" aria-label="How we work">
+          <li>Read-only</li>
+          <li>Runs in your cloud, in your region</li>
+          <li>No email bodies, files or payloads</li>
+          <li>We judge agents, not analysts</li>
+        </ul>
+      </div>
+
+      <figure class="cs-map" aria-labelledby="map-title">
+        <span class="tk-shimmer-line" aria-hidden="true"></span>
+        <div class="cs-map-head">
+          <span class="cs-map-title" id="map-title"><span class="tk-dot" aria-hidden="true"></span>Autonomy map</span>
+          <span class="cs-synth">Illustrative · synthetic data</span>
+        </div>
+        <table class="cs-map-table" role="table">
+          <caption class="sr-only">Example autonomy map: four alert types, each marked act alone, act and log for review, recommend, or off, with the reason. Illustrative, synthetic data.</caption>
+          <thead role="rowgroup">
+            <tr role="row"><th role="columnheader" scope="col">Alert type</th><th role="columnheader" scope="col">Call</th><th role="columnheader" scope="col" class="sr-only">Why</th></tr>
+          </thead>
+          <tbody role="rowgroup">
+            <tr role="row">
+              <th role="rowheader" scope="row">User-reported phishing</th>
+              <td role="cell" class="call-cell"><span class="call call--3"><span class="lvl" aria-hidden="true"><i></i><i></i><i></i></span>Act alone</span></td>
+              <td role="cell" class="why">Right on outcomes. Decides like your team.</td>
+            </tr>
+            <tr role="row">
+              <th role="rowheader" scope="row">Unfamiliar sign-in</th>
+              <td role="cell" class="call-cell"><span class="call call--2"><span class="lvl" aria-hidden="true"><i></i><i></i><i></i></span>Act, and log for review</span></td>
+              <td role="cell" class="why">Mostly right. Some calls need a later look.</td>
+            </tr>
+            <tr role="row">
+              <th role="rowheader" scope="row">Impossible travel</th>
+              <td role="cell" class="call-cell"><span class="call call--1"><span class="lvl" aria-hidden="true"><i></i><i></i><i></i></span>Recommend; a person decides</span></td>
+              <td role="cell" class="why">Misses context your team uses.</td>
+            </tr>
+            <tr role="row">
+              <th role="rowheader" scope="row">Privileged role change</th>
+              <td role="cell" class="call-cell"><span class="call call--0"><span class="lvl" aria-hidden="true"><i></i><i></i><i></i></span>Off</span></td>
+              <td role="cell" class="why">Breaks a rule your team always follows.</td>
+            </tr>
+          </tbody>
+        </table>
+      </figure>
+    </header>
+
+    <!-- ============== 2 · The problem ============== -->
+    <section class="section sec-dark" id="problem" aria-labelledby="problem-h">
+      <span class="section-num">the problem</span>
+      <h2 class="section-title" id="problem-h">The AI came with the licence. The accountability stayed with you.</h2>
+      <div class="cs-prose">
+        <p class="t12">AI triage now comes inside tools and services you already pay for. Since November 2025, Microsoft has been adding Security Copilot to Microsoft 365 E5 licences.<sup class="fn"><a href="cybersoc-know-more.html#src-1" aria-label="Source 1">1</a></sup> Managed detection and response (MDR) providers have built AI into their services.</p>
+        <p class="t12 cs-turn">It doesn’t arrive tested on your alerts. And if it’s wrong, the regulator’s questions come to you.</p>
+      </div>
+
+      <div class="cs-stats">
+        <p class="cs-stats-cap">From a 2026 survey of security leaders.<sup class="fn"><a href="cybersoc-know-more.html#src-3" aria-label="Source 3">3</a></sup></p>
+        <div class="cs-stat">
+          <p class="n">19%</p>
+          <p class="l">rely on the vendor’s own accuracy figures to check AI verdicts.<sup class="fn"><a href="cybersoc-know-more.html#src-3" aria-label="Source 3">3</a></sup></p>
+        </div>
+        <div class="cs-stat">
+          <p class="n">57%</p>
+          <p class="l">still require a person to review every AI verdict before an alert is closed.<sup class="fn"><a href="cybersoc-know-more.html#src-3" aria-label="Source 3">3</a></sup></p>
+        </div>
+        <div class="cs-stat">
+          <p class="n">46% <span class="vs">vs</span> <span class="second">17%</span></p>
+          <p class="l">In a Microsoft trial with planted errors, analysts who saw the AI wrongly clear a malicious email missed it 46% of the time. Without the AI, they missed 17%.<sup class="fn"><a href="cybersoc-know-more.html#src-2" aria-label="Source 2">2</a></sup></p>
+        </div>
+      </div>
+
+      <p class="t10 cs-fair">To be fair to the AI: the same Microsoft trial found it made analysts far more accurate when it was right.<sup class="fn"><a href="cybersoc-know-more.html#src-2" aria-label="Source 2">2</a></sup> The problem isn’t the AI. It’s not knowing when it’s wrong.</p>
+    </section>
+
+    <!-- ============== 3 · First principles ============== -->
+    <section class="section" id="principles" aria-labelledby="principles-h">
+      <span class="section-num">first principles</span>
+      <h2 class="section-title" id="principles-h">An independent house judge for the AI in your SOC</h2>
+      <ol class="cs-chain">
+        <li>Every analyst makes mistakes. So does every AI.</li>
+        <li>What matters is which mistakes, how often, and whether you’d know.</li>
+        <li>You can only know by checking its calls against what actually happened.</li>
+        <li>The vendor can’t do that independently. Your analysts can’t do it by looking over its shoulder.</li>
+        <li>So someone independent has to.</li>
+      </ol>
+      <div class="cs-prose">
+        <p class="t12"><strong>That’s Tacit Labs.</strong> A house judge works for you. It doesn’t build the AI, sell it or run it.</p>
+      </div>
+    </section>
+
+    <!-- ============== 5 · Six questions ============== -->
+    <section class="section sec-dark" id="questions" aria-labelledby="questions-h">
+      <span class="section-num">six questions</span>
+      <h2 class="section-title" id="questions-h">Six questions, answered on your own alerts</h2>
+      <p class="t12 cs-prose">For each alert type, your report answers six questions. Every answer says what it rests on: confirmed outcomes, a blind second look, or your team’s judgment.</p>
+
+      <div class="cs-qgrid">
+        <article class="cs-q">
+          <h3 class="cs-q-h">Is it right?</h3>
+          <button class="cs-more" type="button" aria-expanded="true" aria-controls="q1" data-disclosure><span class="when-closed">More</span><span class="when-open">Less</span><span class="sr-only"> on: Is it right?</span><svg width="10" height="10" viewBox="0 0 10 10" aria-hidden="true"><path d="M2 3.5l3 3 3-3" fill="none" stroke="currentColor" stroke-width="1.4" stroke-linecap="round" stroke-linejoin="round"/></svg></button>
+          <div class="cs-q-body" id="q1">
+            <p>We check the AI’s calls against what actually happened: confirmed incidents, re-opened alerts, red-team and attack-simulation results.</p>
+            <p>The alerts it closes alone get a blind second look. Each week your analysts re-check a small random sample in a view that hides the AI’s verdict. Seeing the verdict changes what people see.</p>
+          </div>
+          <p class="cs-get"><strong>You get:</strong> accuracy and missed-threat rate per alert type, each with a range that shows how sure we are.</p>
+        </article>
+
+        <article class="cs-q">
+          <h3 class="cs-q-h">Is it consistent?</h3>
+          <button class="cs-more" type="button" aria-expanded="true" aria-controls="q2" data-disclosure><span class="when-closed">More</span><span class="when-open">Less</span><span class="sr-only"> on: Is it consistent?</span><svg width="10" height="10" viewBox="0 0 10 10" aria-hidden="true"><path d="M2 3.5l3 3 3-3" fill="none" stroke="currentColor" stroke-width="1.4" stroke-linecap="round" stroke-linejoin="round"/></svg></button>
+          <div class="cs-q-body" id="q2">
+            <p>Same alert, same facts, same answer? We check whether the AI decides the same way when the same situation comes back, across days and model updates.</p>
+          </div>
+          <p class="cs-get"><strong>You get:</strong> a consistency rate per alert type, and the cases where it flipped.</p>
+        </article>
+
+        <article class="cs-q">
+          <h3 class="cs-q-h">Is it drifting?</h3>
+          <button class="cs-more" type="button" aria-expanded="true" aria-controls="q3" data-disclosure><span class="when-closed">More</span><span class="when-open">Less</span><span class="sr-only"> on: Is it drifting?</span><svg width="10" height="10" viewBox="0 0 10 10" aria-hidden="true"><path d="M2 3.5l3 3 3-3" fill="none" stroke="currentColor" stroke-width="1.4" stroke-linecap="round" stroke-linejoin="round"/></svg></button>
+          <div class="cs-q-body" id="q3">
+            <p>Vendors update models. Attackers change tactics. Your alert mix shifts.</p>
+            <p>We keep a frozen baseline. When something moves, we tell you what moved: the AI, your team or the alerts.</p>
+          </div>
+          <p class="cs-get"><strong>You get:</strong> drift alarms that name the cause. An alarm calls a person to look. It never changes anything on its own.</p>
+        </article>
+
+        <article class="cs-q cs-q--edge">
+          <h3 class="cs-q-h">Why do your people overrule it?</h3>
+          <button class="cs-more" type="button" aria-expanded="true" aria-controls="q4" data-disclosure><span class="when-closed">More</span><span class="when-open">Less</span><span class="sr-only"> on: Why do your people overrule it?</span><svg width="10" height="10" viewBox="0 0 10 10" aria-hidden="true"><path d="M2 3.5l3 3 3-3" fill="none" stroke="currentColor" stroke-width="1.4" stroke-linecap="round" stroke-linejoin="round"/></svg></button>
+          <div class="cs-q-body" id="q4">
+            <p>Every override has a reason. We sort each one into one of six causes:</p>
+            <ul>
+              <li>The AI was wrong.</li>
+              <li>It lacked context your team had.</li>
+              <li>The override went against how your team usually decides.</li>
+              <li>Your team changed its approach.</li>
+              <li>The AI was right after all.</li>
+              <li>It was a fair judgment call.</li>
+            </ul>
+          </div>
+          <p class="cs-get"><strong>You get:</strong> a teach list. It shows which overrides the AI should learn from, which it shouldn’t, and what context to connect.</p>
+        </article>
+
+        <!-- pending: patent check on this card's description (§23) -->
+        <article class="cs-q cs-q--edge">
+          <h3 class="cs-q-h">How does it differ from your people?</h3>
+          <button class="cs-more" type="button" aria-expanded="true" aria-controls="q5" data-disclosure><span class="when-closed">More</span><span class="when-open">Less</span><span class="sr-only"> on: How does it differ from your people?</span><svg width="10" height="10" viewBox="0 0 10 10" aria-hidden="true"><path d="M2 3.5l3 3 3-3" fill="none" stroke="currentColor" stroke-width="1.4" stroke-linecap="round" stroke-linejoin="round"/></svg></button>
+          <div class="cs-q-body" id="q5">
+            <p>We describe the AI the way you’d describe a new analyst. Where it’s stricter or softer than your team. Which signals it weighs differently. Which shortcuts it takes that your team never would.</p>
+          </div>
+          <p class="cs-get"><strong>You get:</strong> plain-language differences, each with an example and a line on what it doesn’t mean. Different isn’t wrong until outcomes say so.</p>
+        </article>
+
+        <article class="cs-q cs-q--edge">
+          <h3 class="cs-q-h">Where can it act alone?</h3>
+          <button class="cs-more" type="button" aria-expanded="true" aria-controls="q6" data-disclosure><span class="when-closed">More</span><span class="when-open">Less</span><span class="sr-only"> on: Where can it act alone?</span><svg width="10" height="10" viewBox="0 0 10 10" aria-hidden="true"><path d="M2 3.5l3 3 3-3" fill="none" stroke="currentColor" stroke-width="1.4" stroke-linecap="round" stroke-linejoin="round"/></svg></button>
+          <div class="cs-q-body" id="q6">
+            <p>For each alert type, one of four calls:</p>
+            <ul>
+              <li>Act alone.</li>
+              <li>Act, and log for review.</li>
+              <li>Recommend; a person decides.</li>
+              <li>Off.</li>
+            </ul>
+            <p>Each call shows the evidence behind it, and what would change it.</p>
+          </div>
+          <p class="cs-get"><strong>You get:</strong> an autonomy map you sign off, reviewed monthly. The four calls follow the four outcomes in MAS’s SAFR paper: Auto-Execute, Observe, Escalate and Deny.<sup class="fn"><a href="cybersoc-know-more.html#src-6" aria-label="Source 6">6</a></sup></p>
+        </article>
+      </div>
+
+      <p class="t12 cs-after">You apply the map in your platform’s own settings. Where a platform can’t hold its AI to “recommend”, the call becomes “off” for that alert type.</p>
+    </section>
+
+    <!-- ============== 7 · How it works ============== -->
+    <section class="section" id="how" aria-labelledby="how-h">
+      <span class="section-num">process</span>
+      <h2 class="section-title" id="how-h">How it works</h2>
+      <p class="cs-sub">First answers in six weeks when there’s enough history.</p>
+      <ol class="cs-steps">
+        <li>
+          <h3>Connect, read-only.</h3>
+          <p>We connect to where decisions are recorded: your XDR, your SIEM and your ticketing. Never to the AI itself. We can’t change an alert, a rule or a setting.</p>
+        </li>
+        <li>
+          <h3>Read the history.</h3>
+          <p>We read up to 90 days of decision records, matched by alert ID: the alert, the AI’s verdict, your team’s decision, the action and the outcome. Not enough history yet? We record forward for six weeks instead.</p>
+        </li>
+        <li>
+          <h3>Add a blind second look.</h3>
+          <!-- pending: confirm the separate Tacit view (§23) -->
+          <p>Each week your analysts re-check a small random sample of the alerts the AI closed, in a separate Tacit view that hides the AI’s verdict. Nothing is written to your systems.</p>
+        </li>
+        <li>
+          <h3>Get your answers. Keep watching.</h3>
+          <p>In six weeks: the six answers for each alert type, your autonomy map, and an evidence pack for risk and audit. After that, Shadow Judge can keep watching every week.</p>
+        </li>
+      </ol>
+      <div class="cs-weeks cs-tl" aria-hidden="true">
+        <div class="cs-tl-phases">
+          <span class="ph ph-a" style="--from:0;--to:1">Connect and read</span>
+          <span class="ph ph-b" style="--from:1;--to:6">Blind second look, every week</span>
+        </div>
+        <div class="cs-tl-track"><i class="fill"></i><span class="node" style="--i:0"><b>Week 0</b></span><span class="node" style="--i:1"><b><em>Week </em>1</b></span><span class="node" style="--i:2"><b><em>Week </em>2</b></span><span class="node" style="--i:3"><b><em>Week </em>3</b></span><span class="node" style="--i:4"><b><em>Week </em>4</b></span><span class="node" style="--i:5"><b><em>Week </em>5</b></span><span class="node end" style="--i:6"><b>Week 6 · answers</b></span></div>
+      </div>
+    </section>
+
+    <!-- ============== 16 · Engagements ============== -->
+    <section class="section sec-dark" id="engagements" aria-labelledby="engagements-h">
+      <span class="section-num">engagements</span>
+      <h2 class="section-title" id="engagements-h">Ways to work with us</h2>
+      <p class="t12 cs-prose">We’re starting with a small group of design partners from December 2026, on Microsoft Defender and Sentinel.</p>
+      <div class="cs-offers">
+        <article class="cs-offer cs-offer--first">
+          <span class="cs-offer-tag">Start here</span>
+          <h3>Agent Decision Audit</h3>
+          <p>Six weeks, fixed fee, three to five alert types. A look back at up to 90 days, plus a blind second look. You get the six answers, your autonomy map and an evidence pack.</p>
+        </article>
+        <article class="cs-offer">
+          <h3>Shadow Judge</h3>
+          <p>Live and read-only: every AI verdict is scored. A weekly drift and override watch. A monthly autonomy review.</p>
+        </article>
+        <article class="cs-offer">
+          <span class="cs-offer-tag cs-offer-tag--soon">Coming 2027</span>
+          <h3>Gate</h3>
+          <p>An optional mode, off unless you switch it on: the AI checks with the judge before it acts, and every call is logged. Everything else on this page stays read-only.</p>
+        </article>
+        <article class="cs-offer" id="provider-licence">
+          <h3>Provider licence</h3>
+          <p>For MDR and MSSP providers. An independent report for each client, delivered unedited.</p>
+        </article>
+      </div>
+      <div class="cs-ctas">
+        <a class="cs-btn js-book" href="mailto:hi@tacitlabs.ai?subject=CyberSOC%20%E2%80%94%2030-minute%20call&amp;body=Our%20platform%3A%20%0D%0AOur%20provider%3A%20%0D%0AWhich%20AI%20is%20switched%20on%3A%20%0D%0ATimes%20that%20suit%20us%20(and%20our%20time%20zone)%3A%20">Book a 30-minute call
+          <svg width="14" height="14" viewBox="0 0 14 14" fill="none" aria-hidden="true"><path d="M2 7h10M8 3l4 4-4 4" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg>
+        </a>
+      </div>
+    </section>
+
+    <!-- ============== Know more (the detail lives on its own page) ============== -->
+    <section class="section" id="know-more" aria-labelledby="know-more-h">
+      <span class="section-num">know more</span>
+      <h2 class="section-title" id="know-more-h">Want the detail?</h2>
+      <p class="t12 cs-prose">The research behind the numbers, how we handle your data, what regulators are asking, and answers to common questions.</p>
+      <ul class="km-chips" aria-label="Topics on the detail page">
+        <li><a href="cybersoc-know-more.html#moments">Use cases</a></li>
+        <li><a href="cybersoc-know-more.html#data">Data handling</a></li>
+        <li><a href="cybersoc-know-more.html#regulation">Regulation</a></li>
+        <li><a href="cybersoc-know-more.html#proof">Proof</a></li>
+        <li><a href="cybersoc-know-more.html#faq">Common questions</a></li>
+        <li><a href="cybersoc-know-more.html#sources">Sources</a></li>
+      </ul>
+      <div class="cs-ctas">
+        <a class="cs-btn-ghost" href="cybersoc-know-more.html">Know more <svg width="14" height="14" viewBox="0 0 14 14" fill="none" aria-hidden="true"><path d="M2 7h10M8 3l4 4-4 4" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg></a>
+      </div>
+    </section>
+
+    <!-- ============== 18 · Final call to action ============== -->
+    <section class="cs-final" id="book" aria-labelledby="book-h">
+      <video class="final-bg-video" autoplay loop muted playsinline preload="metadata" aria-hidden="true">
+        <source src="assets/insurance-bg.mp4" type="video/mp4">
+      </video>
+      <div class="final-bg-tint" aria-hidden="true"></div>
+      <h2 id="book-h">Give your AI analyst the interview it never had.</h2>
+      <p class="body">Book 30 minutes. Tell us your platform, your provider and which AI is switched on. On the call, we’ll tell you whether we can connect, what we’d measure first and what you’d get.</p>
+      <div class="cs-ctas">
+        <a class="cs-btn js-book" href="mailto:hi@tacitlabs.ai?subject=CyberSOC%20%E2%80%94%2030-minute%20call&amp;body=Our%20platform%3A%20%0D%0AOur%20provider%3A%20%0D%0AWhich%20AI%20is%20switched%20on%3A%20%0D%0ATimes%20that%20suit%20us%20(and%20our%20time%20zone)%3A%20">Book a 30-minute call
+          <svg width="14" height="14" viewBox="0 0 14 14" fill="none" aria-hidden="true"><path d="M2 7h10M8 3l4 4-4 4" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg>
+        </a>
+      </div>
+      <p class="small">Prefer to write? Email <a class="inline" href="mailto:hi@tacitlabs.ai?subject=CyberSOC">hi@tacitlabs.ai</a>.</p>
+    </section>
+
+  </main>
+
+  <footer class="site-foot">
+    <div>
+      <div class="foot-brand"><img src="assets/tacit-wordmark.svg" alt="Tacit Labs"></div>
+      <p class="colophon">Recovering the judgement that was never written down.</p>
+    </div>
+    <div>
+      <h2 class="foot-h">Company</h2>
+      <ul>
+        <li><a href="index.html">Home</a></li>
+        <li><a href="founders.html">Founders</a></li>
+        <li><a href="essays.html">Writing</a></li>
+        <li><a href="mailto:hi@tacitlabs.ai">Contact</a></li>
+      </ul>
+    </div>
+    <div>
+      <h2 class="foot-h">Read deeper</h2>
+      <ul>
+        <li><a href="brief.html">Brief</a></li>
+        <li><a href="thesis.html">Full thesis</a></li>
+        <li><a href="insurance.html">Product · Underwriting</a></li>
+        <li><a href="cybersoc.html">Product · CyberSOC</a></li>
+        <li><a href="atlas.html">Atlas</a></li>
+      </ul>
+    </div>
+    <div>
+      <h2 class="foot-h">Contact</h2>
+      <ul>
+        <li><a href="mailto:hi@tacitlabs.ai?subject=CyberSOC">hi@tacitlabs.ai · CyberSOC</a></li>
+        <li><a href="mailto:hi@tacitlabs.ai?subject=Team">hi@tacitlabs.ai · Team</a></li>
+      </ul>
+    </div>
+    <div class="signoff">
+      <span>© 2026 Tacit Labs, Inc.</span>
+      <span><a href="index.html">back to home →</a></span>
+    </div>
+  </footer>
+
+  <script src="cybersoc.js"></script>
+</body>
+</html>

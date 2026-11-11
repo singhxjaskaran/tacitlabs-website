@@ -1,0 +1,767 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>CyberSOC, in detail | Tacit Labs</title>
+<meta name="description" content="The research, regulation, data handling and common questions behind Tacit Labs’ independent assurance for the AI in your SOC.">
+<meta name="author" content="Tacit Labs">
+<meta name="theme-color" content="#02070A">
+<link rel="canonical" href="https://tacitlabs.ai/cybersoc-know-more">
+<link rel="icon" type="image/svg+xml" href="assets/favicon.svg">
+<link rel="apple-touch-icon" href="assets/favicon.svg">
+
+<meta property="og:type" content="website">
+<meta property="og:site_name" content="Tacit Labs">
+<meta property="og:title" content="CyberSOC, in detail">
+<meta property="og:description" content="The research, regulation, data handling and common questions behind Tacit Labs’ independent assurance for the AI in your SOC.">
+<meta property="og:url" content="https://tacitlabs.ai/cybersoc-know-more">
+<meta property="og:image" content="https://tacitlabs.ai/assets/og-cybersoc.png">
+<meta property="og:image:type" content="image/png">
+<meta property="og:image:width" content="1200">
+<meta property="og:image:height" content="630">
+<meta property="og:image:alt" content="Example autonomy map: four alert types, each marked act alone, act and log for review, recommend, or off, with the reason. Illustrative, synthetic data.">
+
+<meta name="twitter:card" content="summary_large_image">
+<meta name="twitter:title" content="CyberSOC, in detail">
+<meta name="twitter:description" content="The research, regulation, data handling and common questions behind Tacit Labs’ independent assurance for the AI in your SOC.">
+<meta name="twitter:image" content="https://tacitlabs.ai/assets/og-cybersoc.png">
+<meta name="twitter:image:alt" content="Example autonomy map: four alert types, each marked act alone, act and log for review, recommend, or off, with the reason. Illustrative, synthetic data.">
+
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=IBM+Plex+Mono:wght@400;500;600&family=Inter:wght@300;400;500;600;700&family=Newsreader:ital,opsz,wght@0,6..72,400;0,6..72,500;0,6..72,600;1,6..72,400;1,6..72,500&family=Open+Sans:wght@400;500;600&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="tacit-reading.css">
+<link rel="stylesheet" href="cybersoc.css">
+<link rel="stylesheet" href="cybersoc-theme.css">
+
+<script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@graph": [
+    {
+      "@type": "BreadcrumbList",
+      "itemListElement": [
+        {
+          "@type": "ListItem",
+          "position": 1,
+          "name": "Home",
+          "item": "https://tacitlabs.ai/"
+        },
+        {
+          "@type": "ListItem",
+          "position": 2,
+          "name": "CyberSOC",
+          "item": "https://tacitlabs.ai/cybersoc"
+        },
+        {
+          "@type": "ListItem",
+          "position": 3,
+          "name": "Know more",
+          "item": "https://tacitlabs.ai/cybersoc-know-more"
+        }
+      ]
+    },
+    {
+      "@type": "FAQPage",
+      "@id": "https://tacitlabs.ai/cybersoc-know-more#faq",
+      "mainEntity": [
+        {
+          "@type": "Question",
+          "name": "Do you replace our AI agent or our SOC tools?",
+          "acceptedAnswer": {
+            "@type": "Answer",
+            "text": "No. Tacit sits beside them and reads where decisions are recorded. It never sits between your analysts and their tools."
+          }
+        },
+        {
+          "@type": "Question",
+          "name": "Do you score our analysts?",
+          "acceptedAnswer": {
+            "@type": "Answer",
+            "text": "No. We judge agents, not analysts. Analyst IDs are scrambled with a key only you hold, and every result about people is reported at team level."
+          }
+        },
+        {
+          "@type": "Question",
+          "name": "Where does our AI have to run for you to connect?",
+          "acceptedAnswer": {
+            "@type": "Answer",
+            "text": "To judge the AI, we need its decision records. Who holds them depends on your set-up: In-house SOC on Microsoft Defender and Sentinel, or Google Security Operations. You hold the records, in your own tenant. You grant read-only access. No other vendor needs to say yes. Our Google connector arrives in early 2027. A provider co-manages your SOC inside your tenant. You hold the records, so it works the same as in-house. An MDR provider works in your CrowdStrike console. Usually you hold the records, so we connect directly once our CrowdStrike connector is ready in 2027. We confirm what's recorded in one short call. An MDR provider runs its AI on its own platform. Your provider holds the records, so we connect through them. Ask for a per-alert decision export (we'll give you the clause), or ask them to commission a Tacit report. Either way, the report comes to you unedited. Not sure which one you are? That's the first thing we work out on the call."
+          }
+        },
+        {
+          "@type": "Question",
+          "name": "Does it work with the tools we already run?",
+          "acceptedAnswer": {
+            "@type": "Answer",
+            "text": "Tacit is built to read from the systems where decisions land, and to judge any AI agent whose verdicts are recorded: a platform's agent, your provider's AI, a tool you bought, or one you built. Microsoft Defender XDR and Microsoft Sentinel: alerts, incidents, the AI's classifications and audit history. First, with design partners from December 2026. Google Security Operations: investigations, and the AI's verdict and confidence. Next, in early 2027. CrowdStrike Falcon: alerts and decisions. Planned for 2027. Splunk Enterprise Security: notable events and how they were closed. Planned. ServiceNow and Jira: outcomes and case history. First. Your provider's export (CSV or API): per-alert decision records. With the first design partners. Running something else? Tell us what you use."
+          }
+        },
+        {
+          "@type": "Question",
+          "name": "Our provider runs the AI on its own platform. Can you still help?",
+          "acceptedAnswer": {
+            "@type": "Answer",
+            "text": "Yes, through the provider. You have two options, and either way you get the report unedited: Ask for a per-alert export of the AI's decisions. We'll give you the clause for your renewal. Ask your provider to commission a Tacit report."
+          }
+        },
+        {
+          "@type": "Question",
+          "name": "What data do you read, and where does it go?",
+          "acceptedAnswer": {
+            "@type": "Answer",
+            "text": "We read decision records, and only the fields you approve. We list them before we connect: the alert's type, timing and approved fields; the AI's verdict; your team's decision, the action and the outcome. User names, email addresses and IP addresses are hashed with your key. We don't read email bodies, attachments, files or packet captures. Nothing leaves your cloud except the reports you choose to share."
+          }
+        },
+        {
+          "@type": "Question",
+          "name": "How much history do you need?",
+          "acceptedAnswer": {
+            "@type": "Answer",
+            "text": "Up to 90 days. For a firm answer on an alert type, we need a few hundred AI decisions on it. If you have fewer, we record forward for six weeks."
+          }
+        },
+        {
+          "@type": "Question",
+          "name": "Where should we start?",
+          "acceptedAnswer": {
+            "@type": "Answer",
+            "text": "We suggest starting with user-reported phishing. It's high-volume, and outcomes come back fast. Identity alerts come next."
+          }
+        },
+        {
+          "@type": "Question",
+          "name": "Most of our alerts never get a confirmed outcome. Does this still work?",
+          "acceptedAnswer": {
+            "@type": "Answer",
+            "text": "It's designed for exactly that, because it's normal in a SOC. We use the outcomes that do exist, the blind second look and your team's steady judgment. Each finding says which it rests on, and thin evidence is labelled as thin."
+          }
+        },
+        {
+          "@type": "Question",
+          "name": "How is this different from the vendor's dashboard?",
+          "acceptedAnswer": {
+            "@type": "Answer",
+            "text": "A vendor's dashboard reports on its own AI, by its own measure. Tacit measures it independently, on your alerts, against what actually happened. It also shows why your people overrule it and where it can act alone."
+          }
+        },
+        {
+          "@type": "Question",
+          "name": "How is this different from breach-and-attack simulation or red-teaming?",
+          "acceptedAnswer": {
+            "@type": "Answer",
+            "text": "Those test whether planted attacks get caught. They're useful, and we use their results as outcomes. But they can't tell you why your people overrule the AI, whether it's drifting on real traffic, or where the evidence supports letting it act alone."
+          }
+        },
+        {
+          "@type": "Question",
+          "name": "Is this an \"LLM-as-judge\" tool?",
+          "acceptedAnswer": {
+            "@type": "Answer",
+            "text": "No. Those tools use another AI to grade an AI. Tacit checks your AI's calls against what actually happened on your alerts, and against how your own team decides."
+          }
+        },
+        {
+          "@type": "Question",
+          "name": "Does this make us compliant?",
+          "acceptedAnswer": {
+            "@type": "Answer",
+            "text": "No tool can. Tacit gives you evidence your frameworks ask for: independent testing, monitoring, and records of human oversight. Your compliance team decides how to use it."
+          }
+        },
+        {
+          "@type": "Question",
+          "name": "Your judge is a model too. Can our model-risk team validate it?",
+          "acceptedAnswer": {
+            "@type": "Answer",
+            "text": "Yes. Under NDA, we share our method documentation, test results and the evidence behind every finding. Your validators can review it like any other third-party model."
+          }
+        },
+        {
+          "@type": "Question",
+          "name": "Will you pass our third-party risk review?",
+          "acceptedAnswer": {
+            "@type": "Answer",
+            "text": "We'll complete your security questionnaire and share a data-flow diagram before we connect."
+          }
+        },
+        {
+          "@type": "Question",
+          "name": "What does it cost?",
+          "acceptedAnswer": {
+            "@type": "Answer",
+            "text": "The Audit is a fixed fee. Shadow Judge is a subscription priced per agent. Provider licences are priced per client. Talk to us for a quote."
+          }
+        }
+      ]
+    }
+  ]
+}
+</script>
+<script defer src="/_vercel/insights/script.js"></script>
+<link rel="stylesheet" href="nav-menu.css">
+<script defer src="nav-menu.js"></script>
+</head>
+<body class="palette-maroon page-cybersoc page-km">
+
+  <!-- Detail page for CyberSOC. Lines marked "pending:" in comments still need sign-off before launch. -->
+
+  <div class="nav-wrap">
+    <nav class="tacit-nav" aria-label="Primary">
+      <div class="nav-menu" data-nav="product">
+        <button type="button" class="nav-menu-btn current" aria-expanded="false" aria-controls="nav-product-menu">product<svg class="chev" viewBox="0 0 10 10" aria-hidden="true"><path d="M2 3.5l3 3 3-3" fill="none" stroke="currentColor" stroke-width="1.4" stroke-linecap="round" stroke-linejoin="round"/></svg></button>
+        <div class="nav-menu-panel" id="nav-product-menu">
+          <a class="nav-menu-item" href="insurance.html"><span class="nm-title">Underwriting</span><span class="nm-sub">For MGAs and Lloyd’s coverholders</span></a>
+          <a class="nav-menu-item" href="cybersoc.html" aria-current="true"><span class="nm-title">CyberSOC</span><span class="nm-sub">For CISOs at regulated firms</span></a>
+        </div>
+      </div>
+      <a href="thesis.html" data-nav="thesis">thesis</a>
+      <a href="brief.html" data-nav="brief">brief</a>
+      <a href="index.html" class="logo-link" aria-label="Home"><span class="logo" aria-hidden="true"></span></a>
+      <a href="founders.html" data-nav="founders">founders</a>
+      <a href="essays.html" data-nav="essays">essays</a>
+    </nav>
+  </div>
+
+  <main class="page cs" id="top">
+    <!-- ============== Know more: header ============== -->
+    <header class="km-hero sec-dark">
+      <a class="km-back" href="cybersoc.html"><span aria-hidden="true">←</span> Back to the CyberSOC brief</a>
+      <p class="cs-eyebrow">CyberSOC · know more</p>
+      <h1 class="cs-h1">The detail behind the brief.</h1>
+      <p class="cs-deck">The research behind the numbers, how we handle your data, what regulators are asking, and answers to common questions.</p>
+      <ul class="km-chips" aria-label="On this page">
+        <li><a href="#numbers">Behind the numbers</a></li>
+        <li><a href="#agreement">Agreement</a></li>
+        <li><a href="#clock">Reporting clocks</a></li>
+        <li><a href="#moments">Use cases</a></li>
+        <li><a href="#roles">Roles</a></li>
+        <li><a href="#data">Data handling</a></li>
+        <li><a href="#independence">Independence</a></li>
+        <li><a href="#regulation">Regulation</a></li>
+        <li><a href="#proof">Proof</a></li>
+        <li><a href="#faq">Common questions</a></li>
+        <li><a href="#sources">Sources</a></li>
+      </ul>
+    </header>
+
+    <!-- ============== Behind the numbers (moved from the brief's problem section) ============== -->
+    <section class="section" id="numbers" aria-labelledby="numbers-h">
+      <span class="section-num">the problem</span>
+      <h2 class="section-title" id="numbers-h">Behind the numbers</h2>
+      <div class="cs-prose">
+        <p class="t12">Once it’s set up, an AI triage agent can close the alerts it judges harmless. Microsoft’s phishing triage agent, for example, resolves the emails it judges non-malicious, so analysts don’t spend time reviewing them.<sup class="fn"><a href="#src-2" aria-label="Source 2">2</a></sup></p>
+        <p class="t12">Only one in five security leaders leans on the vendor’s number.<sup class="fn"><a href="#src-3" aria-label="Source 3">3</a></sup> Re-checking everything is prudent, but it eats the time the AI was meant to save. And re-checking with the AI’s verdict on screen catches far fewer of its misses.</p>
+      </div>
+    </section>
+
+    <!-- ============== 4 · Why agreement isn't enough ============== -->
+    <section class="section sec-dark" id="agreement" aria-labelledby="agreement-h">
+      <span class="section-num">agreement</span>
+      <h2 class="section-title" id="agreement-h">Why “it agrees with our analysts” isn’t enough</h2>
+      <p class="t12 cs-prose">The proof most often offered for an AI analyst is how often it agrees with a human one. Here are two published figures.</p>
+      <div class="cs-duo">
+        <div>
+          <p class="n">99.7%</p>
+          <p class="l">How often an AI agent agreed with human analysts in one vendor’s customer trials, across 138,475 alerts.<sup class="fn"><a href="#src-4" aria-label="Source 4">4</a></sup></p>
+        </div>
+        <div class="cs-duo-rule" aria-hidden="true"></div>
+        <div>
+          <p class="n">67%</p>
+          <p class="l">How often analysts agreed with an AI agent’s verdict in a 14-month study at a university SOC: 72 of 108 tickets. Of the seven outright clashes, only one was a clear AI error. The other six were judgment calls.<sup class="fn"><a href="#src-5" aria-label="Source 5">5</a></sup></p>
+        </div>
+      </div>
+      <div class="cs-prose">
+        <p class="t12">Both can be true. Different AIs, different alerts and, above all, different people to agree with.</p>
+        <p class="t12">Analysts disagree with each other, and anyone can call the same alert differently on a different day. So “agreement with an analyst” is a ruler that moves.</p>
+        <p class="t12">We fix the ruler first. Where outcomes exist, we use them. Where they don’t, we use your team’s steady judgment.</p>
+        <p class="t12">That’s how your team decides on a good day. We call it the house view. Then we measure the AI against that.</p>
+      </div>
+    </section>
+
+    <!-- ============== 6 · Reporting-clock exposure ============== -->
+    <section class="section" id="clock" aria-labelledby="clock-h">
+      <span class="section-num">reporting clocks</span>
+      <h2 class="section-title" id="clock-h">A wrong “benign” can miss a deadline</h2>
+      <div class="cs-prose">
+        <p class="t12">Regulated firms run on reporting clocks:</p>
+        <ul class="cs-list">
+          <li>Six hours in India, under CERT-In<sup class="fn"><a href="#src-7" aria-label="Source 7">7</a></sup> and RBI<sup class="fn"><a href="#src-8" aria-label="Source 8">8</a></sup> rules.</li>
+          <li>Four hours in the EU under DORA once a major incident is classified, and no later than 24 hours after you become aware of it.<sup class="fn"><a href="#src-9" aria-label="Source 9">9</a></sup></li>
+          <li>One hour for firms regulated by MAS in Singapore.<sup class="fn"><a href="#src-10" aria-label="Source 10">10</a></sup></li>
+        </ul>
+        <p class="t12">If the AI closes a real incident as harmless, nobody knows the clock should be running.</p>
+        <p class="t12">So for regulated teams we add one more number: reporting-clock exposure. For each alert type, it shows how often the AI clears alerts your team would have escalated as a possible reportable incident.</p>
+      </div>
+
+      <figure class="cs-clock" role="img" aria-label="Reporting clocks: one hour for MAS in Singapore, four hours under DORA in the EU, six hours under CERT-In and RBI in India.">
+        <div class="cs-clock-track">
+          <div class="cs-clock-axis"></div>
+          <div class="cs-clock-tick" style="left:0%"><span>0h</span></div>
+          <div class="cs-clock-tick" style="left:33.333%"><span>2h</span></div>
+          <div class="cs-clock-tick" style="left:50%"><span>3h</span></div>
+          <div class="cs-clock-tick" style="left:83.333%"><span>5h</span></div>
+          <div class="cs-clock-mark" style="left:16.667%"><span class="t">1 hour</span><span class="who">MAS · Singapore</span><span class="dot"></span></div>
+          <div class="cs-clock-mark" style="left:66.667%"><span class="t">4 hours</span><span class="who">DORA · EU</span><span class="dot"></span></div>
+          <div class="cs-clock-mark end" style="left:100%"><span class="t">6 hours</span><span class="who">CERT-In and RBI · India</span><span class="dot"></span></div>
+        </div>
+      </figure>
+    </section>
+
+    <!-- ============== 8 · Use cases ============== -->
+    <section class="section sec-dark" id="moments" aria-labelledby="moments-h">
+      <span class="section-num">use cases</span>
+      <h2 class="section-title" id="moments-h">When you’ll want the evidence</h2>
+      <p class="t12 cs-prose">Ten moments when you need to know how far to trust the AI. Find yours.</p>
+
+      <div class="cs-tabs" aria-label="Moments" hidden>
+        <button type="button" id="tab-decide" aria-controls="grp-decide" data-tab>Decide</button>
+        <button type="button" id="tab-prove" aria-controls="grp-prove" data-tab>Prove</button>
+        <button type="button" id="tab-run" aria-controls="grp-run" data-tab>Run</button>
+      </div>
+
+      <div class="cs-moments">
+        <div class="cs-group" id="grp-decide" role="group" aria-labelledby="lbl-decide" data-label-id="lbl-decide">
+          <p class="cs-group-h" id="lbl-decide">Decide</p>
+          <article class="cs-moment">
+            <h3>Before you let the AI close alerts on its own</h3>
+            <p class="ask"><span class="k">You’re asking</span> <q>Which alert types are safe to hand over?</q></p>
+            <p class="get"><span class="k">You get</span> An autonomy map per alert type, with the evidence for each call and what would change it.</p>
+          </article>
+          <article class="cs-moment">
+            <h3>Before you switch an AI on</h3>
+            <p class="ask"><span class="k">You’re asking</span> <q>How will we know if it helped?</q></p>
+            <p class="get"><span class="k">You get</span> A baseline of how your team decides today, so you can judge any AI from day one.</p>
+          </article>
+          <article class="cs-moment">
+            <h3>At provider renewal</h3>
+            <p class="ask"><span class="k">You’re asking</span> <q>Is our provider’s AI good enough to renew?</q></p>
+            <p class="get"><span class="k">You get</span> If the AI runs in your tenant, a report on it. If it runs on the provider’s platform, the clause to ask for a per-alert decision export.</p>
+          </article>
+        </div>
+
+        <div class="cs-group" id="grp-prove" role="group" aria-labelledby="lbl-prove" data-label-id="lbl-prove">
+          <p class="cs-group-h" id="lbl-prove">Prove</p>
+          <article class="cs-moment">
+            <h3>When the board, an auditor or your regulator asks</h3>
+            <p class="ask"><span class="k">You’re asking</span> <q>How do we know the AI works?</q></p>
+            <p class="get"><span class="k">You get</span> An independent evidence pack for risk and audit teams: accuracy against outcomes, consistency, drift and override reasons, per alert type.</p>
+          </article>
+          <article class="cs-moment">
+            <h3>When your reporting clock is short</h3>
+            <p class="ask"><span class="k">You’re asking</span> <q>Could the AI be hiding a reportable incident?</q></p>
+            <p class="get"><span class="k">You get</span> Reporting-clock exposure per alert type, against your regulator’s clock.</p>
+          </article>
+          <article class="cs-moment">
+            <h3>When a client asks how your AI performs (for MDR and MSSP providers)</h3>
+            <p class="ask"><span class="k">You’re asking</span> <q>How do we prove our AI to each client?</q></p>
+            <p class="get"><span class="k">You get</span> An independent report for each client, delivered to the client unedited.</p>
+          </article>
+        </div>
+
+        <div class="cs-group" id="grp-run" role="group" aria-labelledby="lbl-run" data-label-id="lbl-run">
+          <p class="cs-group-h" id="lbl-run">Run</p>
+          <article class="cs-moment">
+            <h3>When everyone re-checks every verdict</h3>
+            <p class="ask"><span class="k">You’re asking</span> <q>Where can we stop?</q></p>
+            <p class="get"><span class="k">You get</span> The alert types where the evidence supports spot-checks instead of full review, and the ones where it doesn’t.</p>
+          </article>
+          <article class="cs-moment">
+            <h3>After a model update, a new detection rule or a new attack wave</h3>
+            <p class="ask"><span class="k">You’re asking</span> <q>Did anything change?</q></p>
+            <p class="get"><span class="k">You get</span> A drift check against your frozen baseline that says what moved: the AI, your team or the alerts.</p>
+          </article>
+          <article class="cs-moment">
+            <h3>When analysts keep overruling the AI</h3>
+            <p class="ask"><span class="k">You’re asking</span> <q>Who’s right, and what should the AI learn?</q></p>
+            <p class="get"><span class="k">You get</span> The reasons, sorted into six causes, and a teach list for the AI.</p>
+          </article>
+          <article class="cs-moment">
+            <h3>When an incident traces back to an alert the AI closed</h3>
+            <p class="ask"><span class="k">You’re asking</span> <q>A one-off, or a pattern?</q></p>
+            <p class="get"><span class="k">You get</span> How often the AI makes that call, on which alert types, and how your team would have called it.</p>
+          </article>
+        </div>
+      </div>
+
+      <div class="cs-midcta">
+        <p>See which of these fit your SOC.</p>
+        <a class="cs-btn js-book" href="mailto:hi@tacitlabs.ai?subject=CyberSOC%20%E2%80%94%2030-minute%20call&amp;body=Our%20platform%3A%20%0D%0AOur%20provider%3A%20%0D%0AWhich%20AI%20is%20switched%20on%3A%20%0D%0ATimes%20that%20suit%20us%20(and%20our%20time%20zone)%3A%20">Book a 30-minute call
+          <svg width="14" height="14" viewBox="0 0 14 14" fill="none" aria-hidden="true"><path d="M2 7h10M8 3l4 4-4 4" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg>
+        </a>
+      </div>
+    </section>
+
+    <!-- ============== 9 · Roles ============== -->
+    <section class="section" id="roles" aria-labelledby="roles-h">
+      <span class="section-num">roles</span>
+      <h2 class="section-title" id="roles-h">Built for the people who sign for it</h2>
+      <div class="cs-roles">
+        <a class="cs-role" href="cybersoc.html#questions">
+          <h3>CISO</h3>
+          <p>You’re accountable for AI you didn’t choose. Get evidence you can sign off on.</p>
+          <span class="go">Six questions →</span>
+        </a>
+        <a class="cs-role" href="#moments">
+          <h3>Head of SOC</h3>
+          <p>Know where to trust the AI, and where to keep your people.</p>
+          <span class="go">When you’ll want the evidence →</span>
+        </a>
+        <a class="cs-role" href="#regulation">
+          <h3>Model risk, compliance and audit</h3>
+          <p>Independent, outcome-based testing of vendor AI, with monitoring records you can file.</p>
+          <span class="go">What your regulator is starting to ask →</span>
+        </a>
+        <a class="cs-role" href="cybersoc.html#provider-licence">
+          <h3>MDR and MSSP providers</h3>
+          <p>Show each client how your AI performs, in a report they receive unedited.</p>
+          <span class="go">Provider licence →</span>
+        </a>
+      </div>
+    </section>
+
+    <!-- ============== 12 · Data handling ============== -->
+    <section class="section sec-dark" id="data" aria-labelledby="data-h">
+      <span class="section-num">data handling</span>
+      <h2 class="section-title" id="data-h">What we touch, and what we don’t</h2>
+      <!-- pending: hashing scope and the approved field list (§23) -->
+      <div class="cs-dodont">
+        <div>
+          <h3>We do</h3>
+          <ul class="cs-checks cs-checks--do">
+            <li><svg viewBox="0 0 18 18" aria-hidden="true"><path d="M4 9.5l3.2 3L14 5.5" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"/></svg><span>Read decision records, read-only.</span></li>
+            <li><svg viewBox="0 0 18 18" aria-hidden="true"><path d="M4 9.5l3.2 3L14 5.5" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"/></svg><span>Run inside your cloud, in your region. Nothing leaves it except the reports you choose to share.</span></li>
+            <li><svg viewBox="0 0 18 18" aria-hidden="true"><path d="M4 9.5l3.2 3L14 5.5" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"/></svg><span>Scramble (hash) analyst and user IDs with a key you hold.</span></li>
+            <li><svg viewBox="0 0 18 18" aria-hidden="true"><path d="M4 9.5l3.2 3L14 5.5" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"/></svg><span>Report at team level only.</span></li>
+            <li><svg viewBox="0 0 18 18" aria-hidden="true"><path d="M4 9.5l3.2 3L14 5.5" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"/></svg><span>Recommend where the AI may act alone. You decide.</span></li>
+          </ul>
+        </div>
+        <div>
+          <h3>We never</h3>
+          <ul class="cs-checks cs-checks--never">
+            <li><svg viewBox="0 0 18 18" aria-hidden="true"><path d="M5 5l8 8M13 5l-8 8" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round"/></svg><span>Write to your systems, or change an alert, a rule or a setting.</span></li>
+            <li><svg viewBox="0 0 18 18" aria-hidden="true"><path d="M5 5l8 8M13 5l-8 8" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round"/></svg><span>Read email bodies, attachments, files or packet captures.</span></li>
+            <li><svg viewBox="0 0 18 18" aria-hidden="true"><path d="M5 5l8 8M13 5l-8 8" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round"/></svg><span>Score, rank or report on individual analysts. We judge agents, not analysts.</span></li>
+            <li><svg viewBox="0 0 18 18" aria-hidden="true"><path d="M5 5l8 8M13 5l-8 8" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round"/></svg><span>Change anything in your SOC without your sign-off.</span></li>
+            <li><svg viewBox="0 0 18 18" aria-hidden="true"><path d="M5 5l8 8M13 5l-8 8" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round"/></svg><span>Let a vendor edit our findings.</span></li>
+          </ul>
+        </div>
+      </div>
+      <!-- pending: deletion terms once agreed; link "How we handle data" to /trust once that page exists (§23) -->
+      <p class="t12 cs-leaving"><strong>Leaving:</strong> Revoke our access and we stop reading.</p>
+    </section>
+
+    <!-- ============== 13 · Independence ============== -->
+    <section class="section" id="independence" aria-labelledby="independence-h">
+      <span class="section-num">independence</span>
+      <h2 class="section-title" id="independence-h">Independent by design</h2>
+      <p class="cs-lead">An AI shouldn’t be graded only by the company that sells it.</p>
+      <ul class="cs-lines">
+        <li>We don’t build, sell or resell SOC agents.</li>
+        <li>No vendor can edit our findings.</li>
+        <!-- pending: confirm "Our fee never depends on the result" (§23) -->
+        <li>Our fee never depends on the result.</li>
+        <li>When a provider pays for a report on its AI, its client gets the report unedited.</li>
+        <li>Every finding says what it rests on, and what it doesn’t mean.</li>
+      </ul>
+    </section>
+
+    <!-- ============== 14 · Regulation ============== -->
+    <section class="section sec-dark" id="regulation" aria-labelledby="regulation-h">
+      <span class="section-num">regulation</span>
+      <h2 class="section-title" id="regulation-h">What your regulator is starting to ask</h2>
+      <p class="t12 cs-prose">Today, the hard deadlines are for reporting incidents. On AI, most rules are new, in draft, or start later. But they all point the same way: you stay accountable for the AI you use, including AI from a vendor.</p>
+
+      <div class="cs-regions">
+        <article class="cs-region">
+          <div class="cs-region-head">
+            <h3>India</h3>
+            <ul class="cs-chips" aria-label="Status"><li class="draft">Draft</li><li>In force</li></ul>
+          </div>
+          <ul class="cs-list">
+            <li>RBI’s draft guidance on model risk management (24 June 2026) covers third-party and AI models. It asks banks to validate them independently, “notwithstanding any validation, certification or assurance provided by the third-party provider”.<sup class="fn"><a href="#src-11" aria-label="Source 11">11</a></sup> It also asks for continuous monitoring of drift. It is still a draft.</li>
+            <li>RBI’s cyber directions, issued on 31 July 2026 with immediate effect, require banks to report cyber incidents within six hours of detection.<sup class="fn"><a href="#src-8" aria-label="Source 8">8</a></sup> CERT-In’s clock is also six hours.<sup class="fn"><a href="#src-7" aria-label="Source 7">7</a></sup></li>
+          </ul>
+          <p class="cs-helps"><strong>Where Tacit helps:</strong> outcome-based evidence your own validation team can use and challenge; drift monitoring; reporting-clock exposure.</p>
+        </article>
+
+        <article class="cs-region">
+          <div class="cs-region-head">
+            <h3>Singapore</h3>
+            <ul class="cs-chips" aria-label="Status"><li>Final</li><li>Applies 2027</li></ul>
+          </div>
+          <ul class="cs-list">
+            <li>MAS’s Guidelines on AI Risk Management (final, 7 October 2026) keep firms responsible for risks from third-party AI.<sup class="fn"><a href="#src-12" aria-label="Source 12">12</a></sup> Governance expectations apply from 7 October 2027, and lifecycle controls from October 2028.</li>
+            <li>MAS’s SAFR paper (first published July 2026, updated 9 October 2026; voluntary) sets out four outcomes for an AI agent’s action: Auto-Execute, Observe, Escalate and Deny.<sup class="fn"><a href="#src-6" aria-label="Source 6">6</a></sup></li>
+            <li>Firms must notify MAS within one hour of discovering a relevant IT security incident.<sup class="fn"><a href="#src-10" aria-label="Source 10">10</a></sup></li>
+          </ul>
+          <p class="cs-helps"><strong>Where Tacit helps:</strong> measured evidence on third-party AI; an autonomy map that uses SAFR’s four outcomes; reporting-clock exposure.</p>
+        </article>
+
+        <article class="cs-region">
+          <div class="cs-region-head">
+            <h3>European Union</h3>
+            <ul class="cs-chips" aria-label="Status"><li>In force</li><li>Supervisory</li></ul>
+          </div>
+          <ul class="cs-list">
+            <li>DORA has applied since 17 January 2025. It covers ICT third-party risk. The first notice of a major incident is due within four hours of classifying it, and no later than 24 hours after becoming aware of it.<sup class="fn"><a href="#src-9" aria-label="Source 9">9</a></sup></li>
+            <li>In July 2026 the ECB asked the banks it directly supervises for action plans on AI-enabled cyber threats, including AI-enabled defence, with plans due by 31 October 2026.<sup class="fn"><a href="#src-13" aria-label="Source 13">13</a></sup></li>
+          </ul>
+          <p class="cs-helps"><strong>Where Tacit helps:</strong> oversight records for the AI in your detection and response; monitoring of third-party AI.</p>
+        </article>
+
+        <article class="cs-region">
+          <div class="cs-region-head">
+            <h3>Canada</h3>
+            <ul class="cs-chips" aria-label="Status"><li>Applies 1 May 2027</li></ul>
+          </div>
+          <ul class="cs-list">
+            <li>OSFI’s Guideline E-23 on model risk management takes effect on 1 May 2027. It covers AI models, and models from third-party vendors.<sup class="fn"><a href="#src-14" aria-label="Source 14">14</a></sup></li>
+          </ul>
+          <p class="cs-helps"><strong>Where Tacit helps:</strong> outcome analysis and ongoing monitoring of AI triage models.</p>
+        </article>
+      </div>
+
+    </section>
+
+    <!-- ============== 15 · Proof ============== -->
+    <section class="section" id="proof" aria-labelledby="proof-h">
+      <span class="section-num">proof</span>
+      <h2 class="section-title" id="proof-h">Who checks the checker?</h2>
+      <div class="cs-prose">
+        <p class="t12">A judge has to be tested too. Before we judge your AI, we test our own engine on data where we planted the answers.</p>
+        <p class="t12">Our engine was first built for insurance underwriting desks. In a synthetic underwriting test (8 underwriters, 3,200 files), it found all 7 patterns we had planted, with 1 false alarm in 113 places where there was nothing to find.<sup class="fn"><a href="#src-15" aria-label="Source 15">15</a></sup></p>
+        <!-- pending: commit to publishing the SOC test's results, misses included (§23) -->
+        <p class="t12">Our SOC test comes next: synthetic data from 10 analysts and about 30,000 alerts, with a sealed answer key. We’ll publish what it finds, including what it misses.</p>
+      </div>
+
+      <figure class="cs-score" aria-labelledby="score-title">
+        <span class="tk-shimmer-line" aria-hidden="true"></span>
+        <div class="cs-score-head">
+          <div>
+            <p class="cs-score-title" id="score-title">Agent Decision Audit · sample report <span class="sr-only">(illustrative, synthetic data)</span></p>
+            <p class="cs-score-meta">Synthetic SOC team · 4 alert types · 90 days of history + 6 weeks</p>
+          </div>
+          <span class="cs-synth">Illustrative · synthetic data</span>
+        </div>
+        <div class="cs-score-scroll" data-scroll-region aria-label="Sample report table">
+          <table>
+            <caption class="sr-only">Example one-page report from a synthetic SOC team, by alert type: accuracy, missed threats and consistency with ranges, drift, the call, and what each row rests on.</caption>
+            <thead>
+              <tr><th scope="col">Alert type</th><th scope="col">Accuracy</th><th scope="col">Missed threats</th><th scope="col">Consistency</th><th scope="col">Drift</th><th scope="col">Call</th></tr>
+            </thead>
+            <tbody>
+              <tr><th scope="row">User-reported phishing <span class="rests">Rests on outcomes</span></th><td>97% <span class="rng">96–98</span></td><td>0.3% <span class="rng">0.1–0.6</span></td><td>98% <span class="rng">97–99</span></td><td>Stable</td><td><span class="call call--3"><span class="lvl" aria-hidden="true"><i></i><i></i><i></i></span>Act alone</span></td></tr>
+              <tr><th scope="row">Unfamiliar sign-in <span class="rests">Rests on outcomes and a blind second look</span></th><td>92% <span class="rng">90–94</span></td><td>1.2% <span class="rng">0.8–1.8</span></td><td>95% <span class="rng">93–97</span></td><td>Stable</td><td><span class="call call--2"><span class="lvl" aria-hidden="true"><i></i><i></i><i></i></span>Act, and log for review</span></td></tr>
+              <tr><th scope="row">Impossible travel <span class="rests">Rests on a blind second look and team view</span></th><td>86% <span class="rng">82–89</span></td><td>2.6% <span class="rng">1.7–3.8</span></td><td>90% <span class="rng">86–93</span></td><td class="moved">The AI moved · week 4</td><td><span class="call call--1"><span class="lvl" aria-hidden="true"><i></i><i></i><i></i></span>Recommend; a person decides</span></td></tr>
+              <tr><th scope="row">Privileged role change <span class="thin">thin · 46 decisions</span> <span class="rests">Rests on team view</span></th><td>81% <span class="rng">69–90</span></td><td>4.3% <span class="rng">1.4–11</span></td><td>84% <span class="rng">72–93</span></td><td>Too few to tell</td><td><span class="call call--0"><span class="lvl" aria-hidden="true"><i></i><i></i><i></i></span>Off</span></td></tr>
+            </tbody>
+          </table>
+        </div>
+        <div class="cs-score-causes">
+          <h3 id="causes-h">Why your people overruled it · 214 overrides</h3>
+          <div class="cs-bar" aria-hidden="true"><span class="c1" style="width:28%"></span><span class="c2" style="width:26%"></span><span class="c3" style="width:12%"></span><span class="c4" style="width:7%"></span><span class="c5" style="width:18%"></span><span class="c6" style="width:9%"></span></div>
+          <ul class="cs-legend" aria-labelledby="causes-h">
+            <li><i class="c1" aria-hidden="true"></i>The AI was wrong <b>28%</b></li>
+            <li><i class="c2" aria-hidden="true"></i>It lacked context <b>26%</b></li>
+            <li><i class="c3" aria-hidden="true"></i>Against how the team decides <b>12%</b></li>
+            <li><i class="c4" aria-hidden="true"></i>The team changed approach <b>7%</b></li>
+            <li><i class="c5" aria-hidden="true"></i>The AI was right after all <b>18%</b></li>
+            <li><i class="c6" aria-hidden="true"></i>A fair judgment call <b>9%</b></li>
+          </ul>
+        </div>
+        <p class="cs-score-foot"><span class="typed">Every rate comes with a range. Thin evidence is labelled as thin.</span><span class="caret" aria-hidden="true"></span></p>
+      </figure>
+      <!-- After the 13 Nov demo: add the "Get the sample report" button here -->
+
+    </section>
+
+    <!-- ============== 17 · Common questions ============== -->
+    <section class="section sec-dark" id="faq" aria-labelledby="faq-h">
+      <span class="section-num">questions</span>
+      <h2 class="section-title" id="faq-h">Common questions</h2>
+      <div class="cs-faq">
+        <div class="cs-faq-item">
+          <h3><button class="cs-faq-q" type="button" aria-expanded="true" aria-controls="faq-1" data-disclosure>Do you replace our AI agent or our SOC tools?<svg viewBox="0 0 10 10" aria-hidden="true"><path d="M2 3.5l3 3 3-3" fill="none" stroke="currentColor" stroke-width="1.4" stroke-linecap="round" stroke-linejoin="round"/></svg></button></h3>
+          <div class="cs-faq-a" id="faq-1"><p>No. Tacit sits beside them and reads where decisions are recorded. It never sits between your analysts and their tools.</p></div>
+        </div>
+        <div class="cs-faq-item">
+          <h3><button class="cs-faq-q" type="button" aria-expanded="true" aria-controls="faq-2" data-disclosure>Do you score our analysts?<svg viewBox="0 0 10 10" aria-hidden="true"><path d="M2 3.5l3 3 3-3" fill="none" stroke="currentColor" stroke-width="1.4" stroke-linecap="round" stroke-linejoin="round"/></svg></button></h3>
+          <div class="cs-faq-a" id="faq-2"><p>No. We judge agents, not analysts. Analyst IDs are scrambled with a key only you hold, and every result about people is reported at team level.</p></div>
+        </div>
+        <div class="cs-faq-item">
+          <h3><button class="cs-faq-q" type="button" aria-expanded="true" aria-controls="faq-setups" data-disclosure>Where does our AI have to run for you to connect?<svg viewBox="0 0 10 10" aria-hidden="true"><path d="M2 3.5l3 3 3-3" fill="none" stroke="currentColor" stroke-width="1.4" stroke-linecap="round" stroke-linejoin="round"/></svg></button></h3>
+          <!-- pending: connector dates (§23). Moved here from the old Set-ups section. -->
+          <div class="cs-faq-a" id="faq-setups">
+            <p>To judge the AI, we need its decision records. Who holds them depends on your set-up:</p>
+            <ul>
+              <li><strong>In-house SOC on Microsoft Defender and Sentinel, or Google Security Operations.</strong> You hold the records, in your own tenant. You grant read-only access. No other vendor needs to say yes. Our Google connector arrives in early 2027.</li>
+              <li><strong>A provider co-manages your SOC inside your tenant.</strong> You hold the records, so it works the same as in-house.</li>
+              <li><strong>An MDR provider works in your CrowdStrike console.</strong> Usually you hold the records, so we connect directly once our CrowdStrike connector is ready in 2027. We confirm what’s recorded in one short call.</li>
+              <li><strong>An MDR provider runs its AI on its own platform.</strong> Your provider holds the records, so we connect through them. Ask for a per-alert decision export (we’ll give you the clause), or ask them to commission a Tacit report. Either way, the report comes to you unedited.</li>
+            </ul>
+            <p>Not sure which one you are? That’s the first thing we work out on the call.</p>
+          </div>
+        </div>
+        <div class="cs-faq-item">
+          <h3><button class="cs-faq-q" type="button" aria-expanded="true" aria-controls="faq-tools" data-disclosure>Does it work with the tools we already run?<svg viewBox="0 0 10 10" aria-hidden="true"><path d="M2 3.5l3 3 3-3" fill="none" stroke="currentColor" stroke-width="1.4" stroke-linecap="round" stroke-linejoin="round"/></svg></button></h3>
+          <!-- pending: confirm status labels and the design-partner start date against the build plan (§23). Moved here from the old Integrations section. -->
+          <div class="cs-faq-a" id="faq-tools">
+            <p>Tacit is built to read from the systems where decisions land, and to judge any AI agent whose verdicts are recorded: a platform’s agent, your provider’s AI, a tool you bought, or one you built.</p>
+            <ul>
+              <li><strong>Microsoft Defender XDR and Microsoft Sentinel:</strong> alerts, incidents, the AI’s classifications and audit history. First, with design partners from December 2026.</li>
+              <li><strong>Google Security Operations:</strong> investigations, and the AI’s verdict and confidence. Next, in early 2027.</li>
+              <li><strong>CrowdStrike Falcon:</strong> alerts and decisions. Planned for 2027.</li>
+              <li><strong>Splunk Enterprise Security:</strong> notable events and how they were closed. Planned.</li>
+              <li><strong>ServiceNow and Jira:</strong> outcomes and case history. First.</li>
+              <li><strong>Your provider’s export (CSV or API):</strong> per-alert decision records. With the first design partners.</li>
+            </ul>
+            <p>Running something else? <a class="inline" href="mailto:hi@tacitlabs.ai?subject=CyberSOC%20%E2%80%94%20what%20we%20run">Tell us what you use.</a></p>
+          </div>
+        </div>
+        <div class="cs-faq-item">
+          <h3><button class="cs-faq-q" type="button" aria-expanded="true" aria-controls="faq-3" data-disclosure>Our provider runs the AI on its own platform. Can you still help?<svg viewBox="0 0 10 10" aria-hidden="true"><path d="M2 3.5l3 3 3-3" fill="none" stroke="currentColor" stroke-width="1.4" stroke-linecap="round" stroke-linejoin="round"/></svg></button></h3>
+          <div class="cs-faq-a" id="faq-3">
+            <p>Yes, through the provider. You have two options, and either way you get the report unedited:</p>
+            <ul>
+              <li>Ask for a per-alert export of the AI’s decisions. We’ll give you the clause for your renewal.</li>
+              <li>Ask your provider to commission a Tacit report.</li>
+            </ul>
+          </div>
+        </div>
+        <div class="cs-faq-item">
+          <h3><button class="cs-faq-q" type="button" aria-expanded="true" aria-controls="faq-4" data-disclosure>What data do you read, and where does it go?<svg viewBox="0 0 10 10" aria-hidden="true"><path d="M2 3.5l3 3 3-3" fill="none" stroke="currentColor" stroke-width="1.4" stroke-linecap="round" stroke-linejoin="round"/></svg></button></h3>
+          <div class="cs-faq-a" id="faq-4">
+            <p>We read decision records, and only the fields you approve. We list them before we connect:</p>
+            <ul>
+              <li>the alert’s type, timing and approved fields;</li>
+              <li>the AI’s verdict;</li>
+              <li>your team’s decision, the action and the outcome.</li>
+            </ul>
+            <!-- pending: confirm hashing of user names, email addresses and IPs (§23) -->
+            <p>User names, email addresses and IP addresses are hashed with your key. We don’t read email bodies, attachments, files or packet captures. Nothing leaves your cloud except the reports you choose to share.</p>
+          </div>
+        </div>
+        <div class="cs-faq-item">
+          <h3><button class="cs-faq-q" type="button" aria-expanded="true" aria-controls="faq-5" data-disclosure>How much history do you need?<svg viewBox="0 0 10 10" aria-hidden="true"><path d="M2 3.5l3 3 3-3" fill="none" stroke="currentColor" stroke-width="1.4" stroke-linecap="round" stroke-linejoin="round"/></svg></button></h3>
+          <div class="cs-faq-a" id="faq-5"><p>Up to 90 days. For a firm answer on an alert type, we need a few hundred AI decisions on it. If you have fewer, we record forward for six weeks.</p></div>
+        </div>
+        <div class="cs-faq-item">
+          <h3><button class="cs-faq-q" type="button" aria-expanded="true" aria-controls="faq-start" data-disclosure>Where should we start?<svg viewBox="0 0 10 10" aria-hidden="true"><path d="M2 3.5l3 3 3-3" fill="none" stroke="currentColor" stroke-width="1.4" stroke-linecap="round" stroke-linejoin="round"/></svg></button></h3>
+          <!-- pending: confirm phishing first (§23). Moved here from the brief's "How it works". -->
+          <div class="cs-faq-a" id="faq-start"><p>We suggest starting with user-reported phishing. It’s high-volume, and outcomes come back fast. Identity alerts come next.</p></div>
+        </div>
+        <div class="cs-faq-item">
+          <h3><button class="cs-faq-q" type="button" aria-expanded="true" aria-controls="faq-6" data-disclosure>Most of our alerts never get a confirmed outcome. Does this still work?<svg viewBox="0 0 10 10" aria-hidden="true"><path d="M2 3.5l3 3 3-3" fill="none" stroke="currentColor" stroke-width="1.4" stroke-linecap="round" stroke-linejoin="round"/></svg></button></h3>
+          <div class="cs-faq-a" id="faq-6"><p>It’s designed for exactly that, because it’s normal in a SOC. We use the outcomes that do exist, the blind second look and your team’s steady judgment. Each finding says which it rests on, and thin evidence is labelled as thin.</p></div>
+        </div>
+        <div class="cs-faq-item">
+          <h3><button class="cs-faq-q" type="button" aria-expanded="true" aria-controls="faq-7" data-disclosure>How is this different from the vendor’s dashboard?<svg viewBox="0 0 10 10" aria-hidden="true"><path d="M2 3.5l3 3 3-3" fill="none" stroke="currentColor" stroke-width="1.4" stroke-linecap="round" stroke-linejoin="round"/></svg></button></h3>
+          <div class="cs-faq-a" id="faq-7"><p>A vendor’s dashboard reports on its own AI, by its own measure. Tacit measures it independently, on your alerts, against what actually happened. It also shows why your people overrule it and where it can act alone.</p></div>
+        </div>
+        <div class="cs-faq-item">
+          <h3><button class="cs-faq-q" type="button" aria-expanded="true" aria-controls="faq-8" data-disclosure>How is this different from breach-and-attack simulation or red-teaming?<svg viewBox="0 0 10 10" aria-hidden="true"><path d="M2 3.5l3 3 3-3" fill="none" stroke="currentColor" stroke-width="1.4" stroke-linecap="round" stroke-linejoin="round"/></svg></button></h3>
+          <div class="cs-faq-a" id="faq-8"><p>Those test whether planted attacks get caught. They’re useful, and we use their results as outcomes. But they can’t tell you why your people overrule the AI, whether it’s drifting on real traffic, or where the evidence supports letting it act alone.</p></div>
+        </div>
+        <div class="cs-faq-item">
+          <h3><button class="cs-faq-q" type="button" aria-expanded="true" aria-controls="faq-9" data-disclosure>Is this an “LLM-as-judge” tool?<svg viewBox="0 0 10 10" aria-hidden="true"><path d="M2 3.5l3 3 3-3" fill="none" stroke="currentColor" stroke-width="1.4" stroke-linecap="round" stroke-linejoin="round"/></svg></button></h3>
+          <div class="cs-faq-a" id="faq-9"><p>No. Those tools use another AI to grade an AI. Tacit checks your AI’s calls against what actually happened on your alerts, and against how your own team decides.</p></div>
+        </div>
+        <div class="cs-faq-item">
+          <h3><button class="cs-faq-q" type="button" aria-expanded="true" aria-controls="faq-11" data-disclosure>Does this make us compliant?<svg viewBox="0 0 10 10" aria-hidden="true"><path d="M2 3.5l3 3 3-3" fill="none" stroke="currentColor" stroke-width="1.4" stroke-linecap="round" stroke-linejoin="round"/></svg></button></h3>
+          <div class="cs-faq-a" id="faq-11"><p>No tool can. Tacit gives you evidence your frameworks ask for: independent testing, monitoring, and records of human oversight. Your compliance team decides how to use it.</p></div>
+        </div>
+        <div class="cs-faq-item">
+          <h3><button class="cs-faq-q" type="button" aria-expanded="true" aria-controls="faq-12" data-disclosure>Your judge is a model too. Can our model-risk team validate it?<svg viewBox="0 0 10 10" aria-hidden="true"><path d="M2 3.5l3 3 3-3" fill="none" stroke="currentColor" stroke-width="1.4" stroke-linecap="round" stroke-linejoin="round"/></svg></button></h3>
+          <!-- pending: confirm what we can share under NDA, given the patent decision (§23) -->
+          <div class="cs-faq-a" id="faq-12"><p>Yes. Under NDA, we share our method documentation, test results and the evidence behind every finding. Your validators can review it like any other third-party model.</p></div>
+        </div>
+        <div class="cs-faq-item">
+          <h3><button class="cs-faq-q" type="button" aria-expanded="true" aria-controls="faq-13" data-disclosure>Will you pass our third-party risk review?<svg viewBox="0 0 10 10" aria-hidden="true"><path d="M2 3.5l3 3 3-3" fill="none" stroke="currentColor" stroke-width="1.4" stroke-linecap="round" stroke-linejoin="round"/></svg></button></h3>
+          <!-- pending: add certification status; don't imply one we don't hold (§23) -->
+          <div class="cs-faq-a" id="faq-13"><p>We’ll complete your security questionnaire and share a data-flow diagram before we connect.</p></div>
+        </div>
+        <div class="cs-faq-item">
+          <h3><button class="cs-faq-q" type="button" aria-expanded="true" aria-controls="faq-14" data-disclosure>What does it cost?<svg viewBox="0 0 10 10" aria-hidden="true"><path d="M2 3.5l3 3 3-3" fill="none" stroke="currentColor" stroke-width="1.4" stroke-linecap="round" stroke-linejoin="round"/></svg></button></h3>
+          <div class="cs-faq-a" id="faq-14"><p>The Audit is a fixed fee. Shadow Judge is a subscription priced per agent. Provider licences are priced per client. Talk to us for a quote.</p></div>
+        </div>
+      </div>
+    </section>
+
+    <!-- ============== 19 · Sources ============== -->
+    <!-- pending: swap summary links for primary sources (RBI, MAS, CERT-In, EUR-Lex) before launch (§22–23) -->
+    <section class="section cs-sources" id="sources" aria-labelledby="sources-h">
+      <h2 id="sources-h">Sources</h2>
+      <ol>
+        <li id="src-1"><a href="https://learn.microsoft.com/en-us/copilot/security/security-copilot-inclusion" target="_blank" rel="noopener">Microsoft Learn: Security Copilot inclusion in Microsoft 365 E5 and E7</a></li>
+        <li id="src-2"><a href="https://arxiv.org/abs/2511.13860" target="_blank" rel="noopener">Bono et al., Microsoft: Randomized Controlled Trials for Phishing Triage Agent, arXiv 2511.13860, Nov 2025</a>. 167 security analysts; the errors were planted by the researchers.</li>
+        <li id="src-3"><a href="https://www.prophetsecurity.ai/blog/state-of-ai-in-the-soc-2026" target="_blank" rel="noopener">Prophet Security: State of AI in the SOC 2026, 3 Aug 2026</a>. Survey of 250 security leaders.</li>
+        <li id="src-4"><a href="https://www.helpnetsecurity.com/2026/08/05/stellar-cyber-agentic-auto-triage-study/" target="_blank" rel="noopener">Help Net Security (sponsored): Stellar Cyber customer-trial study, 5 Aug 2026</a></li>
+        <li id="src-5"><a href="https://arxiv.org/abs/2609.06250" target="_blank" rel="noopener">Banstola et al., University of South Florida and Cyber Florida: It is Not Yet Another Tool, arXiv 2609.06250, Sep 2026</a></li>
+        <li id="src-6"><a href="https://www.mas.gov.sg/-/media/mas-media-library/development/fintech/ai-safr/safr-v1-1.pdf" target="_blank" rel="noopener">MAS SAFR paper, first published July 2026; v1.1, 9 Oct 2026</a></li>
+        <li id="src-7">CERT-In Directions under section 70B(6) of the IT Act, 28 Apr 2022.</li>
+        <li id="src-8"><a href="https://kpmg.com/in/en/insights/2026/09/rbis-technology-focused-master-directions-issued-on-31-july-2026.html" target="_blank" rel="noopener">RBI Cybersecurity, Technology Risk, Resilience and Assurance Directions, 31 Jul 2026 (KPMG summary)</a></li>
+        <li id="src-9"><a href="https://advisera.com/cdr-2025-301/time-limits-for-the-initial-notification-and-for-the-intermediate-and-final-reports/" target="_blank" rel="noopener">Commission Delegated Regulation (EU) 2025/301, Article 5 (Advisera)</a></li>
+        <li id="src-10"><a href="https://www.pinsentmasons.com/out-law/news/new-it-security-incident-reporting-rules-in-singapore-set-out-for-financial-services-industry" target="_blank" rel="noopener">MAS one-hour incident notification (Pinsent Masons summary)</a></li>
+        <li id="src-11"><a href="https://www.legaleraonline.com/banking-and-finance/rbis-draft-guidance-on-regulatory-principles-for-model-risk-management-989007" target="_blank" rel="noopener">RBI draft Guidance on Regulatory Principles for Model Risk Management, 24 Jun 2026 (LegalEra summary)</a></li>
+        <li id="src-12"><a href="https://www.pwc.com/sg/en/services/risk/straightaways/mas-ai-risk-management-guidelines.html" target="_blank" rel="noopener">MAS Guidelines on AI Risk Management, 7 Oct 2026 (PwC Singapore summary)</a></li>
+        <li id="src-13"><a href="https://kpmg.com/de/en/insights/finance-and-risk/ezb-calls-for-an-action-plan-to-combat-AI-driven-cyberattacks.html" target="_blank" rel="noopener">ECB supervisory letter on AI-enabled cyber threats, 7 Jul 2026 (KPMG Germany summary)</a></li>
+        <li id="src-14"><a href="https://www.blakes.com/insights/osfi-releases-final-guideline-e-23-for-model-risk-management-and-ai-use-by-frfis/" target="_blank" rel="noopener">OSFI Guideline E-23, Model Risk Management: final 11 Sep 2025, effective 1 May 2027 (Blakes summary)</a></li>
+        <li id="src-15">Tacit Labs internal test on synthetic underwriting data, 29 Sep 2026.</li>
+      </ol>
+    </section>
+    <!-- ============== 18 · Final call to action ============== -->
+    <section class="cs-final cs-final--plain" id="book" aria-labelledby="book-h">
+      <h2 id="book-h">Give your AI analyst the interview it never had.</h2>
+      <p class="body">Book 30 minutes. Tell us your platform, your provider and which AI is switched on. On the call, we’ll tell you whether we can connect, what we’d measure first and what you’d get.</p>
+      <div class="cs-ctas">
+        <a class="cs-btn js-book" href="mailto:hi@tacitlabs.ai?subject=CyberSOC%20%E2%80%94%2030-minute%20call&amp;body=Our%20platform%3A%20%0D%0AOur%20provider%3A%20%0D%0AWhich%20AI%20is%20switched%20on%3A%20%0D%0ATimes%20that%20suit%20us%20(and%20our%20time%20zone)%3A%20">Book a 30-minute call
+          <svg width="14" height="14" viewBox="0 0 14 14" fill="none" aria-hidden="true"><path d="M2 7h10M8 3l4 4-4 4" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg>
+        </a>
+      </div>
+      <p class="small">Prefer to write? Email <a class="inline" href="mailto:hi@tacitlabs.ai?subject=CyberSOC">hi@tacitlabs.ai</a>.</p>
+    </section>
+
+  </main>
+
+  <footer class="site-foot">
+    <div>
+      <div class="foot-brand"><img src="assets/tacit-wordmark.svg" alt="Tacit Labs"></div>
+      <p class="colophon">Recovering the judgement that was never written down.</p>
+    </div>
+    <div>
+      <h2 class="foot-h">Company</h2>
+      <ul>
+        <li><a href="index.html">Home</a></li>
+        <li><a href="founders.html">Founders</a></li>
+        <li><a href="essays.html">Writing</a></li>
+        <li><a href="mailto:hi@tacitlabs.ai">Contact</a></li>
+      </ul>
+    </div>
+    <div>
+      <h2 class="foot-h">Read deeper</h2>
+      <ul>
+        <li><a href="brief.html">Brief</a></li>
+        <li><a href="thesis.html">Full thesis</a></li>
+        <li><a href="insurance.html">Product · Underwriting</a></li>
+        <li><a href="cybersoc.html">Product · CyberSOC</a></li>
+        <li><a href="atlas.html">Atlas</a></li>
+      </ul>
+    </div>
+    <div>
+      <h2 class="foot-h">Contact</h2>
+      <ul>
+        <li><a href="mailto:hi@tacitlabs.ai?subject=CyberSOC">hi@tacitlabs.ai · CyberSOC</a></li>
+        <li><a href="mailto:hi@tacitlabs.ai?subject=Team">hi@tacitlabs.ai · Team</a></li>
+      </ul>
+    </div>
+    <div class="signoff">
+      <span>© 2026 Tacit Labs, Inc.</span>
+      <span><a href="index.html">back to home →</a></span>
+    </div>
+  </footer>
+
+  <script src="cybersoc.js"></script>
+</body>
+</html>

@@ -30,17 +30,26 @@
 <link href="https://fonts.googleapis.com/css2?family=IBM+Plex+Mono:wght@400;500;600&family=Inter:wght@300;400;500;600;700&family=Newsreader:ital,opsz,wght@0,6..72,400;0,6..72,500;0,6..72,600;0,6..72,700;1,6..72,400&family=Open+Sans:wght@400;500;600;700;800&display=swap" rel="stylesheet">
 <link rel="stylesheet" href="tacit-reading.css">
 <title>Writing — Tacit</title>
+<script defer src="/_vercel/insights/script.js"></script>
+<link rel="stylesheet" href="nav-menu.css">
+<script defer src="nav-menu.js"></script>
 </head>
 <body class="palette-maroon">
 
   <div class="nav-wrap">
     <nav class="tacit-nav" aria-label="Primary">
-      <a href="brief.html" data-nav="brief">brief</a>
+      <div class="nav-menu" data-nav="product">
+        <button type="button" class="nav-menu-btn" aria-expanded="false" aria-controls="nav-product-menu">product<svg class="chev" viewBox="0 0 10 10" aria-hidden="true"><path d="M2 3.5l3 3 3-3" fill="none" stroke="currentColor" stroke-width="1.4" stroke-linecap="round" stroke-linejoin="round"/></svg></button>
+        <div class="nav-menu-panel" id="nav-product-menu">
+          <a class="nav-menu-item" href="insurance.html"><span class="nm-title">Underwriting</span><span class="nm-sub">For MGAs and Lloyd’s coverholders</span></a>
+          <a class="nav-menu-item" href="cybersoc.html"><span class="nm-title">CyberSOC</span><span class="nm-sub">For CISOs at regulated firms</span></a>
+        </div>
+      </div>
       <a href="thesis.html" data-nav="thesis">thesis</a>
-      <a href="insurance.html" data-nav="insurance">insurance</a>
+      <a href="brief.html" data-nav="brief">brief</a>
       <a href="index.html" class="logo-link" aria-label="Home"><span class="logo" aria-hidden="true"></span></a>
       <a href="founders.html" data-nav="founders">founders</a>
-      <a href="essays.html" data-nav="essays" class="current">writing</a>
+      <a href="essays.html" data-nav="essays" class="current">essays</a>
     </nav>
   </div>
 
@@ -81,7 +90,7 @@
   <footer class="site-foot">
     <div>
       <div class="foot-brand" aria-label="tacitlabs"><img src="assets/tacit-wordmark.svg" alt="tacit"></div>
-      <p class="colophon">The judgment layer for AI agents in regulated industries.</p>
+      <p class="colophon">Recovering the judgement that was never written down.</p>
     </div>
     <div>
       <h4>Company</h4>
@@ -97,7 +106,8 @@
       <ul>
         <li><a href="brief.html">Brief</a></li>
         <li><a href="thesis.html">Full thesis</a></li>
-        <li><a href="insurance.html">Product</a></li>
+        <li><a href="insurance.html">Product · Underwriting</a></li>
+        <li><a href="cybersoc.html">Product · CyberSOC</a></li>
         <li><a href="atlas.html">Atlas</a></li>
       </ul>
     </div>
@@ -105,6 +115,7 @@
       <h4>Contact</h4>
       <ul>
         <li><a href="mailto:hi@tacitlabs.ai?subject=Operator">hi@tacitlabs.ai · Operator</a></li>
+        <li><a href="mailto:hi@tacitlabs.ai?subject=CyberSOC">hi@tacitlabs.ai · CyberSOC</a></li>
         <li><a href="mailto:hi@tacitlabs.ai?subject=Investor">hi@tacitlabs.ai · Investor</a></li>
         <li><a href="mailto:hi@tacitlabs.ai?subject=Team">hi@tacitlabs.ai · Team</a></li>
       </ul>

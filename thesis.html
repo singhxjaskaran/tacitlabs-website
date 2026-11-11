@@ -273,6 +273,216 @@
     margin:0 0 28px;
   }
 
+  /* ============== Ambient player (Spatial / faithful glass) ============== */
+  .ambient-player{
+    position:relative;
+    margin:clamp(28px,5vh,56px) 0 clamp(56px,9vh,96px);
+    --ap-acc:#a83246;
+    --ap-fg:#f4ece4;
+    isolation:isolate;
+  }
+  /* Maroon ambient halo behind the stage — static, parchment-friendly glow */
+  .ap-halo{
+    position:absolute;
+    top:-8%; left:-6%; right:-6%; bottom:-14%;
+    z-index:0;
+    pointer-events:none;
+    background:
+      radial-gradient(56% 50% at 50% 42%, rgba(168,50,70,.22) 0%, rgba(168,50,70,.08) 38%, transparent 72%),
+      radial-gradient(28% 40% at 12% 80%, rgba(168,50,70,.14) 0%, transparent 70%),
+      radial-gradient(28% 40% at 88% 80%, rgba(168,50,70,.14) 0%, transparent 70%);
+    filter:blur(28px);
+    border-radius:80px;
+    animation:apHaloPulse 9s ease-in-out infinite alternate;
+  }
+  @keyframes apHaloPulse{
+    from { opacity:.85; transform:scale(1); }
+    to   { opacity:1;   transform:scale(1.025); }
+  }
+  @media (prefers-reduced-motion:reduce){
+    .ap-halo{ animation:none; }
+  }
+  .ap-stage{
+    position:relative;
+    z-index:1;
+    width:100%;
+    max-width:880px;
+    margin:0 auto;
+    padding:clamp(22px,3vw,46px) clamp(22px,3vw,46px) clamp(26px,3.6vw,46px);
+    border-radius:14px;
+    background:
+      radial-gradient(130% 90% at 50% -10%, rgba(168,50,70,.22) 0%, rgba(168,50,70,.04) 38%, transparent 70%),
+      radial-gradient(120% 80% at 50% 110%, rgba(168,50,70,.16) 0%, transparent 55%),
+      radial-gradient(130% 90% at 50% -10%, #1c1014 0%, #0d0709 52%, #050304 100%);
+    border:1px solid rgba(168,50,70,.18);
+    box-shadow:
+      0 1px 3px rgba(0,0,0,.22),
+      0 36px 110px -38px rgba(70,12,24,.55),
+      inset 0 1px 0 rgba(255,255,255,.06),
+      inset 0 0 80px rgba(168,50,70,.06);
+    overflow:hidden;
+    isolation:isolate;
+  }
+  .ap-frame{
+    position:relative;
+    width:100%;
+    aspect-ratio:16/9;
+    border-radius:18px;
+    overflow:hidden;
+    border:1px solid rgba(168,50,70,.22);
+    box-shadow:
+      0 30px 80px rgba(0,0,0,.6),
+      inset 0 0 0 1px rgba(255,255,255,.05),
+      inset 0 0 60px rgba(168,50,70,.10);
+    background:#0a0507;
+  }
+  .ap-video{
+    position:absolute; inset:0;
+    width:100%; height:100%;
+    object-fit:cover;
+    display:block;
+  }
+  .ap-grain{
+    position:absolute; inset:0;
+    pointer-events:none;
+    mix-blend-mode:overlay;
+    opacity:.12;
+    background-image:url("data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' width='160' height='160'><filter id='n'><feTurbulence type='fractalNoise' baseFrequency='0.95' numOctaves='2' stitchTiles='stitch'/><feComponentTransfer><feFuncA type='linear' slope='0.7'/></feComponentTransfer></filter><rect width='100%25' height='100%25' filter='url(%23n)' opacity='0.55'/></svg>");
+    background-size:160px 160px;
+  }
+  /* Floating control pill — maroon-tinted glass */
+  .ap-controls{
+    position:relative;
+    width:92%;
+    max-width:880px;
+    margin:clamp(14px,1.6vw,22px) auto 0;
+    padding:14px 16px 16px;
+    border-radius:26px;
+    background:
+      linear-gradient(180deg, rgba(168,50,70,.10), rgba(168,50,70,.04)),
+      rgba(28,14,18,.55);
+    -webkit-backdrop-filter:blur(28px) saturate(155%);
+    backdrop-filter:blur(28px) saturate(155%);
+    border:1px solid rgba(168,50,70,.24);
+    box-shadow:
+      0 22px 56px rgba(40,8,16,.55),
+      inset 0 1px 0 rgba(255,255,255,.08);
+    color:var(--ap-fg);
+  }
+  .ap-progress-row{
+    display:flex; align-items:center; gap:11px;
+    margin-bottom:13px;
+  }
+  .ap-time{
+    font:500 11px/1 "IBM Plex Mono",monospace;
+    color:rgba(244,236,228,.55);
+    min-width:34px;
+    font-variant-numeric:tabular-nums;
+  }
+  .ap-time[data-rem]{ min-width:38px; text-align:right; }
+  .ap-range{
+    -webkit-appearance:none; appearance:none;
+    flex:1; height:4px;
+    background:linear-gradient(to right, var(--ap-acc) var(--ap-prog,0%), rgba(255,255,255,.18) var(--ap-prog,0%));
+    border-radius:99px;
+    outline:none;
+    cursor:pointer;
+  }
+  .ap-range::-webkit-slider-thumb{
+    -webkit-appearance:none; appearance:none;
+    width:11px; height:11px; border-radius:50%;
+    background:#f4ece4;
+    box-shadow:0 1px 4px rgba(0,0,0,.55);
+    transition:transform .12s ease;
+  }
+  .ap-range::-moz-range-thumb{
+    width:11px; height:11px; border:none; border-radius:50%;
+    background:#f4ece4;
+    box-shadow:0 1px 4px rgba(0,0,0,.55);
+  }
+  .ap-range:hover::-webkit-slider-thumb{ transform:scale(1.18); }
+
+  .ap-control-row{
+    display:flex; align-items:center; gap:14px;
+    flex-wrap:wrap;
+  }
+  .ap-transport{
+    display:flex; align-items:center; gap:4px;
+  }
+  .ap-btn{
+    display:inline-flex; align-items:center; justify-content:center;
+    border:none; border-radius:50%;
+    background:transparent;
+    color:rgba(244,236,228,.85);
+    cursor:pointer;
+    transition:background .2s ease, transform .12s ease;
+  }
+  .ap-btn:hover{ background:rgba(255,255,255,.10); }
+  .ap-btn-sm{ width:34px; height:34px; }
+  .ap-btn-md{ width:42px; height:42px; }
+  .ap-play{
+    background:var(--ap-acc);
+    color:#fff;
+    box-shadow:0 5px 16px rgba(168,50,70,.5);
+  }
+  .ap-play:hover{ background:var(--ap-acc); transform:translateY(-1px); }
+  .ap-track-card{
+    flex:1; min-width:0;
+    display:flex; flex-direction:column; justify-content:center; gap:3px;
+    padding:4px 18px;
+  }
+  .ap-track-title{
+    font:italic 400 14px/1.2 "Newsreader",Georgia,serif;
+    color:rgba(244,236,228,.82);
+    letter-spacing:.01em;
+    white-space:nowrap; overflow:hidden; text-overflow:ellipsis;
+  }
+  .ap-track-desc{
+    font:11.5px/1.4 "Söhne","Inter",system-ui,sans-serif;
+    color:rgba(244,236,228,.50);
+    letter-spacing:.005em;
+    display:-webkit-box;
+    -webkit-line-clamp:2;
+    -webkit-box-orient:vertical;
+    overflow:hidden;
+  }
+  .ap-volume{
+    display:flex; align-items:center; gap:8px;
+  }
+  .ap-vol-range{
+    -webkit-appearance:none; appearance:none;
+    width:60px; height:3px;
+    background:linear-gradient(to right, #f4ece4 var(--ap-vol,60%), rgba(255,255,255,.18) var(--ap-vol,60%));
+    border-radius:99px;
+    outline:none;
+    cursor:pointer;
+  }
+  .ap-vol-range::-webkit-slider-thumb{
+    -webkit-appearance:none; appearance:none;
+    width:9px; height:9px; border-radius:50%;
+    background:#f4ece4;
+    box-shadow:0 1px 4px rgba(0,0,0,.55);
+  }
+  .ap-vol-range::-moz-range-thumb{
+    width:9px; height:9px; border:none; border-radius:50%;
+    background:#f4ece4;
+    box-shadow:0 1px 4px rgba(0,0,0,.55);
+  }
+
+  @media (max-width:640px){
+    .ap-stage{ border-radius:10px; }
+    .ap-frame{ border-radius:14px; }
+    .ap-controls{ width:96%; padding:12px 12px 14px; border-radius:20px; }
+    .ap-control-row{ gap:10px; }
+    .ap-track-card{ order:3; flex-basis:100%; }
+    .ap-volume{ order:2; }
+    .ap-poster-wordmark{ font-size:42px; }
+    .ap-poster-tag{ font-size:9px; letter-spacing:.32em; }
+  }
+  @media (prefers-reduced-motion:reduce){
+    .ap-poster{ transition:none; }
+  }
+
   /* ============== Essay abstract (one-paragraph entry) ============== */
   .essay-abstract{
     margin:clamp(36px,5vh,52px) 0 clamp(40px,6vh,72px);
@@ -317,15 +527,25 @@
     color:var(--text-muted);
     margin:0;
   }
+  .section-title{ color:var(--accent); }
 </style>
+<script defer src="/_vercel/insights/script.js"></script>
+<link rel="stylesheet" href="nav-menu.css">
+<script defer src="nav-menu.js"></script>
 </head>
 <body class="palette-maroon">
 
   <div class="nav-wrap">
     <nav class="tacit-nav" aria-label="Primary">
-      <a href="brief.html" data-nav="brief">brief</a>
+      <div class="nav-menu" data-nav="product">
+        <button type="button" class="nav-menu-btn" aria-expanded="false" aria-controls="nav-product-menu">product<svg class="chev" viewBox="0 0 10 10" aria-hidden="true"><path d="M2 3.5l3 3 3-3" fill="none" stroke="currentColor" stroke-width="1.4" stroke-linecap="round" stroke-linejoin="round"/></svg></button>
+        <div class="nav-menu-panel" id="nav-product-menu">
+          <a class="nav-menu-item" href="insurance.html"><span class="nm-title">Underwriting</span><span class="nm-sub">For MGAs and Lloyd’s coverholders</span></a>
+          <a class="nav-menu-item" href="cybersoc.html"><span class="nm-title">CyberSOC</span><span class="nm-sub">For CISOs at regulated firms</span></a>
+        </div>
+      </div>
       <a href="thesis.html" data-nav="thesis" class="current">thesis</a>
-      <a href="insurance.html" data-nav="insurance">insurance</a>
+      <a href="brief.html" data-nav="brief">brief</a>
       <a href="index.html" class="logo-link" aria-label="Home"><span class="logo" aria-hidden="true"></span></a>
       <a href="founders.html" data-nav="founders">founders</a>
       <a href="essays.html" data-nav="essays">essays</a>
@@ -334,11 +554,60 @@
 
   <main class="page">
 
+    <!-- Ambient player (Spatial / faithful glass) -->
+    <section class="ambient-player" aria-label="Tacit ambient player">
+      <div class="ap-halo" aria-hidden="true"></div>
+      <div class="ap-stage">
+        <div class="ap-frame">
+          <video class="ap-video" id="ap-video" playsinline loop muted preload="auto" autoplay aria-label="Tacit thesis reel">
+            <source src="assets/tacitlabs-thesis-CTA.mp4" type="video/mp4">
+          </video>
+          <div class="ap-grain" aria-hidden="true"></div>
+        </div>
+
+        <div class="ap-controls" role="group" aria-label="Playback controls">
+          <div class="ap-progress-row">
+            <span class="ap-time" id="ap-time">0:00</span>
+            <input class="ap-range" id="ap-seek" type="range" min="0" max="1000" value="0" step="1" aria-label="Seek through reel">
+            <span class="ap-time" id="ap-rem" data-rem>-0:00</span>
+          </div>
+
+          <div class="ap-control-row">
+            <div class="ap-transport">
+              <button class="ap-btn ap-btn-sm" id="ap-back" type="button" aria-label="Back 10 seconds">
+                <svg width="20" height="20" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M7 6v12H5V6h2zm12 0v12l-9-6 9-6z"/></svg>
+              </button>
+              <button class="ap-btn ap-btn-md ap-play" id="ap-toggle" type="button" aria-label="Play or pause">
+                <svg id="ap-icon-play" width="18" height="18" viewBox="0 0 24 24" fill="currentColor" style="margin-left:2px;display:none;" aria-hidden="true"><path d="M8 5v14l11-7z"/></svg>
+                <svg id="ap-icon-pause" width="18" height="18" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M7 5h3.5v14H7zM13.5 5H17v14h-3.5z"/></svg>
+              </button>
+              <button class="ap-btn ap-btn-sm" id="ap-fwd" type="button" aria-label="Forward 10 seconds">
+                <svg width="20" height="20" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M17 6v12h2V6h-2zM5 6l9 6-9 6V6z"/></svg>
+              </button>
+            </div>
+
+            <div class="ap-track-card" aria-hidden="true">
+              <div class="ap-track-title">Expertise is a runtime</div>
+              <div class="ap-track-desc">An essay on what humans pass to each other, why most of it has always been lost, and what the next AI-powered decade lets us keep.</div>
+            </div>
+
+            <div class="ap-volume">
+              <button class="ap-btn" id="ap-mute" type="button" aria-label="Mute or unmute" style="width:32px;height:32px;border-radius:9px;">
+                <svg id="ap-icon-unmute" width="19" height="19" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M4 9v6h4l5 5V4L8 9H4z"/><path d="M16 8.5a5 5 0 0 1 0 7" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round"/></svg>
+                <svg id="ap-icon-muted" width="19" height="19" viewBox="0 0 24 24" fill="currentColor" style="display:none;" aria-hidden="true"><path d="M4 9v6h4l5 5V4L8 9H4z"/><line x1="16" y1="9" x2="22" y2="15" stroke="currentColor" stroke-width="1.8" stroke-linecap="round"/><line x1="22" y1="9" x2="16" y2="15" stroke="currentColor" stroke-width="1.8" stroke-linecap="round"/></svg>
+              </button>
+              <input class="ap-vol-range" id="ap-vol" type="range" min="0" max="100" value="60" step="1" aria-label="Volume">
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
     <!-- Hero -->
     <header>
       <h1 class="page-title">Expertise is a runtime.</h1>
       <p class="t10 lead">An essay on what humans pass to each other, why most of it has always been lost, and what the next decade lets us keep.</p>
-      <p class="byline"><em>By Jaskaran Singh</em> · Founder, Tacit Labs · May 2026</p>
+      <p class="byline"><em>By Jaskaran Singh</em> · Founder, Tacit Labs · May 2026 · updated October 2026</p>
     </header>
 
     <!-- Abstract -->
@@ -456,7 +725,7 @@
       <span class="roman">VIII</span>
       <h2 class="section-title">What becomes possible.</h2>
       <p class="t12">I want to spend the rest of this essay on what becomes possible if the capture happens. This is the part that is most often elided in discussions of AI infrastructure, partly because the people who think most carefully about the technology tend to be cautious about overclaiming, and partly because the magnitude of what is at stake is genuinely difficult to articulate without sounding grandiose. I am going to attempt it anyway, because the careful articulation seems to me more honest than the cautious silence.</p>
-      <p class="t12">Start with the conservative case, because it is the easiest to defend and because most of the actual commercial deployment in the next five years will be in this register. The conservative case is that institutions will use the capture infrastructure to preserve the working knowledge of their senior staff before they retire, to accelerate the development of their junior staff by giving them queryable access to the senior runtime, and to ground the AI agents they are deploying in production in the institution's own captured judgement rather than in generic model output. This is what we are building toward at Tacit Labs in the first vertical, and this is what the first generation of customers will pay for. The conservative case is enough to justify the entire venture, several times over, on commercial terms.</p>
+      <p class="t12">Start with the conservative case, because it is the easiest to defend and because most of the actual commercial deployment in the next five years will be in this register. The conservative case is that institutions will use the capture infrastructure to preserve the working knowledge of their senior staff before they retire, to accelerate the development of their junior staff by giving them queryable access to the senior runtime, and to ground the AI agents they are deploying in production in the institution's own captured judgement rather than in generic model output. This is what we are building toward at Tacit Labs, first in underwriting, and this is what the first generation of customers will pay for. The conservative case is enough to justify the entire venture, several times over, on commercial terms.</p>
       <p class="t12">But the conservative case understates what becomes possible. The conservative case treats expertise capture as a defensive technology, like a backup system, useful in proportion to the loss it prevents. The more interesting argument is that captured expertise becomes generative once it is made queryable and recombinable at scale, and that the generativity opens possibilities the original experts themselves would not have been able to access.</p>
       <p class="t12">Consider what happens when twenty senior underwriters at twenty different specialty carriers have each had their runtime captured into the same structural representation. Each of these underwriters has, over thirty or forty years of work, accumulated a set of idiosyncratic pattern recognitions specific to her own experience. Each of them has seen cases the others have not seen. Each of them has noticed things the others have not noticed. Each of them has developed heuristics that work in her own carrier's book of business and that have never been tested against the books of the others. In the world we have been living in, this accumulated diversity is essentially unrecoverable. Each underwriter retires and her particular slice of the collective expertise vanishes with her, and the next underwriter at her carrier starts over.</p>
       <p class="t12">In a world where the runtime of each of these underwriters has been captured into a queryable graph, the diversity becomes a resource. A junior underwriter handling a difficult case can query not just her own carrier's captured graph but, with appropriate permissions and anonymisation, the cross-carrier reference library that the industry has accumulated. She can see how seven different senior underwriters would have approached the same case. She can see where they agree and where they disagree, and the disagreement itself is information. The decision-making capacity of the junior, in this picture, is not just her own training plus her carrier's graph. It is her training, plus her carrier's graph, plus a structured representation of the entire senior layer of her profession, all queryable in the moment of decision.</p>
@@ -492,6 +761,7 @@
       <p class="t12">I have spent most of this essay writing in the abstract, because the abstract is where the thesis lives and where it has to be defensible before any specific company is worth attention. The remaining part is more concrete.</p>
       <p class="t12">Karan and I co-founded Tacit Labs in 2025, after spending the previous decade running an enterprise AI implementation consultancy, which was, in retrospect, a long apprenticeship rather than a destination. The toil of it taught us something that no shorter exposure to the enterprise AI market would have taught. Across more than fifteen large enterprise deployments in financial services, healthcare, and industrial domains, we watched the same pattern repeat, with a consistency that eventually stopped being a series of individual failures and started being a single structural finding. Each deployment shipped, performed well on the explicit knowledge layer, and then plateaued at the boundary where the implicit and tacit layers began. Each deployment was overridden by senior experts at rates between twenty-five and forty percent of the cases that reached them, and the overrides were, on careful examination, correct between eighty and ninety percent of the time. Each institution absorbed the override gap as friction. Each one paid the cost of the missing runtime twice. Once when the agent produced the wrong recommendation, and again when the senior expert had to override it and the reasoning behind the override evaporated into a help-desk ticket. We watched this pattern for seven years. By the time we had seen it across enough institutions and enough verticals to be sure it was not a vendor-specific or a sector-specific phenomenon, we had concluded that the problem was structural and that no amount of further investment in the existing approaches was going to solve it.</p>
       <p class="t12">Tacit Labs exists to solve it. We are building the capture infrastructure that has, until 2024, been impossible to build at commercial scale. We are starting in insurance underwriting because it has the densest concentration of tacit expertise of any regulated decision function on earth, the steepest retirement curve, the most active regulatory pressure on explainability, and the strongest natural fit for the methodology we have built. We are deploying with a single live customer today, a clinical neurotechnology company called Brainoscope, which serves as a small but rigorous microcosm of the larger thesis: the methodology is actively capturing the cognitive runtime of three senior clinical and technical specialists. This is the demonstration that the methodology produces output that the experts themselves recognise as their own thinking. It is not the commercial wedge, which begins in insurance this year.</p>
+      <p class="t12">Since this essay was written, we have launched a second product, <a href="cybersoc.html">CyberSOC</a>, for CISOs at regulated firms. It uses the same engine on the AI agents in a security operations centre: it checks the calls they make on the firm's own alerts against what actually happened, and shows where the evidence supports letting them act alone. It judges the agents, not the analysts.</p>
 
       <h3 class="section-title" style="font-size:clamp(20px,1.9vw,26px); margin-top:48px;">The methodology, in five parts.</h3>
       <p class="t12">Tacit captures the cognitive runtime of expert decision-making through five complementary methods that run in parallel against the same population of decisions. There is no single capture trick that produces the runtime. Every method is built around the same constraint, which the cognitive science has been unambiguous about for forty years: the runtime is opaque to self-report and visible only in behaviour under operational conditions. The methods do not ask experts what they do. They observe what experts do, in the conditions where it matters.</p>
@@ -559,7 +829,7 @@
         </section>
       </div>
 
-      <p class="t10">Tacit in production. A senior underwriter asks the system what to do with a marginal loan. The system answers using only the heuristics captured from the institution's own senior officers, names the heuristics, grades the confidence of each, surfaces the caveats, and ends on a line of fine print that matters: answers cite captured heuristics only, no fabrication. Nothing is generated from the foundation model's general knowledge. Every claim is grounded in a node in the cognitive graph, with provenance traceable to the named expert who authored it.</p>
+      <p class="t10">Tacit in production. A senior underwriter asks the system what to do with a marginal risk. The system answers using only the heuristics captured from the institution's own senior underwriters, names the heuristics, grades the confidence of each, surfaces the caveats, and ends on a line of fine print that matters: answers cite captured heuristics only, no fabrication. Nothing is generated from the foundation model's general knowledge. Every claim is grounded in a node in the cognitive graph, with provenance traceable to the named expert who authored it.</p>
 
       <aside class="authorial-note">
         <p>A note on what follows. The next three sections are more concrete than the philosophical opening of this essay, and they describe what existing approaches to capturing expert judgement look like, what a serious methodology actually has to do, and where the various offerings in the broader AI-infrastructure category sit on a single map. I have included this material because the long-form argument feels incomplete without it. The philosophy is unfalsifiable until it touches the specific shape of what gets built. The risk is that these sections read as a product pitch for the company I have spent the previous section naming. I have tried to write them as argument rather than as sales material, and I have kept the worked examples specific enough that a reader who disagrees with me on the particulars can disagree productively. If they read as pitch, the failure is mine.</p>
@@ -634,6 +904,7 @@
 
     <section class="section-cta cta-center">
       <h2 class="h">Preserve expertise.</h2>
+      <p class="t12" style="margin:0 auto;max-width:62ch">Two products run on one engine: <a href="insurance.html">Underwriting</a>, for MGAs and Lloyd’s coverholders, and <a href="cybersoc.html">CyberSOC</a>, for CISOs at regulated firms.</p>
       <div class="ctas">
         <a class="cta" href="mailto:hi@tacitlabs.ai?subject=Operator">start the conversation
           <svg width="14" height="14" viewBox="0 0 14 14" fill="none" aria-hidden="true">
@@ -648,7 +919,7 @@
   <footer class="site-foot">
     <div>
       <div class="foot-brand" aria-label="tacitlabs"><img src="assets/tacit-wordmark.svg" alt="tacit"></div>
-      <p class="colophon">The judgment layer for AI agents in regulated industries.</p>
+      <p class="colophon">Recovering the judgement that was never written down.</p>
     </div>
     <div>
       <h4>Company</h4>
@@ -664,7 +935,8 @@
       <ul>
         <li><a href="brief.html">Brief</a></li>
         <li><a href="thesis.html">Full thesis</a></li>
-        <li><a href="insurance.html">Product</a></li>
+        <li><a href="insurance.html">Product · Underwriting</a></li>
+        <li><a href="cybersoc.html">Product · CyberSOC</a></li>
         <li><a href="atlas.html">Atlas</a></li>
       </ul>
     </div>
@@ -672,6 +944,7 @@
       <h4>Contact</h4>
       <ul>
         <li><a href="mailto:hi@tacitlabs.ai?subject=Operator">hi@tacitlabs.ai · Operator</a></li>
+        <li><a href="mailto:hi@tacitlabs.ai?subject=CyberSOC">hi@tacitlabs.ai · CyberSOC</a></li>
         <li><a href="mailto:hi@tacitlabs.ai?subject=Investor">hi@tacitlabs.ai · Investor</a></li>
         <li><a href="mailto:hi@tacitlabs.ai?subject=Team">hi@tacitlabs.ai · Team</a></li>
       </ul>
@@ -831,6 +1104,95 @@
           <span class="clock-time">${String(s.mins).padStart(2,'0')} min read</span>
         </span>
       </a>`).join('');
+  })();
+  </script>
+
+  <script>
+  /* Ambient player wiring — real <video> driven by the floating glass controls. */
+  (function(){
+    const video    = document.getElementById('ap-video');
+    const toggle   = document.getElementById('ap-toggle');
+    const iconPlay = document.getElementById('ap-icon-play');
+    const iconPause= document.getElementById('ap-icon-pause');
+    const back     = document.getElementById('ap-back');
+    const fwd      = document.getElementById('ap-fwd');
+    const seek     = document.getElementById('ap-seek');
+    const timeEl   = document.getElementById('ap-time');
+    const remEl    = document.getElementById('ap-rem');
+    const mute     = document.getElementById('ap-mute');
+    const iconUnmute = document.getElementById('ap-icon-unmute');
+    const iconMuted  = document.getElementById('ap-icon-muted');
+    const vol      = document.getElementById('ap-vol');
+    if(!video) return;
+
+    function fmt(sec){
+      if(!isFinite(sec) || sec<0) sec=0;
+      const m=Math.floor(sec/60), s=Math.floor(sec%60);
+      return m+':'+String(s).padStart(2,'0');
+    }
+    function syncPlayIcon(){
+      const playing = !video.paused && !video.ended;
+      iconPlay.style.display  = playing ? 'none' : '';
+      iconPause.style.display = playing ? '' : 'none';
+    }
+    function syncMuteIcon(){
+      const m = video.muted || video.volume===0;
+      iconUnmute.style.display = m ? 'none' : '';
+      iconMuted.style.display  = m ? '' : 'none';
+    }
+    function setSeekFill(){
+      const pct = (video.duration>0) ? (video.currentTime/video.duration)*100 : 0;
+      seek.style.setProperty('--ap-prog', pct.toFixed(2)+'%');
+      seek.value = Math.round(pct*10);
+    }
+    function setVolFill(){
+      const pct = (video.muted ? 0 : video.volume*100);
+      vol.style.setProperty('--ap-vol', pct.toFixed(0)+'%');
+    }
+
+    video.addEventListener('loadedmetadata', () => {
+      timeEl.textContent = fmt(0);
+      remEl.textContent  = '-'+fmt(video.duration||0);
+      setSeekFill();
+      // initial volume: 60% to match the slider's default value
+      video.volume = parseInt(vol.value,10)/100;
+      setVolFill();
+      syncMuteIcon();
+    });
+    video.addEventListener('timeupdate', () => {
+      timeEl.textContent = fmt(video.currentTime);
+      remEl.textContent  = '-'+fmt(Math.max(0,(video.duration||0)-video.currentTime));
+      setSeekFill();
+    });
+    video.addEventListener('play',  syncPlayIcon);
+    video.addEventListener('pause', syncPlayIcon);
+    video.addEventListener('ended', syncPlayIcon);
+    video.addEventListener('volumechange', () => { setVolFill(); syncMuteIcon(); });
+
+    toggle.addEventListener('click', () => {
+      if(video.paused){ video.play().catch(()=>{}); } else { video.pause(); }
+    });
+    back.addEventListener('click', () => { video.currentTime = Math.max(0, video.currentTime-10); });
+    fwd .addEventListener('click', () => { video.currentTime = Math.min(video.duration||0, video.currentTime+10); });
+    seek.addEventListener('input', () => {
+      if(!video.duration) return;
+      const pct = parseInt(seek.value,10)/1000;
+      video.currentTime = pct*video.duration;
+      seek.style.setProperty('--ap-prog', (pct*100).toFixed(2)+'%');
+    });
+    mute.addEventListener('click', () => {
+      video.muted = !video.muted;
+      if(!video.muted && video.volume===0){ video.volume=0.6; vol.value=60; }
+    });
+    vol.addEventListener('input', () => {
+      const v = parseInt(vol.value,10)/100;
+      video.volume = v;
+      video.muted = (v===0);
+    });
+
+    syncPlayIcon();
+    syncMuteIcon();
+    setVolFill();
   })();
   </script>
 

@@ -47,8 +47,8 @@
   </g>
 
   <!-- Tagline -->
-  <text x="100" y="540" font-family="Newsreader, Georgia, 'Times New Roman', serif" font-size="40" fill="#1f1810" font-style="italic" font-weight="400">the judgment layer for AI agents</text>
-  <text x="100" y="590" font-family="Newsreader, Georgia, 'Times New Roman', serif" font-size="40" fill="#1f1810" font-style="italic" font-weight="400">in regulated industries.</text>
+  <text x="100" y="540" font-family="Newsreader, Georgia, 'Times New Roman', serif" font-size="40" fill="#1f1810" font-style="italic" font-weight="400">recovering the judgement</text>
+  <text x="100" y="590" font-family="Newsreader, Georgia, 'Times New Roman', serif" font-size="40" fill="#1f1810" font-style="italic" font-weight="400">that was never written down.</text>
 
   <!-- Brand orb in upper-right -->
   <circle cx="1080" cy="100" r="34" fill="url(#orb)"/>

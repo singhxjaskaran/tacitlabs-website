@@ -25,6 +25,8 @@
 /* ============== Base ============== */
 *{ box-sizing:border-box }
 html,body{ height:100%; margin:0 }
+/* Clip at the root too: with only body clipped, phones still let you pan sideways into the 50vw section wings */
+html{ overflow-x:clip; }
 body{ overflow-x:clip; }
 body{
   min-height:100svh;
