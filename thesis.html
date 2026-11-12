@@ -540,15 +540,16 @@
       <div class="nav-menu" data-nav="product">
         <button type="button" class="nav-menu-btn" aria-expanded="false" aria-controls="nav-product-menu">product<svg class="chev" viewBox="0 0 10 10" aria-hidden="true"><path d="M2 3.5l3 3 3-3" fill="none" stroke="currentColor" stroke-width="1.4" stroke-linecap="round" stroke-linejoin="round"/></svg></button>
         <div class="nav-menu-panel" id="nav-product-menu">
-          <a class="nav-menu-item" href="insurance.html"><span class="nm-title">Underwriting</span><span class="nm-sub">For MGAs and Lloyd’s coverholders</span></a>
-          <a class="nav-menu-item" href="cybersoc.html"><span class="nm-title">CyberSOC</span><span class="nm-sub">For CISOs at regulated firms</span></a>
+          <a class="nav-menu-item" href="cybersoc.html"><i class="nm-mark" aria-hidden="true"></i><span class="nm-title">CyberSOC</span><span class="nm-sub">For SOC teams and the people who run them</span></a>
+          <span class="nav-menu-item is-soon"><i class="nm-mark" aria-hidden="true"></i><span class="nm-title">Quality assurance <span class="nm-tag">in the lab</span></span><span class="nm-sub">For the AI agents at work in your company</span></span>
+          <!-- Underwriting is parked for now. To bring it back: <a class="nav-menu-item" href="insurance.html"><i class="nm-mark" aria-hidden="true"></i><span class="nm-title">Underwriting</span><span class="nm-sub">For MGAs and Lloyd’s coverholders</span></a> -->
         </div>
       </div>
       <a href="thesis.html" data-nav="thesis" class="current">thesis</a>
-      <a href="brief.html" data-nav="brief">brief</a>
+      <a href="brief.html" data-nav="brief">elevator pitch</a>
       <a href="index.html" class="logo-link" aria-label="Home"><span class="logo" aria-hidden="true"></span></a>
       <a href="founders.html" data-nav="founders">founders</a>
-      <a href="essays.html" data-nav="essays">essays</a>
+      <a href="essays.html" data-nav="essays">research</a>
     </nav>
   </div>
 
@@ -725,7 +726,7 @@
       <span class="roman">VIII</span>
       <h2 class="section-title">What becomes possible.</h2>
       <p class="t12">I want to spend the rest of this essay on what becomes possible if the capture happens. This is the part that is most often elided in discussions of AI infrastructure, partly because the people who think most carefully about the technology tend to be cautious about overclaiming, and partly because the magnitude of what is at stake is genuinely difficult to articulate without sounding grandiose. I am going to attempt it anyway, because the careful articulation seems to me more honest than the cautious silence.</p>
-      <p class="t12">Start with the conservative case, because it is the easiest to defend and because most of the actual commercial deployment in the next five years will be in this register. The conservative case is that institutions will use the capture infrastructure to preserve the working knowledge of their senior staff before they retire, to accelerate the development of their junior staff by giving them queryable access to the senior runtime, and to ground the AI agents they are deploying in production in the institution's own captured judgement rather than in generic model output. This is what we are building toward at Tacit Labs, first in underwriting, and this is what the first generation of customers will pay for. The conservative case is enough to justify the entire venture, several times over, on commercial terms.</p>
+      <p class="t12">Start with the conservative case, because it is the easiest to defend and because most of the actual commercial deployment in the next five years will be in this register. The conservative case is that institutions will use the capture infrastructure to preserve the working knowledge of their senior staff before they retire, to accelerate the development of their junior staff by giving them queryable access to the senior runtime, and to ground the AI agents they are deploying in production in the institution's own captured judgement rather than in generic model output. This is what we are building toward at Tacit Labs, first in security operations, and this is what the first generation of customers will pay for. The conservative case is enough to justify the entire venture, several times over, on commercial terms.</p>
       <p class="t12">But the conservative case understates what becomes possible. The conservative case treats expertise capture as a defensive technology, like a backup system, useful in proportion to the loss it prevents. The more interesting argument is that captured expertise becomes generative once it is made queryable and recombinable at scale, and that the generativity opens possibilities the original experts themselves would not have been able to access.</p>
       <p class="t12">Consider what happens when twenty senior underwriters at twenty different specialty carriers have each had their runtime captured into the same structural representation. Each of these underwriters has, over thirty or forty years of work, accumulated a set of idiosyncratic pattern recognitions specific to her own experience. Each of them has seen cases the others have not seen. Each of them has noticed things the others have not noticed. Each of them has developed heuristics that work in her own carrier's book of business and that have never been tested against the books of the others. In the world we have been living in, this accumulated diversity is essentially unrecoverable. Each underwriter retires and her particular slice of the collective expertise vanishes with her, and the next underwriter at her carrier starts over.</p>
       <p class="t12">In a world where the runtime of each of these underwriters has been captured into a queryable graph, the diversity becomes a resource. A junior underwriter handling a difficult case can query not just her own carrier's captured graph but, with appropriate permissions and anonymisation, the cross-carrier reference library that the industry has accumulated. She can see how seven different senior underwriters would have approached the same case. She can see where they agree and where they disagree, and the disagreement itself is information. The decision-making capacity of the junior, in this picture, is not just her own training plus her carrier's graph. It is her training, plus her carrier's graph, plus a structured representation of the entire senior layer of her profession, all queryable in the moment of decision.</p>
@@ -760,7 +761,7 @@
       <h2 class="section-title">What we are building.</h2>
       <p class="t12">I have spent most of this essay writing in the abstract, because the abstract is where the thesis lives and where it has to be defensible before any specific company is worth attention. The remaining part is more concrete.</p>
       <p class="t12">Karan and I co-founded Tacit Labs in 2025, after spending the previous decade running an enterprise AI implementation consultancy, which was, in retrospect, a long apprenticeship rather than a destination. The toil of it taught us something that no shorter exposure to the enterprise AI market would have taught. Across more than fifteen large enterprise deployments in financial services, healthcare, and industrial domains, we watched the same pattern repeat, with a consistency that eventually stopped being a series of individual failures and started being a single structural finding. Each deployment shipped, performed well on the explicit knowledge layer, and then plateaued at the boundary where the implicit and tacit layers began. Each deployment was overridden by senior experts at rates between twenty-five and forty percent of the cases that reached them, and the overrides were, on careful examination, correct between eighty and ninety percent of the time. Each institution absorbed the override gap as friction. Each one paid the cost of the missing runtime twice. Once when the agent produced the wrong recommendation, and again when the senior expert had to override it and the reasoning behind the override evaporated into a help-desk ticket. We watched this pattern for seven years. By the time we had seen it across enough institutions and enough verticals to be sure it was not a vendor-specific or a sector-specific phenomenon, we had concluded that the problem was structural and that no amount of further investment in the existing approaches was going to solve it.</p>
-      <p class="t12">Tacit Labs exists to solve it. We are building the capture infrastructure that has, until 2024, been impossible to build at commercial scale. We are starting in insurance underwriting because it has the densest concentration of tacit expertise of any regulated decision function on earth, the steepest retirement curve, the most active regulatory pressure on explainability, and the strongest natural fit for the methodology we have built. We are deploying with a single live customer today, a clinical neurotechnology company called Brainoscope, which serves as a small but rigorous microcosm of the larger thesis: the methodology is actively capturing the cognitive runtime of three senior clinical and technical specialists. This is the demonstration that the methodology produces output that the experts themselves recognise as their own thinking. It is not the commercial wedge, which begins in insurance this year.</p>
+      <p class="t12">Tacit Labs exists to solve it. We are building the capture infrastructure that has, until 2024, been impossible to build at commercial scale. We are starting in the security operations centre, because close to half the alerts an analyst opens there are closed on what she knows about the client and nothing else, because that knowledge leaves every time an analyst or a provider changes, and because the people who run these desks are now being handed AI agents whose calls somebody has to check. We are deploying with a single live customer today, a clinical neurotechnology company called Brainoscope, which serves as a small but rigorous microcosm of the larger thesis: the methodology is actively capturing the cognitive runtime of three senior clinical and technical specialists. This is the demonstration that the methodology produces output that the experts themselves recognise as their own thinking. It is not the commercial wedge, which begins in security operations this year.</p>
       <p class="t12">Since this essay was written, we have launched a second product, <a href="cybersoc.html">CyberSOC</a>, for CISOs at regulated firms. It uses the same engine on the AI agents in a security operations centre: it checks the calls they make on the firm's own alerts against what actually happened, and shows where the evidence supports letting them act alone. It judges the agents, not the analysts.</p>
 
       <h3 class="section-title" style="font-size:clamp(20px,1.9vw,26px); margin-top:48px;">The methodology, in five parts.</h3>
@@ -904,7 +905,7 @@
 
     <section class="section-cta cta-center">
       <h2 class="h">Preserve expertise.</h2>
-      <p class="t12" style="margin:0 auto;max-width:62ch">Two products run on one engine: <a href="insurance.html">Underwriting</a>, for MGAs and Lloyd’s coverholders, and <a href="cybersoc.html">CyberSOC</a>, for CISOs at regulated firms.</p>
+      <p class="t12" style="margin:0 auto;max-width:62ch">The first product on that engine is <a href="cybersoc.html">CyberSOC</a>, for SOC teams and the people who run them.</p>
       <div class="ctas">
         <a class="cta" href="mailto:hi@tacitlabs.ai?subject=Operator">start the conversation
           <svg width="14" height="14" viewBox="0 0 14 14" fill="none" aria-hidden="true">
@@ -926,16 +927,16 @@
       <ul>
         <li><a href="index.html">Home</a></li>
         <li><a href="founders.html">Founders</a></li>
-        <li><a href="essays.html">Writing</a></li>
+        <li><a href="essays.html">Research</a></li>
         <li><a href="mailto:hi@tacitlabs.ai">Contact</a></li>
       </ul>
     </div>
     <div>
       <h4>Read deeper</h4>
       <ul>
-        <li><a href="brief.html">Brief</a></li>
+        <li><a href="brief.html">Elevator pitch</a></li>
         <li><a href="thesis.html">Full thesis</a></li>
-        <li><a href="insurance.html">Product · Underwriting</a></li>
+        <!-- <li><a href="insurance.html">Product · Underwriting</a></li> -->
         <li><a href="cybersoc.html">Product · CyberSOC</a></li>
         <li><a href="atlas.html">Atlas</a></li>
       </ul>

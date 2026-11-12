@@ -23,13 +23,19 @@
     <link rel="preconnect" href="https://fonts.googleapis.com" />
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
     <link rel="stylesheet" href="monolith.css" />
+    <link rel="stylesheet" href="nav-menu.css" />
     <style>
       /* The SOC product page. The card index opens it; then the problem, how Tacit solves it, the tech,
          what Tacit is not, and what a design partner gets back. */
+      :root { --navh: 76px; --rail: 0px; }
+      html { scroll-behavior: smooth; }
+      section[id] { scroll-margin-top: 96px; }
       .hero {
         position: relative;
-        min-height: min(940px, calc(100vh - 74px));
-        padding: clamp(36px, 7vh, 84px) var(--gutter) 40px;
+        isolation: isolate;
+        min-height: min(920px, 100vh);
+        margin-top: calc(-1 * var(--navh));
+        padding: calc(var(--navh) + clamp(30px, 6vh, 72px)) var(--gutter) 40px;
         display: grid;
         grid-template-columns: minmax(0, 1fr) auto;
         grid-template-rows: 1fr auto;
@@ -37,43 +43,69 @@
         overflow: hidden;
         border-bottom: 1px solid var(--ink);
       }
+      .hero > * {
+        position: relative;
+      }
+      /* the ground: the hall on film, already toned to the page's grey in the file itself,
+         so no browser has to filter or blend it */
+      .hero .hero-bg {
+        position: absolute;
+        inset: 0;
+        z-index: -1;
+        overflow: hidden;
+        background: var(--concrete) url(assets/hall.jpg) center 30% / cover no-repeat;
+      }
+      .hero-bg video {
+        position: absolute;
+        inset: 0;
+        width: 100%;
+        height: 100%;
+        -o-object-fit: cover;
+        object-fit: cover;
+        -o-object-position: center 30%;
+        object-position: center 30%;
+      }
+      /* a little of the page's grey laid back over the left, where the words are */
+      .hero-bg::after {
+        content: '';
+        position: absolute;
+        inset: 0;
+        background: linear-gradient(90deg, rgba(148, 148, 140, 0.62) 0%, rgba(148, 148, 140, 0.34) 46%, rgba(148, 148, 140, 0) 78%);
+      }
       .hero canvas {
         position: absolute;
         inset: 0;
         width: 100%;
         height: 100%;
       }
-      .hero > * {
-        position: relative;
-      }
       .hero h1 {
         z-index: 2;
         grid-column: 1 / -1;
-        font-size: clamp(54px, 10.4vw, 186px);
+        font-size: clamp(48px, 8.4vw, 148px);
         max-width: 8.2em;
       }
       .hero-say {
         display: grid;
         gap: 24px;
         align-self: end;
-        max-width: min(500px, 34vw);
+        max-width: min(500px, 33vw);
         z-index: 2;
       }
       .hero-say .lead {
         background: var(--concrete);
-        box-shadow: 0 0 0 10px var(--concrete);
+        box-shadow: 0 0 0 12px var(--concrete);
       }
       .hero-stat {
         align-self: end;
-        width: min(330px, 78vw);
+        width: min(320px, 78vw);
         background: var(--signal);
         box-shadow: 0 0 0 2px var(--ink);
-        padding: 20px 22px 18px;
+        padding: 18px 20px 16px;
         display: grid;
         gap: 10px;
       }
       .hero-stat b {
-        font-size: clamp(76px, 8vw, 128px);
+        font-size: clamp(68px, 6.6vw, 104px);
         font-family: var(--serif);
         font-weight: 500;
         letter-spacing: -0.04em;
@@ -90,7 +122,7 @@
       }
       .keptline {
         position: absolute;
-        left: 37%;
+        left: 41%;
         top: 55%;
         rotate: -4.3deg;
         background: var(--blue);
@@ -113,7 +145,7 @@
       .kept {
         position: absolute;
         right: var(--gutter);
-        top: 22px;
+        top: calc(var(--navh) + 20px);
         display: flex;
         gap: 18px;
         font-size: 12.5px;
@@ -123,9 +155,61 @@
         z-index: 2;
       }
 
+      /* the page's own index: a rail down the left, like the product's */
+      .rail { display: none; }
+      @media (min-width: 1180px) {
+        :root { --rail: 176px; }
+        main, .site-foot { margin-left: var(--rail); }
+        .rail {
+          position: fixed;
+          z-index: 40;
+          left: 0;
+          top: 0;
+          bottom: 0;
+          width: var(--rail);
+          display: flex;
+          flex-direction: column;
+          background: var(--ink);
+          color: var(--smoke);
+          border-right: 1px solid #2c2c27;
+        }
+        .rail-head {
+          display: grid;
+          gap: 3px;
+          padding: 24px 18px 20px;
+          color: var(--paper);
+          text-decoration: none;
+        }
+        .rail-head b { font-family: var(--serif); font-size: 23px; font-weight: 500; letter-spacing: -0.02em; line-height: 1; }
+        .rail-head .typed { font-size: 11px; color: var(--smoke); }
+        .rail ol { border-bottom: 1px solid #23231f; }
+        .rail li a {
+          display: grid;
+          grid-template-columns: 28px minmax(0, 1fr) 8px;
+          align-items: center;
+          padding: 9px 14px 9px 18px;
+          border-top: 1px solid #23231f;
+          font-size: 13.5px;
+          font-weight: 500;
+          line-height: 1.2;
+          letter-spacing: -0.005em;
+          color: var(--smoke);
+          text-decoration: none;
+        }
+        .rail li a span { font-family: var(--mono); font-size: 11px; font-weight: 400; color: #77776f; }
+        .rail li a::after { content: ''; width: 8px; height: 8px; }
+        .rail li a:hover { color: var(--paper); background: #1b1b18; }
+        .rail li a[aria-current] { color: var(--ink); background: var(--paper); }
+        .rail li a[aria-current] span { color: var(--ink); }
+        .rail li a[aria-current]::after { background: var(--signal); box-shadow: 0 0 0 1.5px var(--ink); }
+        .rail a:focus-visible { outline: 2px solid var(--paper); outline-offset: -3px; box-shadow: none; }
+        .rail-foot { margin-top: auto; padding: 16px 18px 18px; font-size: 11px; color: #77776f; }
+      }
+      @media (max-height: 640px) { .rail li a { padding-top: 6px; padding-bottom: 6px; } .rail-foot { display: none; } }
+
       section { position: relative; }
-      .pad { padding: clamp(84px, 11vw, 170px) var(--gutter); }
-      h2.display { font-size: clamp(40px, 5.8vw, 100px); }
+      .pad { padding: clamp(72px, 9vw, 140px) var(--gutter); }
+      h2.display { font-size: clamp(36px, 4.7vw, 80px); }
       .cols { display: grid; grid-template-columns: minmax(0, 7fr) minmax(0, 5fr); gap: var(--gutter); align-items: end; }
       .paper {
         background-color: var(--ash);
@@ -138,20 +222,17 @@
       .album-head { font-size: clamp(40px, 3.8vw, 58px); padding: 4px 0 30px; white-space: nowrap; position: relative; }
       .album .folio { position: absolute; top: 10px; right: 18px; font-size: 38px; rotate: -8deg; }
       .plate { position: relative; margin: 0; display: grid; grid-template-columns: var(--w, 62%) minmax(0, 1fr); gap: 16px; align-items: end; margin-top: var(--up, 0); margin-left: var(--in, 0px); z-index: var(--z, 1); }
-      .plate img { display: block; width: 100%; height: var(--h, 200px); object-fit: cover; object-position: var(--pos, center); filter: grayscale(1) contrast(1.06); outline: 1px solid rgba(10, 10, 10, 0.75); box-shadow: 5px 6px 0 rgba(10, 10, 10, 0.16); }
-      .plate figcaption { font-size: clamp(32px, 3vw, 46px); rotate: -3deg; padding-bottom: 14px; line-height: 0.9; }
+      .plate img { display: block; width: 100%; height: var(--h, 200px); object-fit: cover; object-position: var(--pos, center); outline: 1px solid rgba(10, 10, 10, 0.75); box-shadow: 5px 6px 0 rgba(10, 10, 10, 0.16); }
+      .plate figcaption { font-size: clamp(28px, 2.35vw, 40px); rotate: -3deg; padding-bottom: 14px; line-height: 0.9; }
       .plate .no { position: absolute; left: calc(-56px - var(--in, 0px)); bottom: 8px; font-size: 11px; }
 
-      /* 2 · clients who trust us: one row of marks */
-      .trust { display: grid; grid-template-columns: minmax(240px, 22vw) minmax(0, 1fr); background: var(--ash); border-top: 1px solid var(--ink); border-bottom: 1px solid var(--ink); }
-      .trust-say { display: flex; flex-direction: column; justify-content: center; gap: 8px; padding: 20px var(--gutter); border-right: 1px solid var(--ink); }
-      .trust-say h2 { font-family: var(--serif); font-size: clamp(22px, 1.75vw, 28px); font-weight: 500; letter-spacing: -0.015em; line-height: 1.08; }
-      .trust-say .typed { font-size: 12px; line-height: 1.45; }
-      .trust-rows { display: grid; align-items: center; padding: 16px 0; min-width: 0; overflow: hidden; }
-      .logos { overflow: hidden; }
-      .logos div { --gap: clamp(36px, 4.2vw, 68px); display: flex; align-items: center; width: max-content; gap: var(--gap); padding-right: var(--gap); animation: slide 80s linear infinite; }
-      .logos img { flex: none; width: clamp(104px, 8.6vw, 144px); height: clamp(48px, 4vw, 66px); object-fit: contain; }
-      @keyframes slide { to { translate: -50% 0; } }
+      /* 2 · clients who trust us: one short row of marks, all in ink */
+      .trust { display: grid; grid-template-columns: auto minmax(0, 1fr); align-items: stretch; background: var(--ash); border-bottom: 1px solid var(--ink); }
+      .trust h2 { display: flex; align-items: center; padding: 0 clamp(18px, 2vw, 30px) 0 var(--gutter); border-right: 1px solid var(--ink); font-family: var(--serif); font-size: 18px; font-weight: 500; letter-spacing: -0.012em; white-space: nowrap; }
+      .logos { overflow: hidden; padding: 13px 0; -webkit-mask-image: linear-gradient(90deg, transparent, #000 44px, #000 calc(100% - 44px), transparent); mask-image: linear-gradient(90deg, transparent, #000 44px, #000 calc(100% - 44px), transparent); }
+      .logos > div { display: flex; align-items: center; width: max-content; animation: slide 75s linear infinite; will-change: transform; }
+      .logos img { flex: none; display: block; margin-right: clamp(40px, 3.6vw, 60px); opacity: 0.88; }
+      @keyframes slide { to { transform: translate3d(-50%, 0, 0); } }
 
       /* 3 · what it is */
       .what h2 { max-width: 15em; }
@@ -164,8 +245,8 @@
       /* 4 · the problem */
       .stats { display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 3px; margin-top: clamp(40px, 5vw, 70px); }
       .stat { padding: 20px 22px 22px; display: grid; gap: 12px; align-content: start; background: var(--ink); color: var(--paper); }
-      .stat.loud { background: var(--signal); color: var(--ink); box-shadow: 0 0 0 2px var(--ink); z-index: 1; }
-      .stat b { font-size: clamp(64px, 8vw, 132px); font-family: var(--serif); font-weight: 500; letter-spacing: -0.04em; line-height: 0.86; }
+      .stat.loud { background: var(--signal); color: var(--ink); }
+      .stat b { font-size: clamp(60px, 6.6vw, 108px); font-family: var(--serif); font-weight: 500; letter-spacing: -0.04em; line-height: 0.86; }
       .stat p { font-size: 16px; font-weight: 500; line-height: 1.25; letter-spacing: -0.01em; max-width: 19em; }
       .stat .typed { font-size: 11.5px; font-weight: 400; opacity: 0.85; }
       .ways { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: var(--gutter); margin-top: clamp(40px, 5vw, 70px); border-top: 1.5px solid var(--ink); }
@@ -176,7 +257,7 @@
       /* 5 · first principles, beside the day book */
       .first { display: grid; grid-template-columns: minmax(0, 6fr) minmax(0, 5fr); gap: var(--gutter); align-items: start; }
       .steps { margin-top: clamp(30px, 4vw, 54px); border-top: 1.5px solid var(--ink); }
-      .steps li { padding: 15px 0; border-bottom: 1px solid var(--rule); font-family: var(--serif); font-size: clamp(20px, 2.1vw, 31px); font-weight: 500; letter-spacing: -0.015em; line-height: 1.12; }
+      .steps li { padding: 14px 0; border-bottom: 1px solid var(--rule); font-family: var(--serif); font-size: clamp(19px, 1.8vw, 27px); font-weight: 500; letter-spacing: -0.015em; line-height: 1.12; }
       .steps li:last-child { color: var(--paper); border-bottom: 0; }
 
       /* 5b · the register as a card drawer */
@@ -196,13 +277,11 @@
       .card .note { position: absolute; right: 22px; bottom: 80px; font-size: 33px; rotate: -5deg; white-space: nowrap; }
 
       /* 6 · the alert */
-      .alert { display: grid; grid-template-columns: minmax(0, 4fr) minmax(0, 8fr); gap: var(--gutter); align-items: start; }
       .alert h2 i { font-style: normal; background: var(--signal); color: var(--ink); padding: 0 0.09em 0.04em; box-shadow: 0 0 0 2px var(--ink); display: inline-block; line-height: 0.92; margin-top: 0.1em; }
-      .alert .lead { margin-top: 26px; }
       .blank { margin-top: 44px; position: relative; width: fit-content; }
       .blank .hand { font-size: clamp(36px, 3.6vw, 60px); white-space: nowrap; }
       .blank svg { position: absolute; inset: -18px -26px -14px -22px; width: calc(100% + 48px); height: calc(100% + 32px); overflow: visible; }
-      .alert .cap { margin-top: 0; }
+      .alert .cap { margin-top: clamp(34px, 4vw, 56px); }
       .shot-note { margin-top: 26px; font-size: 13px; }
 
       /* 7 · the desk, and each analyst against it */
@@ -224,13 +303,13 @@
       .dev-note svg { position: absolute; overflow: visible; }
       .dev-foot { display: flex; flex-wrap: wrap; justify-content: space-between; gap: 12px 30px; margin-top: 18px; }
 
-      /* the uses: six cards from the same index, the last one still blank */
-      .uses { display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 34px 26px; margin-top: clamp(44px, 5vw, 74px); }
-      .use { position: relative; display: flex; flex-direction: column; gap: 10px; min-height: 300px; padding: 14px 22px 26px 20px; rotate: var(--r, -0.5deg); box-shadow: 0 -1px 0 rgba(10, 10, 10, 0.45), 9px 10px 0 rgba(10, 10, 10, 0.18); }
+      /* the uses: four cards from the same index, two of them still to be filed */
+      .uses { display: grid; grid-template-columns: repeat(4, minmax(0, 1fr)); gap: 34px 22px; margin-top: clamp(44px, 5vw, 74px); }
+      .use { position: relative; display: flex; flex-direction: column; gap: 10px; min-height: 330px; padding: 14px 22px 26px 20px; rotate: var(--r, -0.5deg); box-shadow: 0 -1px 0 rgba(10, 10, 10, 0.45), 9px 10px 0 rgba(10, 10, 10, 0.18); }
       .use:nth-child(even) { --r: 0.45deg; }
       .use.next { box-shadow: none; outline: 1.5px dashed var(--ink); outline-offset: -1px; }
       .use .flag { position: absolute; top: -9px; left: var(--fx, 20%); width: 18px; height: 18px; border-radius: 50%; border: 4px solid var(--fc); border-bottom-color: transparent; }
-      .use .subj { display: flex; justify-content: space-between; gap: 12px; color: #c92f08; font-weight: 600; white-space: nowrap; }
+      .use .subj { display: grid; gap: 1px; color: #c92f08; font-weight: 600; white-space: nowrap; }
       .use .subj span:last-child { color: var(--ink); font-weight: 400; }
       .use .hand { font-size: clamp(40px, 3.6vw, 56px); margin: 16px 0 4px; }
       .use h3 { font-family: var(--serif, inherit); font-weight: 500; font-size: clamp(21px, 1.9vw, 27px); letter-spacing: -0.015em; line-height: 1.1; }
@@ -267,11 +346,12 @@
         .plate figcaption { font-size: 27px; }
         .plate .no { left: calc(-56px - min(var(--in, 0px), 36px)); }
       }
-      @media (max-width: 980px) {
-        .trust { grid-template-columns: minmax(0, 1fr); }
-        .trust-say { border-right: 0; border-bottom: 1px solid var(--ink); padding: 14px var(--gutter); }
+      @media (max-width: 1500px) { .uses { grid-template-columns: repeat(2, minmax(0, 1fr)); } .use { min-height: 0; } }
+      @media (max-width: 760px) { .uses { grid-template-columns: minmax(0, 1fr); } }
+      @media (max-width: 700px) {
+        .trust h2 { font-size: 15px; padding-right: 14px; white-space: normal; max-width: 7.4em; line-height: 1.1; }
       }
-      @media (prefers-reduced-motion: reduce) { .logos div { animation: none; } }
+      @media (prefers-reduced-motion: reduce) { .logos > div { animation: none; } }
 
       /* fold 3: verify */
       .proof {
@@ -283,7 +363,7 @@
         align-items: start;
       }
       .proof h2 {
-        font-size: clamp(34px, 4.6vw, 78px);
+        font-size: clamp(32px, 3.9vw, 64px);
         font-family: var(--serif);
         font-weight: 500;
         letter-spacing: -0.028em;
@@ -370,15 +450,15 @@
       .gets li + li { padding-left: 20px; border-left: 1px solid var(--rule); }
       .gets b { display: block; font-family: var(--serif); font-weight: 500; font-size: clamp(22px, 2.1vw, 30px); letter-spacing: -0.018em; line-height: 1.06; margin-bottom: 10px; color: var(--paper); }
       .measured { display: grid; grid-template-columns: auto minmax(0, 1fr) minmax(0, 1fr); gap: 14px clamp(20px, 3vw, 44px); align-items: end; margin-top: clamp(40px, 5vw, 64px); padding: 20px 22px 22px; background: var(--ink); color: var(--paper); }
-      .measured > b { font-size: clamp(64px, 8vw, 132px); font-family: var(--serif); font-weight: 500; letter-spacing: -0.04em; line-height: 0.86; }
+      .measured > b { font-size: clamp(60px, 6.6vw, 108px); font-family: var(--serif); font-weight: 500; letter-spacing: -0.04em; line-height: 0.86; }
       .measured p { font-size: 16px; font-weight: 500; line-height: 1.3; letter-spacing: -0.01em; max-width: 26em; }
       .measured .typed { font-size: 12px; font-weight: 400; color: var(--smoke); }
       .measured .open { align-self: stretch; border-left: 1px solid #3a3a35; padding-left: clamp(20px, 3vw, 44px); display: grid; align-content: end; gap: 8px; }
       .measured .open .hand { font-size: clamp(36px, 3.4vw, 54px); color: var(--paper); rotate: -2deg; transform-origin: left bottom; white-space: nowrap; }
 
       .stats.two { grid-template-columns: repeat(2, minmax(0, 1fr)); }
-      .ask { padding: clamp(60px, 9vw, 130px) var(--gutter); display: grid; grid-template-columns: minmax(0, 1fr) auto; gap: 28px; align-items: end; border-top: 1px solid var(--ink); margin-top: clamp(84px, 11vw, 170px); }
-      .ask h2 { font-size: clamp(38px, 5.6vw, 96px); max-width: 10em; }
+      .ask { padding: clamp(60px, 9vw, 130px) var(--gutter); display: grid; grid-template-columns: minmax(0, 1fr) auto; gap: 28px; align-items: end; border-top: 1px solid var(--ink); margin-top: clamp(72px, 9vw, 140px); }
+      .ask h2 { font-size: clamp(36px, 4.7vw, 80px); max-width: 10em; }
       .ask p { margin-top: 22px; max-width: 34em; }
       .ask .typed { margin-top: 10px; text-align: right; }
 
@@ -396,29 +476,53 @@
         .not h2 { position: static; }
         .ask .typed { text-align: left; }
       }
+      @media (max-width: 780px) { :root { --navh: 56px; } }
     </style>
   </head>
-  <body>
+  <body class="product">
     <div class="nav-wrap">
       <nav class="tacit-nav" aria-label="Primary">
         <div class="nav-menu" data-nav="product">
           <button type="button" class="nav-menu-btn current" aria-expanded="false" aria-controls="nav-product-menu">product<svg class="chev" viewBox="0 0 10 10" aria-hidden="true"><path d="M2 3.5l3 3 3-3" fill="none" stroke="currentColor" stroke-width="1.4" stroke-linecap="round" stroke-linejoin="round" /></svg></button>
           <div class="nav-menu-panel" id="nav-product-menu">
-            <a class="nav-menu-item" href="insurance.html"><span class="nm-title">Underwriting</span><span class="nm-sub">For MGAs and Lloyd’s coverholders</span></a>
-            <a class="nav-menu-item" href="cybersoc.html" aria-current="page"><span class="nm-title">CyberSOC</span><span class="nm-sub">For SOC teams and the people who run them</span></a>
+            <a class="nav-menu-item" href="cybersoc.html" aria-current="page"><i class="nm-mark" aria-hidden="true"></i><span class="nm-title">CyberSOC</span><span class="nm-sub">For SOC teams and the people who run them</span></a>
+            <span class="nav-menu-item is-soon"><i class="nm-mark" aria-hidden="true"></i><span class="nm-title">Quality assurance <span class="nm-tag">in the lab</span></span><span class="nm-sub">For the AI agents at work in your company</span></span>
+            <!-- Underwriting is parked for now. To bring it back: <a class="nav-menu-item" href="insurance.html"><i class="nm-mark" aria-hidden="true"></i><span class="nm-title">Underwriting</span><span class="nm-sub">For MGAs and Lloyd’s coverholders</span></a> -->
           </div>
         </div>
         <a href="thesis.html" data-nav="thesis">thesis</a>
-        <a href="brief.html" data-nav="brief">brief</a>
+        <a href="brief.html" data-nav="brief">elevator pitch</a>
         <a href="index.html" class="logo-link" aria-label="Home"><span class="logo" aria-hidden="true"></span></a>
         <a href="founders.html" data-nav="founders">founders</a>
-        <a href="essays.html" data-nav="essays">essays</a>
+        <a href="essays.html" data-nav="essays">research</a>
       </nav>
     </div>
 
+    <!-- the page's own index -->
+    <nav class="rail" aria-label="On this page">
+      <a class="rail-head" href="#top"><b>CyberSOC</b><span class="typed">from Tacit Labs</span></a>
+      <ol>
+        <li><a href="#problem"><span>01</span>The problem</a></li>
+        <li><a href="#what"><span>02</span>Where it sits</a></li>
+        <li><a href="#solve"><span>03</span>How we solve it</a></li>
+        <li><a href="#index"><span>04</span>The reasons</a></li>
+        <li><a href="#alert"><span>05</span>How it thinks</a></li>
+        <li><a href="#desk"><span>06</span>Call or habit</a></li>
+        <li><a href="#uses"><span>07</span>What it is for</a></li>
+        <li><a href="#how"><span>08</span>Going live</a></li>
+        <li><a href="#not"><span>09</span>What it is not</a></li>
+        <li><a href="#wins"><span>10</span>What you get</a></li>
+        <li><a href="#ask"><span>11</span>Talk to us</a></li>
+      </ol>
+      <p class="typed rail-foot">hi@tacitlabs.ai</p>
+    </nav>
+
     <main>
-      <!-- the card index opens the page -->
-      <section class="hero">
+      <!-- the hall on film opens the page -->
+      <section class="hero" id="top">
+        <div class="hero-bg" aria-hidden="true">
+          <video id="hall" autoplay muted loop playsinline webkit-playsinline preload="auto" poster="assets/hall.jpg" disableremoteplayback disablepictureinpicture><source src="assets/hall.mp4" type="video/mp4" /></video>
+        </div>
         <canvas id="dither" data-picture aria-hidden="true"></canvas>
         <div class="kept swatches">
           <span><i class="sw-half"></i>known to one analyst</span>
@@ -436,7 +540,7 @@
             <b>Tacit captures that reasoning of your analysts</b>, builds a judgement layer that
             starts closing them for her, and puts the reason on the record.
           </p>
-          <div style="display: flex; gap: 12px; flex-wrap: wrap">
+          <div class="acts">
             <a class="btn" href="#ask">Book a 30-minute call</a>
             <a class="btn quiet" href="#index" style="background: var(--concrete)">Open the card index ↓</a>
           </div>
@@ -450,13 +554,8 @@
 
       <!-- clients who trust us -->
       <section class="trust" aria-labelledby="trust-h">
-        <div class="trust-say">
-          <h2 id="trust-h">Clients who trust us</h2>
-          <p class="typed">Clients of Birchlogic, the founders’ security practice.</p>
-        </div>
-        <div class="trust-rows" role="img" aria-label="AMCS Group, K&amp;S Partners, MBS Global, Batra Numerro, Saarthee, Fusionedge, Nexwave, M Intergraph Systems, Nest Money, Coforge, FigBytes, Xammer, Watermelon Software, Waterloo Intuition and LambdaVision.">
-          <div class="logos"><div id="logos"></div></div>
-        </div>
+        <h2 id="trust-h">Clients who trust us</h2>
+        <div class="logos" role="img" aria-label="AMCS Group, K&amp;S Partners, MBS Global, Batra Numerro, Saarthee, Fusionedge, Nexwave, M Intergraph Systems, Nest Money, Coforge, FigBytes, Xammer, Watermelon Software, Waterloo Intuition and LambdaVision."><div id="logos"></div></div>
       </section>
 
       <!-- 1 · the problem -->
@@ -546,15 +645,15 @@
       <section class="pad index" id="index" style="padding-top: 0">
         <div class="drawer rise" id="drawer" data-picture></div>
         <div>
-          <h2 class="display rise">214 reasons. 56 hold today.</h2>
+          <h2 class="display rise">214 reasons an alert is benign.</h2>
           <p class="lead rise" style="margin-top: 26px">
-            A reason is something a client told your desk to expect: the scanner that runs on
-            Wednesdays, the vendor who is in until Thursday, a change window on one server. This
-            is one client’s register, and nobody keeps 214 of these in their head, so today they
-            live in chat threads and in whoever happens to be on shift.
+            At one client there are 214 reasons an alert can be a benign positive, and none of
+            them sits in one place. They are spread across your analysts’ heads, the messages
+            they trade with the client, the closure notes on old tickets and more.
           </p>
           <p class="lead rise" style="margin-top: 14px">
-            Tacit files a card for each one, and it closes an alert only while the card still holds.
+            Tacit captures each one as a card and keeps it, and that reasoning goes into our
+            judgement model as well.
           </p>
           <div class="swatches rise" style="margin-top: 28px">
             <span><i class="sw-blue"></i>holds today</span>
@@ -565,44 +664,42 @@
         </div>
       </section>
 
-      <!-- 5 · the tech: one alert -->
+      <!-- 5 · how the model thinks: the questions behind one alert -->
       <section class="pad alert" id="alert" style="padding-top: 0">
-        <div>
-          <h2 class="display rise">No entry, <i>no close.</i></h2>
+        <div class="cols">
+          <h2 class="display rise">Experts think in patterns, <i>not in steps.</i></h2>
           <p class="lead rise" style="--d: 0.1s">
-            When nothing on the register explains an alert, Tacit says so and hands it to a person
-            with the case put together. Every alert of one kind is asked the same questions, ten
-            to fourteen of them, and you see each answer as it is, with nothing rolled up into a
-            score.
+            An analyst does not work down a checklist when she opens an alert. She is matching
+            it against a pattern, and for one kind of alert that pattern comes down to fourteen
+            questions at most. Tacit finds the answer to each of them, works out from the
+            answers how she would have closed this alert, and closes it with the reasons
+            attached.
           </p>
-          <div class="blank rise" style="--d: 0.2s">
-            <p class="hand">RDP from a new workstation</p>
-            <svg viewBox="0 0 400 90" preserveAspectRatio="none" aria-hidden="true" filter="url(#rough)"><path d="M30 46 C 20 8, 190 2, 330 12 C 410 20, 398 74, 300 82 C 170 92, 18 88, 22 50 C 24 30, 60 16, 110 12" fill="none" stroke="#ff4a1c" stroke-width="2.6" vector-effect="non-scaling-stroke" /></svg>
-          </div>
-          <p class="typed" style="margin-top: 26px">Alert 4157 · nothing on the register covers it · yours</p>
         </div>
-
-        <div>
-          <figure class="cap rise" data-picture>
-            <picture>
-              <source media="(max-width: 700px)" srcset="assets/console/alert-4133-phone.jpg" width="840" height="2708" />
-              <img src="assets/console/alert-4133.jpg" width="2080" height="2608" loading="lazy" decoding="async" alt="Alert 4133 in the Tacit console. The account svc_deploy signed in to FIN-DB-02 and FIN-DB-03 over RDP. Eleven questions and their answers, three of them large: this account from this host, all the time; this account on this target, first time; a reason on record, a planned change. Tacit suggests close." />
-            </picture>
-          </figure>
-          <p class="typed shot-note">An alert a reason does cover, as the analyst sees it. One answer is orange: svc_deploy has never been on FIN-DB-03 before.</p>
+        <div class="blank rise" style="--d: 0.2s">
+          <p class="hand">I’ve seen this one before</p>
+          <svg viewBox="0 0 400 90" preserveAspectRatio="none" aria-hidden="true" filter="url(#rough)"><path d="M30 46 C 20 8, 190 2, 330 12 C 410 20, 398 74, 300 82 C 170 92, 18 88, 22 50 C 24 30, 60 16, 110 12" fill="none" stroke="#ff4a1c" stroke-width="2.6" vector-effect="non-scaling-stroke" /></svg>
         </div>
+        <figure class="cap rise" data-picture>
+          <picture>
+            <source media="(max-width: 700px)" srcset="assets/console/alert-4133-phone.jpg" width="840" height="2708" />
+            <img src="assets/console/alert-4133-read.jpg" width="1984" height="1420" loading="lazy" decoding="async" alt="What Tacit read on alert 4133, in the console. Eleven questions and their answers, three of them large: this account from this host, all the time; this account on this target, first time; a reason on record, a planned change. Below them, 37 of 38 alerts like this were closed by the desk. Tacit suggests close." />
+          </picture>
+        </figure>
+        <p class="typed shot-note">Alert 4133: eleven questions, each answer shown as it is with nothing rolled up into a score, then what the desk did with 38 like it, then the call. One answer is orange because svc_deploy has never been on FIN-DB-03 before.</p>
       </section>
 
       <!-- 6 · the tech: the desk and each analyst -->
       <section class="pad" id="desk" style="padding-top: 0">
         <div class="cols">
-          <h2 class="display rise">The desk’s judgement, and one analyst’s habit.</h2>
+          <h2 class="display rise">Our model can tell a good call from a habit.</h2>
           <p class="lead rise">
-            Your SIEM models the alert, and Tacit models the people who decide on it. It reads the
-            decisions your desk has already made, works out what moves the desk as a whole, and
-            shows you where one analyst’s habit departs from it, like escalating everything that
-            arrives over the VPN. You see which is which before any of it is put to work, and
-            nobody is shown by name.
+            This is the part that makes the rest possible. Your SIEM models the alert, and Tacit
+            models the people who decide on it. A model that only copies analysts copies their
+            habits too, like the one who escalates everything that arrives over the VPN. Ours
+            reads the decisions your desk has already made, works out what moves the desk as a
+            whole, and sets one person’s habit apart from it, so only the desk’s judgement is put
+            to work. Nobody is shown by name.
           </p>
         </div>
         <figure class="dev-pic rise" data-picture>
@@ -627,9 +724,9 @@
         <div class="cols">
           <h2 class="display rise">Closing alerts is only the first use.</h2>
           <p class="lead rise">
-            Once your desk’s judgement is written down, it does more than close what the client
-            already explained. Five of these are in the product today, and the sixth is not built
-            yet.
+            What Tacit does is capture how your analysts reason. Closing the alerts your client
+            already explained is the first thing that is good for, and it is not the only one. Two
+            of these are in the product today and two come next.
           </p>
         </div>
         <ul class="uses" data-picture>
@@ -637,43 +734,31 @@
             <p class="typed subj"><span>1. Closing--benign positives.</span><span>in the product</span></p>
             <p class="hand">is this one fine?</p>
             <h3>Close what the client already explained.</h3>
-            <p>An alert a reason covers is closed in your SIEM with the reason attached, so an analyst never has to open it.</p>
+            <p>An alert a reason covers is closed in your SIEM with the reason attached, so nobody on the desk has to open it.</p>
           </li>
           <li class="use paper rise" style="--fc: var(--blue); --fx: 64%; --d: 0.06s"><i class="flag"></i>
-            <p class="typed subj"><span>2. Escalation--the case.</span><span>in the product</span></p>
-            <p class="hand">who needs to see this?</p>
-            <h3>Escalate with the case put together.</h3>
-            <p>What Tacit will not close reaches a person with every answer it read and why it held back.</p>
+            <p class="typed subj"><span>2. Triage--what L2 must see.</span><span>in the product</span></p>
+            <p class="hand">which ten matter?</p>
+            <h3>Put the few that matter in front of your L2.</h3>
+            <p>Out of a hundred alerts, the ten that need a senior analyst reach them in seconds, each with the case already put together.</p>
           </li>
-          <li class="use paper rise" style="--fc: var(--blue); --fx: 38%; --d: 0.12s"><i class="flag"></i>
-            <p class="typed subj"><span>3. Handover--shifts.</span><span>in the product</span></p>
-            <p class="hand">what did nights leave me?</p>
-            <h3>Hand the shift over.</h3>
-            <p>The next shift starts from what the last one decided and what is about to lapse, and a new analyst or a new provider starts from the same place.</p>
+          <li class="use next rise" style="--fc: var(--ink); --fx: 38%; --d: 0.12s"><i class="flag"></i>
+            <p class="typed subj"><span>3. Ramp-up--new hires.</span><span>next</span></p>
+            <p class="hand">how do we decide here?</p>
+            <h3>Bring a new analyst up to the desk.</h3>
+            <p>A new hire learns how this desk reasons and what each client has said from the desk’s own decisions, and you can see when they are ready to take a client’s alerts alone.</p>
           </li>
-          <li class="use paper rise" style="--fc: var(--blue); --fx: 72%; --d: 0.18s"><i class="flag"></i>
-            <p class="typed subj"><span>4. Review--the desk.</span><span>in the product</span></p>
-            <p class="hand">how does my desk decide?</p>
-            <h3>Review the desk.</h3>
-            <p>What moves the desk as a whole, where one analyst’s habit departs from it, and whether drafts are being read or just agreed to. By team, never by name.</p>
-          </li>
-          <li class="use paper rise" style="--fc: var(--blue); --fx: 28%; --d: 0.24s"><i class="flag"></i>
-            <p class="typed subj"><span>5. Reporting--the client.</span><span>in the product</span></p>
-            <p class="hand">what did you do for us?</p>
-            <h3>Show the client.</h3>
-            <p>A month of closes with the reason behind each, and a record your client can check without signing in.</p>
-          </li>
-          <li class="use next rise" style="--fc: var(--ink); --fx: 56%; --d: 0.30s"><i class="flag"></i>
-            <p class="typed subj"><span>6. Assurance--AI agents.</span><span>not built yet</span></p>
+          <li class="use next rise" style="--fc: var(--ink); --fx: 70%; --d: 0.18s"><i class="flag"></i>
+            <p class="typed subj"><span>4. Assurance--AI agents.</span><span>next</span></p>
             <p class="hand">can I trust the AI’s close?</p>
-            <h3>Check an AI triage agent against your desk.</h3>
-            <p>The same picture of how your desk decides could grade what an agent closed. We have not built this, so tell us if you need it.</p>
+            <h3>Check an AI agent against your desk.</h3>
+            <p>Every vendor now ships AI that triages for you, and most of the market checks one language model with another. We check it against a model of how your own desk decides.</p>
           </li>
         </ul>
         <div class="swatches rise" style="margin-top: 30px">
           <span><i class="sw-green"></i>a close</span>
           <span><i class="sw-blue"></i>in the product</span>
-          <span><i class="sw-ring"></i>not built yet</span>
+          <span><i class="sw-ring"></i>next</span>
         </div>
       </section>
 
@@ -786,22 +871,22 @@
       <div>
         <a class="brand" href="index.html">tacit<i></i></a>
         <p>Recovering the judgement that was never written down.</p>
-        <p class="typed">Raising pre-seed. Investors: <a href="brief.html">the brief</a>.</p>
+        <p class="typed">Raising pre-seed. Investors: <a href="brief.html">the elevator pitch</a>.</p>
       </div>
       <div>
         <h2>Company</h2>
         <ul>
           <li><a href="index.html">Home</a></li>
           <li><a href="founders.html">Founders</a></li>
-          <li><a href="essays.html">Writing</a></li>
+          <li><a href="essays.html">Research</a></li>
         </ul>
       </div>
       <div>
         <h2>Read deeper</h2>
         <ul>
           <li><a href="cybersoc.html">Product · CyberSOC</a></li>
-          <li><a href="insurance.html">Product · Underwriting</a></li>
-          <li><a href="brief.html">Brief</a></li>
+          <!-- <li><a href="insurance.html">Product · Underwriting</a></li> -->
+          <li><a href="brief.html">Elevator pitch</a></li>
           <li><a href="thesis.html">Full thesis</a></li>
           <li><a href="atlas.html">Atlas</a></li>
         </ul>
@@ -822,10 +907,40 @@
       import { ink, arrive, rng } from './monolith.js'
       ink()
 
-      /* clients who trust us: Birchlogic's firm clients only, in its own order. Two copies so the loop has no seam. */
-      const MARKS = ['amcs', 'ks-partners', 'mbs-global', 'batra-numerro', 'saarthee', 'fusionedge', 'nexwave', 'm-intergraph', 'nest-money', 'coforge', 'figbytes', 'xammer', 'watermelon-software', 'waterloo-intuition', 'lambdavision']
-      const marks = (list) => Array.from({ length: 2 }, () => list.map((f) => `<img src="assets/clients/${f}.png" alt="" decoding="async">`).join('')).join('')
-      document.getElementById('logos').innerHTML = marks(MARKS)
+      /* clients who trust us: each mark in ink, sized by its shape so no one of them shouts. Two copies, so the loop has no seam. */
+      const MARKS = [['amcs', 2.96], ['ks-partners', 1.49], ['mbs-global', 3.93], ['batra-numerro', 3.76], ['saarthee', 3.27], ['fusionedge', 4.34], ['nexwave', 1.28], ['m-intergraph', 5.39], ['nest-money', 7.21], ['coforge', 4.48], ['figbytes', 3.7], ['xammer', 3.37], ['watermelon-software', 4.44], ['waterloo-intuition', 3.54], ['lambdavision', 7.02]]
+      const mark = ([f, ar]) => {
+        const h = Math.round(Math.min(36, Math.max(22, Math.sqrt(3000 / ar))))
+        return `<img src="assets/clients/${f}.png" alt="" width="${Math.round(h * ar)}" height="${h}" decoding="async">`
+      }
+      document.getElementById('logos').innerHTML = (MARKS.map(mark).join('')).repeat(2)
+
+      /* the hall film: still if motion is reduced, paused when it is off screen, and nudged to start
+         where a browser (Safari on low power, for one) declines to autoplay it */
+      const hall = document.getElementById('hall')
+      hall.muted = true
+      if (matchMedia('(prefers-reduced-motion: reduce)').matches) {
+        hall.removeAttribute('autoplay')
+        hall.pause()
+      } else {
+        const go = () => hall.play().catch(() => {})
+        new IntersectionObserver(([e]) => (e.isIntersecting ? go() : hall.pause())).observe(hall)
+        addEventListener('touchstart', go, { once: true, passive: true })
+        addEventListener('click', go, { once: true })
+      }
+
+      /* the rail marks the part of the page you are in */
+      const stops = [...document.querySelectorAll('.rail li a')]
+      const spy = new IntersectionObserver(
+        (seen) =>
+          seen.forEach((e) => {
+            if (!e.isIntersecting) return
+            stops.forEach((a) => (a.hash === `#${e.target.id}` ? a.setAttribute('aria-current', 'true') : a.removeAttribute('aria-current')))
+          }),
+        { rootMargin: '-40% 0px -55% 0px' },
+      )
+      stops.forEach((a) => spy.observe(document.querySelector(a.hash)))
+      new IntersectionObserver(([e]) => e.isIntersecting && stops.forEach((a) => a.removeAttribute('aria-current')), { threshold: 0.6 }).observe(document.getElementById('top'))
 
       /* the run film plays by itself while it is on screen, and waits for a tap if motion is reduced */
       const film = document.querySelector('#film video')
@@ -937,7 +1052,8 @@
         const cols = Math.ceil(W / cell)
         const rows = Math.ceil(H / cell)
         const S = 3 // offscreen pixels per cell
-        const off = new OffscreenCanvas(cols * S, rows * S)
+        // older Safari has no OffscreenCanvas for 2D
+        const off = typeof OffscreenCanvas === 'function' ? new OffscreenCanvas(cols * S, rows * S) : Object.assign(document.createElement('canvas'), { width: cols * S, height: rows * S })
         const o = off.getContext('2d', { willReadFrequently: true })
         o.fillStyle = '#000'
         o.fillRect(0, 0, off.width, off.height)

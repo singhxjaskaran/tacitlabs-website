@@ -13,6 +13,7 @@ export function rng(seed) {
 
 /** The ink filter every .hand uses: a slight wobble, so a font stops looking like a font. */
 export function ink() {
+  if (/^((?!chrome|chromium|android|crios|fxios|edg).)*safari/i.test(navigator.userAgent)) document.documentElement.classList.add('is-safari')
   document.body.insertAdjacentHTML(
     'beforeend',
     `<svg width="0" height="0" style="position:absolute" aria-hidden="true"><defs>
