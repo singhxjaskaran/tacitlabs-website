@@ -277,13 +277,11 @@
       .card .note { position: absolute; right: 22px; bottom: 80px; font-size: 33px; rotate: -5deg; white-space: nowrap; }
 
       /* 6 · the alert */
-      .alert { display: grid; grid-template-columns: minmax(0, 4fr) minmax(0, 8fr); gap: var(--gutter); align-items: start; }
       .alert h2 i { font-style: normal; background: var(--signal); color: var(--ink); padding: 0 0.09em 0.04em; box-shadow: 0 0 0 2px var(--ink); display: inline-block; line-height: 0.92; margin-top: 0.1em; }
-      .alert .lead { margin-top: 26px; }
       .blank { margin-top: 44px; position: relative; width: fit-content; }
       .blank .hand { font-size: clamp(36px, 3.6vw, 60px); white-space: nowrap; }
       .blank svg { position: absolute; inset: -18px -26px -14px -22px; width: calc(100% + 48px); height: calc(100% + 32px); overflow: visible; }
-      .alert .cap { margin-top: 0; }
+      .alert .cap { margin-top: clamp(34px, 4vw, 56px); }
       .shot-note { margin-top: 26px; font-size: 13px; }
 
       /* 7 · the desk, and each analyst against it */
@@ -508,8 +506,8 @@
         <li><a href="#what"><span>02</span>Where it sits</a></li>
         <li><a href="#solve"><span>03</span>How we solve it</a></li>
         <li><a href="#index"><span>04</span>The reasons</a></li>
-        <li><a href="#alert"><span>05</span>One alert</a></li>
-        <li><a href="#desk"><span>06</span>Your desk</a></li>
+        <li><a href="#alert"><span>05</span>How it thinks</a></li>
+        <li><a href="#desk"><span>06</span>Call or habit</a></li>
         <li><a href="#uses"><span>07</span>What it is for</a></li>
         <li><a href="#how"><span>08</span>Going live</a></li>
         <li><a href="#not"><span>09</span>What it is not</a></li>
@@ -647,15 +645,15 @@
       <section class="pad index" id="index" style="padding-top: 0">
         <div class="drawer rise" id="drawer" data-picture></div>
         <div>
-          <h2 class="display rise">214 reasons. 56 hold today.</h2>
+          <h2 class="display rise">214 reasons an alert is benign.</h2>
           <p class="lead rise" style="margin-top: 26px">
-            A reason is something a client told your desk to expect: the scanner that runs on
-            Wednesdays, the vendor who is in until Thursday, a change window on one server. This
-            is one client’s register, and nobody keeps 214 of these in their head, so today they
-            live in chat threads and in whoever happens to be on shift.
+            At one client there are 214 reasons an alert can be a benign positive, and none of
+            them sits in one place. They are spread across your analysts’ heads, the messages
+            they trade with the client, the closure notes on old tickets and more.
           </p>
           <p class="lead rise" style="margin-top: 14px">
-            Tacit files a card for each one, and it closes an alert only while the card still holds.
+            Tacit captures each one as a card and keeps it, and that reasoning goes into our
+            judgement model as well.
           </p>
           <div class="swatches rise" style="margin-top: 28px">
             <span><i class="sw-blue"></i>holds today</span>
@@ -666,44 +664,42 @@
         </div>
       </section>
 
-      <!-- 5 · the tech: one alert -->
+      <!-- 5 · how the model thinks: the questions behind one alert -->
       <section class="pad alert" id="alert" style="padding-top: 0">
-        <div>
-          <h2 class="display rise">No entry, <i>no close.</i></h2>
+        <div class="cols">
+          <h2 class="display rise">Experts think in patterns, <i>not in steps.</i></h2>
           <p class="lead rise" style="--d: 0.1s">
-            When nothing on the register explains an alert, Tacit says so and hands it to a person
-            with the case put together. Every alert of one kind is asked the same questions, ten
-            to fourteen of them, and you see each answer as it is, with nothing rolled up into a
-            score.
+            An analyst does not work down a checklist when she opens an alert. She is matching
+            it against a pattern, and for one kind of alert that pattern comes down to fourteen
+            questions at most. Tacit finds the answer to each of them, works out from the
+            answers how she would have closed this alert, and closes it with the reasons
+            attached.
           </p>
-          <div class="blank rise" style="--d: 0.2s">
-            <p class="hand">RDP from a new workstation</p>
-            <svg viewBox="0 0 400 90" preserveAspectRatio="none" aria-hidden="true" filter="url(#rough)"><path d="M30 46 C 20 8, 190 2, 330 12 C 410 20, 398 74, 300 82 C 170 92, 18 88, 22 50 C 24 30, 60 16, 110 12" fill="none" stroke="#ff4a1c" stroke-width="2.6" vector-effect="non-scaling-stroke" /></svg>
-          </div>
-          <p class="typed" style="margin-top: 26px">Alert 4157 · nothing on the register covers it · yours</p>
         </div>
-
-        <div>
-          <figure class="cap rise" data-picture>
-            <picture>
-              <source media="(max-width: 700px)" srcset="assets/console/alert-4133-phone.jpg" width="840" height="2708" />
-              <img src="assets/console/alert-4133.jpg" width="2080" height="2608" loading="lazy" decoding="async" alt="Alert 4133 in the Tacit console. The account svc_deploy signed in to FIN-DB-02 and FIN-DB-03 over RDP. Eleven questions and their answers, three of them large: this account from this host, all the time; this account on this target, first time; a reason on record, a planned change. Tacit suggests close." />
-            </picture>
-          </figure>
-          <p class="typed shot-note">An alert a reason does cover, as the analyst sees it. One answer is orange: svc_deploy has never been on FIN-DB-03 before.</p>
+        <div class="blank rise" style="--d: 0.2s">
+          <p class="hand">I’ve seen this one before</p>
+          <svg viewBox="0 0 400 90" preserveAspectRatio="none" aria-hidden="true" filter="url(#rough)"><path d="M30 46 C 20 8, 190 2, 330 12 C 410 20, 398 74, 300 82 C 170 92, 18 88, 22 50 C 24 30, 60 16, 110 12" fill="none" stroke="#ff4a1c" stroke-width="2.6" vector-effect="non-scaling-stroke" /></svg>
         </div>
+        <figure class="cap rise" data-picture>
+          <picture>
+            <source media="(max-width: 700px)" srcset="assets/console/alert-4133-phone.jpg" width="840" height="2708" />
+            <img src="assets/console/alert-4133-read.jpg" width="1984" height="1420" loading="lazy" decoding="async" alt="What Tacit read on alert 4133, in the console. Eleven questions and their answers, three of them large: this account from this host, all the time; this account on this target, first time; a reason on record, a planned change. Below them, 37 of 38 alerts like this were closed by the desk. Tacit suggests close." />
+          </picture>
+        </figure>
+        <p class="typed shot-note">Alert 4133: eleven questions, each answer shown as it is with nothing rolled up into a score, then what the desk did with 38 like it, then the call. One answer is orange because svc_deploy has never been on FIN-DB-03 before.</p>
       </section>
 
       <!-- 6 · the tech: the desk and each analyst -->
       <section class="pad" id="desk" style="padding-top: 0">
         <div class="cols">
-          <h2 class="display rise">The desk’s judgement, and one analyst’s habit.</h2>
+          <h2 class="display rise">Our model can tell a good call from a habit.</h2>
           <p class="lead rise">
-            Your SIEM models the alert, and Tacit models the people who decide on it. It reads the
-            decisions your desk has already made, works out what moves the desk as a whole, and
-            shows you where one analyst’s habit departs from it, like escalating everything that
-            arrives over the VPN. You see which is which before any of it is put to work, and
-            nobody is shown by name.
+            This is the part that makes the rest possible. Your SIEM models the alert, and Tacit
+            models the people who decide on it. A model that only copies analysts copies their
+            habits too, like the one who escalates everything that arrives over the VPN. Ours
+            reads the decisions your desk has already made, works out what moves the desk as a
+            whole, and sets one person’s habit apart from it, so only the desk’s judgement is put
+            to work. Nobody is shown by name.
           </p>
         </div>
         <figure class="dev-pic rise" data-picture>
