@@ -19,7 +19,7 @@
   --signal: #ff4a1c;
   --blue: #0b5cff;
   --green: #34d17d;
-  --rule: color-mix(in srgb, var(--ink) 35%, transparent);
+  --rule: rgba(10, 10, 10, 0.35);
   --gutter: clamp(16px, 3.4vw, 56px);
   --ease: cubic-bezier(0.2, 0.7, 0.2, 1);
 }
@@ -81,6 +81,11 @@ button {
   line-height: 1;
   color: #15140f;
   filter: url(#ink);
+}
+/* Safari draws an SVG filter on text at half resolution on a sharp screen, so the hand goes soft.
+   There the hand is left as the font draws it. */
+.is-safari .hand {
+  filter: none;
 }
 .typed {
   font-family: var(--mono);
