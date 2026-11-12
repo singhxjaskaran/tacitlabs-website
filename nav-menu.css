@@ -1,6 +1,6 @@
 /* The primary nav, shared by every page. This file is loaded last on each page and owns:
    1. the pill's place and size, which are the same on every page;
-   2. the product skin (body.product): ink, hard shadow, and a square where the lab has its orb;
+   2. the product skin (body.product): ink, hard shadow, and the lab's orb in orange;
    3. the product menu, drawn in the products' own look wherever it opens.
    The lab's olive glass and its orb stay in each page's own styles.
    Markup: .nav-wrap > nav.tacit-nav (nav#nav on Home) > .nav-menu + a… */
@@ -98,21 +98,11 @@ body.product nav .nav-menu.is-open .nav-menu-btn.current{ color:#0a0a0a; backgro
 body.product nav.tacit-nav > a.logo-link:hover{ background:transparent; }
 body.product nav.tacit-nav > a:focus-visible,
 body.product nav .nav-menu .nav-menu-btn:focus-visible{ color:#fff; box-shadow:none; outline:2px solid #fff; outline-offset:2px; }
-/* the lab's orb becomes a square, in the product's orange */
+/* the same orb as the lab's, in the product's orange */
 body.product nav .logo{
-  width:22px; height:22px; margin:4px;
-  border-radius:0;
-  background:#ff4a1c;
-  box-shadow:0 0 0 2px #fff;
-  animation:none;
-  transition:rotate .25s cubic-bezier(.2,.7,.2,1);
-}
-body.product nav .logo-link:hover .logo{ rotate:90deg; }
-@media (max-width:780px){
-  body.product nav .logo{ width:16px; height:16px; margin:3px; }
-}
-@media (max-width:440px){
-  body.product nav .logo{ width:14px; height:14px; margin:3px; }
+  border-radius:999px;
+  background:radial-gradient(circle at 38% 35%, #ffffff 0%, #ffd8bf 18%, #ff4a1c 58%, rgba(255,74,28,.10) 100%);
+  box-shadow:0 0 22px rgba(255,74,28,.55), inset 0 0 12px rgba(255,255,255,.32);
 }
 
 /* ── 3. the product menu: a card from the products' index, on every page ── */
@@ -194,5 +184,5 @@ nav .nav-menu .nav-menu-item.is-soon{ cursor:default; }
 }
 
 @media (prefers-reduced-motion: reduce){
-  .nav-menu-panel, nav .nav-menu .chev, body.product nav .logo{ transition:none; }
+  .nav-menu-panel, nav .nav-menu .chev{ transition:none; }
 }

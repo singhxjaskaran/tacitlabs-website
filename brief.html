@@ -175,11 +175,31 @@
     text-wrap: balance;
   }
   .pitch-para { margin: clamp(18px, 2vw, 28px) 0 0; max-width: 36em; font-size: clamp(16.5px, 1.2vw, 18.5px); line-height: 1.55; color: var(--ink); text-wrap: pretty; }
-  .pitch-uses { list-style: none; counter-reset: use; margin: clamp(16px, 1.8vw, 24px) 0 0; padding: 0; border-top: 1px solid var(--rule-strong); }
-  .pitch-uses li { counter-increment: use; display: grid; grid-template-columns: 2.1em minmax(0, 1fr); padding: 12px 0; border-bottom: 1px solid var(--rule); font-size: 16px; line-height: 1.45; color: var(--ink-dim); }
-  .pitch-uses li::before { content: counter(use); grid-row: 1 / span 2; font-family: var(--display-font); font-size: 24px; line-height: 1.05; color: var(--accent); }
-  .pitch-uses b { grid-column: 2; color: var(--ink); font-weight: 600; font-size: 17px; }
-  .pitch-uses li > span { grid-column: 2; }
+  .pitch-figs {
+    grid-column: 1 / -1;
+    list-style: none; margin: clamp(4px, 1vw, 16px) 0 0; padding: 0;
+    display: grid; grid-template-columns: repeat(4, minmax(0, 1fr));
+    border-top: 1px solid var(--rule-strong);
+  }
+  .pitch-figs li { display: grid; grid-template-columns: auto minmax(0, 1fr); align-items: center; gap: 16px; padding: 18px clamp(14px, 1.6vw, 26px) 4px; }
+  .pitch-figs li:first-child { padding-left: 0; }
+  .pitch-figs li + li { border-left: 1px solid var(--rule); }
+  .pitch-figs b { font-family: var(--display-font); font-weight: 500; font-size: clamp(40px, 3.5vw, 58px); line-height: 1; letter-spacing: -0.03em; color: var(--accent); white-space: nowrap; }
+  .pitch-figs .next b { color: transparent; -webkit-text-stroke: 1.2px var(--accent); }
+  .pitch-figs p { margin: 0; font-size: 15px; line-height: 1.4; color: var(--ink-dim); text-wrap: pretty; }
+  .pitch-figs p strong { color: var(--ink); font-weight: 600; }
+  @media (max-width: 1180px) {
+    .pitch-figs { grid-template-columns: repeat(2, minmax(0, 1fr)); }
+    .pitch-figs li { padding: 14px 16px 14px 0; border-bottom: 1px solid var(--rule); }
+    .pitch-figs li + li { border-left: 0; }
+    .pitch-figs li:nth-child(even) { padding-left: 16px; border-left: 1px solid var(--rule); }
+    .pitch-figs li:nth-last-child(-n + 2) { border-bottom: 0; }
+  }
+  @media (max-width: 560px) {
+    .pitch-figs li { grid-template-columns: 1fr; gap: 6px; align-items: start; align-content: start; }
+    .pitch-figs b { font-size: 36px; }
+    .pitch-figs p { font-size: 14px; }
+  }
   .pitch-link { display: inline-flex; align-items: center; gap: 10px; margin-top: 26px; font-size: 16px; font-weight: 500; padding-bottom: 6px; border-bottom: 1px solid var(--rule-strong); transition: border-color 0.2s, color 0.2s; }
   .pitch-link:hover { border-color: var(--accent); color: var(--accent); }
   @media (max-width: 900px) { .pitch { grid-template-columns: 1fr; } }
@@ -971,16 +991,17 @@
     </div>
   </div>
   <div>
-    <h1 class="pitch-big" id="pitch-h">We capture the expertise your analysts can’t articulate.</h1>
-    <p class="pitch-para">Your best analyst closes an alert because she knows the client, and none of that is written anywhere. Tacit learns how your desk reasons from the decisions it already makes. So when Tacit sits between your SIEM’s alerts and your analysts:</p>
-    <ol class="pitch-uses">
-      <li><b>We auto-close 38% of your entire alert queue.</b></li>
-      <li><b>We find the escalations in seconds.</b><span>42 found in 1,000 alerts in a minute and a half, in a proof of concept that is still running.</span></li>
-      <li><b>We ramp up new hires against the desk,</b><span>and get them used to each client’s context.</span></li>
-      <li><b>We QA the triage agents your providers ship.</b><span>We are another pair of eyes on what they close.</span></li>
-    </ol>
+    <h1 class="pitch-big" id="pitch-h">Your SOC runs on what your analysts never wrote down.</h1>
+    <p class="pitch-para">Close to half the alerts a SOC opens are work the client had already approved, and an analyst closes each one because she knows the client. Tacit sits between your SIEM and your desk, captures that reasoning from the decisions your analysts already make, and closes the next one with the reason on the record. It is a model we built ourselves and not a language model, so it is cheap enough to read every alert and you can see why it made each call.</p>
     <a class="pitch-link" href="cybersoc.html">See CyberSOC <svg width="18" height="18" viewBox="0 0 24 24"><use href="#ic-arrow-ur"/></svg></a>
   </div>
+  <!-- the four uses: a figure each. Solid is in the product today; drawn in outline is next. -->
+  <ol class="pitch-figs">
+    <li><b>38%</b><p>of the whole queue closed on public data, which is 84% of the alerts that were expected work.</p></li>
+    <li><b>42</b><p>escalations found in 1,000 alerts in 90 seconds, in a proof of concept that is still running.</p></li>
+    <li class="next"><b>Day 1</b><p><strong>Next:</strong> a new hire starts against the desk, with each client’s context to hand.</p></li>
+    <li class="next"><b>QA</b><p><strong>Next:</strong> another pair of eyes on what your providers’ triage agents close.</p></li>
+  </ol>
 </section>
 
 <!-- ════════ OUR BRIEF ════════ -->
