@@ -4,7 +4,7 @@
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width,initial-scale=1">
 <title>Tacit — the judgement your business runs on</title>
-<meta name="description" content="Tacit recovers the judgement behind the decisions your people and your AI already make, and shows how far you can rely on it. Underwriting for MGAs and Lloyd's coverholders. CyberSOC for CISOs at regulated firms.">
+<meta name="description" content="Tacit recovers the judgement behind the decisions your people and your AI already make, and shows how far you can rely on it. CyberSOC, for SOC teams and the people who run them, is the first product from the lab.">
 <meta name="author" content="Tacit Labs">
 <meta name="theme-color" content="#a83246">
 <link rel="canonical" href="https://tacitlabs.ai/">
@@ -311,7 +311,7 @@
     line-height:1.65;
     margin:0;
     font-family:"Söhne","Söhne Web","Inter",system-ui,sans-serif;
-    font-size:clamp(15px,1vw,17px);
+    font-size:clamp(16.5px,1.15vw,19px);
     text-wrap:pretty;
   }
 
@@ -321,25 +321,33 @@
     display:grid; grid-template-columns:1fr 1fr; gap:10px;
     margin-top:22px;
   }
+  /* the products wear their own colours on the lab's page: ash card, ink line, orange square */
   .product{
     position:relative;
-    display:flex; flex-direction:column; gap:4px;
-    padding:14px 40px 14px 16px;
-    border-radius:12px;
-    border:1px solid var(--border);
-    background:rgba(255,255,255,.04);
-    color:var(--text);
+    display:flex; flex-direction:column; gap:5px;
+    padding:14px 34px 15px 16px;
+    border-radius:0;
+    border:1.5px solid #0a0a0a;
+    background:#d9d9d1;
+    color:#0a0a0a;
     text-decoration:none;
-    transition:background .2s ease, border-color .2s ease, box-shadow .2s ease;
+    box-shadow:5px 6px 0 rgba(10,10,10,.45);
+    transition:translate .18s ease, box-shadow .18s ease, background .18s ease;
   }
-  .product:hover,
-  .product:focus-visible{ background:#8a2334; border-color:#a83246; box-shadow:0 8px 28px rgba(138,35,52,.35); }
-  .product:focus-visible{ outline:2px solid #f0e6d2; outline-offset:2px; }
-  .product:hover .p-sub, .product:focus-visible .p-sub{ color:rgba(245,236,218,.88); }
-  .product .p-name{ font:500 18px/1.2 "Newsreader",Georgia,serif; letter-spacing:-.005em; color:var(--text); }
-  .product .p-sub{ font:12.5px/1.4 "Söhne","Söhne Web","Inter",system-ui,sans-serif; color:var(--text-muted); }
-  .product .arrow{ position:absolute; right:16px; top:18px; color:var(--text-muted); transition:transform .25s ease, color .2s ease; }
-  .product:hover .arrow, .product:focus-visible .arrow{ transform:translateX(3px); color:var(--text); }
+  a.product:hover,
+  a.product:focus-visible{ background:#fff; translate:-2px -2px; box-shadow:7px 8px 0 rgba(10,10,10,.45); }
+  a.product:focus-visible{ outline:2px solid #f0e6d2; outline-offset:3px; }
+  .product .p-name{ display:flex; align-items:center; gap:9px; font:500 20px/1.2 "Newsreader",Georgia,serif; letter-spacing:-.012em; color:#0a0a0a; }
+  .product .p-mark{ flex:none; width:11px; height:11px; background:#ff4a1c; box-shadow:0 0 0 1.5px #0a0a0a; }
+  .product .p-sub{ font:13px/1.4 "Söhne","Söhne Web","Inter",system-ui,sans-serif; color:#55554f; }
+  .product .arrow{ position:absolute; right:14px; top:19px; color:#0a0a0a; transition:transform .25s ease; }
+  a.product:hover .arrow, a.product:focus-visible .arrow{ transform:translateX(3px); }
+  /* not open yet: greyed, and it goes nowhere */
+  .product.is-soon{ background:transparent; border:1.5px dashed rgba(240,230,210,.42); box-shadow:none; }
+  .product.is-soon .p-name{ color:rgba(240,230,210,.62); }
+  .product.is-soon .p-mark{ background:transparent; box-shadow:0 0 0 1.5px rgba(240,230,210,.5); }
+  .product.is-soon .p-sub{ color:rgba(240,230,210,.5); }
+  .product .p-tag{ margin-top:3px; font:11.5px/1 "IBM Plex Mono",monospace; color:rgba(240,230,210,.6); }
 
   /* ===== Footer ===== */
   .foot{
@@ -422,12 +430,12 @@
       padding:20px 18px;
       border-radius:16px;
     }
-    .right p{ font-size:14px; }
+    .right p{ font-size:15.5px; }
     .products{ grid-template-columns:1fr; gap:8px; margin-top:16px; }
-    .product{ padding:11px 36px 11px 14px; gap:2px; }
-    .product .p-name{ font-size:17px; }
-    .product .p-sub{ font-size:12px; }
-    .product .arrow{ top:15px; right:14px; }
+    .product{ padding:12px 36px 12px 14px; gap:3px; }
+    .product .p-name{ font-size:18px; }
+    .product .p-sub{ font-size:12.5px; }
+    .product .arrow{ top:16px; right:13px; }
     .foot{ display:none; }
   }
 
@@ -461,15 +469,16 @@
       <div class="nav-menu" data-nav="product">
         <button type="button" class="nav-menu-btn" aria-expanded="false" aria-controls="nav-product-menu">product<svg class="chev" viewBox="0 0 10 10" aria-hidden="true"><path d="M2 3.5l3 3 3-3" fill="none" stroke="currentColor" stroke-width="1.4" stroke-linecap="round" stroke-linejoin="round"/></svg></button>
         <div class="nav-menu-panel" id="nav-product-menu">
-          <a class="nav-menu-item" href="insurance.html"><span class="nm-title">Underwriting</span><span class="nm-sub">For MGAs and Lloyd’s coverholders</span></a>
-          <a class="nav-menu-item" href="cybersoc.html"><span class="nm-title">CyberSOC</span><span class="nm-sub">For CISOs at regulated firms</span></a>
+          <a class="nav-menu-item" href="cybersoc.html"><i class="nm-mark" aria-hidden="true"></i><span class="nm-title">CyberSOC</span><span class="nm-sub">For SOC teams and the people who run them</span></a>
+          <span class="nav-menu-item is-soon"><i class="nm-mark" aria-hidden="true"></i><span class="nm-title">Quality assurance <span class="nm-tag">in the lab</span></span><span class="nm-sub">For the AI agents at work in your company</span></span>
+          <!-- Underwriting is parked for now. To bring it back: <a class="nav-menu-item" href="insurance.html"><i class="nm-mark" aria-hidden="true"></i><span class="nm-title">Underwriting</span><span class="nm-sub">For MGAs and Lloyd’s coverholders</span></a> -->
         </div>
       </div>
       <a href="thesis.html" data-nav="thesis">thesis</a>
       <a href="brief.html" data-nav="brief">brief</a>
       <a href="index.html" class="logo-link" aria-label="Home"><span class="logo" aria-hidden="true"></span></a>
       <a href="founders.html" data-nav="founders">founders</a>
-      <a href="essays.html" data-nav="essays">essays</a>
+      <a href="essays.html" data-nav="essays">research</a>
     </nav>
 
     <section class="bottom">
@@ -483,16 +492,21 @@
         <p><strong>The calls that matter most are rarely written down.</strong></p>
         <p>Tacit recovers the judgement behind the decisions your people and your AI already make, and shows how far you can rely on it.</p>
         <div class="products" role="group" aria-label="Products">
+          <a class="product" href="cybersoc.html">
+            <span class="p-name"><i class="p-mark" aria-hidden="true"></i>CyberSOC</span>
+            <span class="p-sub">For SOC teams and the people who run them</span>
+            <svg class="arrow" width="14" height="14" viewBox="0 0 14 14" fill="none" aria-hidden="true"><path d="M2 7h10M8 3l4 4-4 4" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg>
+          </a>
+          <div class="product is-soon">
+            <span class="p-name"><i class="p-mark" aria-hidden="true"></i>Quality assurance</span>
+            <span class="p-sub">For the AI agents at work in your company</span>
+            <span class="p-tag">in the lab</span>
+          </div>
+          <!-- Underwriting is parked for now. To bring it back:
           <a class="product" href="insurance.html">
             <span class="p-name">Underwriting</span>
             <span class="p-sub">For MGAs and Lloyd’s coverholders</span>
-            <svg class="arrow" width="14" height="14" viewBox="0 0 14 14" fill="none" aria-hidden="true"><path d="M2 7h10M8 3l4 4-4 4" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg>
-          </a>
-          <a class="product" href="cybersoc.html">
-            <span class="p-name">CyberSOC</span>
-            <span class="p-sub">For CISOs at regulated firms</span>
-            <svg class="arrow" width="14" height="14" viewBox="0 0 14 14" fill="none" aria-hidden="true"><path d="M2 7h10M8 3l4 4-4 4" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg>
-          </a>
+          </a> -->
         </div>
       </div>
     </section>
@@ -511,7 +525,7 @@
       <ul>
         <li><a href="index.html">Home</a></li>
         <li><a href="founders.html">Founders</a></li>
-        <li><a href="essays.html">Writing</a></li>
+        <li><a href="essays.html">Research</a></li>
         <li><a href="mailto:hi@tacitlabs.ai">Contact</a></li>
       </ul>
     </div>
@@ -520,7 +534,7 @@
       <ul>
         <li><a href="brief.html">Brief</a></li>
         <li><a href="thesis.html">Full thesis</a></li>
-        <li><a href="insurance.html">Product · Underwriting</a></li>
+        <!-- <li><a href="insurance.html">Product · Underwriting</a></li> -->
         <li><a href="cybersoc.html">Product · CyberSOC</a></li>
         <li><a href="atlas.html">Atlas</a></li>
       </ul>

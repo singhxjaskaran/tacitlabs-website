@@ -31,6 +31,55 @@
 <link rel="stylesheet" href="tacit-reading.css">
 <title>Founders — Tacit</title>
 <script defer src="/_vercel/insights/script.js"></script>
+<style>
+  /* founders on the left, how the lab got here down the right */
+  .page.founders-page{ max-width:1360px; }
+  .with-story{
+    display:grid;
+    grid-template-columns:minmax(0,1fr) minmax(300px,380px);
+    gap:clamp(40px,5vw,88px);
+    align-items:start;
+  }
+  .with-story .section::after{ display:none; }
+  .with-story .founder{ grid-template-columns:168px 1fr; gap:clamp(22px,2.6vw,40px); }
+  .with-story .founder .portrait{ width:168px; height:204px; }
+  .story{ padding:4px 0 8px; }
+  .story h2{
+    font-family:"Newsreader",Georgia,serif;
+    font-size:clamp(27px,2.4vw,36px); font-weight:500; letter-spacing:-.014em; line-height:1.12;
+    margin:0 0 6px;
+  }
+  .story > p{ margin:0 0 26px; font-size:15px; line-height:1.5; color:var(--text-muted); }
+  .story ol{ list-style:none; margin:0; padding:0 0 0 22px; border-left:1px solid var(--border-strong); }
+  .story li{ position:relative; padding:0 0 24px; }
+  .story li:last-child{ padding-bottom:0; }
+  .story li::before{
+    content:""; position:absolute; left:-27px; top:4px;
+    width:9px; height:9px; border-radius:50%;
+    background:var(--bg); border:1.5px solid var(--accent);
+  }
+  .story li.now::before{ background:var(--accent); box-shadow:0 0 0 4px var(--accent-soft); }
+  .story .when{
+    display:block; margin-bottom:5px;
+    font:12px/1.2 "IBM Plex Mono",monospace; letter-spacing:.06em; color:var(--accent);
+  }
+  .story h3{
+    font-family:"Newsreader",Georgia,serif;
+    font-size:21px; font-weight:500; letter-spacing:-.008em; line-height:1.2;
+    margin:0 0 5px; color:var(--text);
+  }
+  .story li p{ margin:0; font-size:15px; line-height:1.55; color:var(--text-muted); text-wrap:pretty; }
+  .story li p a{ color:var(--accent); text-decoration:none; border-bottom:1px solid currentColor; }
+  .story li p strong{ color:var(--text); font-weight:600; }
+  @media (max-width:1080px){
+    .with-story{ grid-template-columns:1fr; }
+    .story{ border-top:1px solid var(--border); padding-top:40px; }
+  }
+  @media (max-width:780px){
+    .with-story .founder{ grid-template-columns:1fr; }
+    .with-story .founder .portrait{ width:120px; height:144px; }
+  }
+</style>
 <link rel="stylesheet" href="nav-menu.css">
 <script defer src="nav-menu.js"></script>
 </head>
@@ -41,19 +90,22 @@
       <div class="nav-menu" data-nav="product">
         <button type="button" class="nav-menu-btn" aria-expanded="false" aria-controls="nav-product-menu">product<svg class="chev" viewBox="0 0 10 10" aria-hidden="true"><path d="M2 3.5l3 3 3-3" fill="none" stroke="currentColor" stroke-width="1.4" stroke-linecap="round" stroke-linejoin="round"/></svg></button>
         <div class="nav-menu-panel" id="nav-product-menu">
-          <a class="nav-menu-item" href="insurance.html"><span class="nm-title">Underwriting</span><span class="nm-sub">For MGAs and Lloyd’s coverholders</span></a>
-          <a class="nav-menu-item" href="cybersoc.html"><span class="nm-title">CyberSOC</span><span class="nm-sub">For CISOs at regulated firms</span></a>
+          <a class="nav-menu-item" href="cybersoc.html"><i class="nm-mark" aria-hidden="true"></i><span class="nm-title">CyberSOC</span><span class="nm-sub">For SOC teams and the people who run them</span></a>
+          <span class="nav-menu-item is-soon"><i class="nm-mark" aria-hidden="true"></i><span class="nm-title">Quality assurance <span class="nm-tag">in the lab</span></span><span class="nm-sub">For the AI agents at work in your company</span></span>
+          <!-- Underwriting is parked for now. To bring it back: <a class="nav-menu-item" href="insurance.html"><i class="nm-mark" aria-hidden="true"></i><span class="nm-title">Underwriting</span><span class="nm-sub">For MGAs and Lloyd’s coverholders</span></a> -->
         </div>
       </div>
       <a href="thesis.html" data-nav="thesis">thesis</a>
       <a href="brief.html" data-nav="brief">brief</a>
       <a href="index.html" class="logo-link" aria-label="Home"><span class="logo" aria-hidden="true"></span></a>
       <a href="founders.html" data-nav="founders" class="current">founders</a>
-      <a href="essays.html" data-nav="essays">essays</a>
+      <a href="essays.html" data-nav="essays">research</a>
     </nav>
   </div>
 
-  <main class="page">
+  <main class="page founders-page">
+   <div class="with-story">
+   <div>
     <header>
       <h1 class="page-title">Who is building this.</h1>
       <p class="t10 lead">A pre-seed venture investor is, in the end, buying the team. The rest of the site is the argument for the category, the methodology, and the wedge. This page is the argument for the people. We do not believe in pages that read like LinkedIn pulled into a website template, and we do not believe in the artificial modesty that pretends the founders have not done the work they have done. We are going to say plainly who we are, what we have done, and why we are the right people to build this company.</p>
@@ -74,10 +126,61 @@
         <div>
           <h2 class="name">Karan Bhandari</h2>
           <span class="role">co-founder</span>
-          <p class="t12">Karan came into cybersecurity early enough to be the youngest CISO in India, named at fifteen years old in 2015, and has since served as a virtual CISO for multiple Fortune 100 enterprises across Europe, North America, and South Asia. He has consulted on cyber insurance underwriting, GRC frameworks, and cyber risk modelling for the past decade, which is to say across exactly the domains that Tacit's underwriting product sells into. Like Jaskaran, he is accredited by the CII in the UK in cyber insurance underwriting. The cyber underwriting background is not incidental to the decision to start the company in cyber insurance. It is the reason the methodology will be calibrated faster in cyber than in any other line, and it is the reason the first design-partner conversations have moved as quickly as they have. His years as a CISO matter just as much: <a href="cybersoc.html">CyberSOC</a>, our second product, is built for that role.</p>
+          <p class="t12">Karan came into cybersecurity early enough to be the youngest CISO in India, named at fifteen years old in 2015, and has since served as a virtual CISO for multiple Fortune 100 enterprises across Europe, North America, and South Asia. He has consulted on cyber insurance underwriting, GRC frameworks, and cyber risk modelling for the past decade, which is where Tacit’s first work was done. Like Jaskaran, he is accredited by the CII in the UK in cyber insurance underwriting. The cyber underwriting background is not incidental to the decision to start the company in cyber insurance. It is the reason the methodology will be calibrated faster in cyber than in any other line, and it is the reason the first design-partner conversations have moved as quickly as they have. His years as a CISO matter just as much: <a href="cybersoc.html">CyberSOC</a>, our first product, is built for the desks he has run.</p>
         </div>
       </article>
     </section>
+   </div>
+
+    <!-- how the lab got here -->
+    <aside class="story" aria-labelledby="story-h">
+      <h2 id="story-h">How we got here.</h2>
+      <p>The lab opened in January 2026. This is the road from there to the judgement model.</p>
+      <ol>
+        <li>
+          <span class="when">January 2026</span>
+          <h3>The lab opens, as a service.</h3>
+          <p>Companies asked us to capture how their senior people decide before those people moved on, so that is where we began, and we did it by hand.</p>
+        </li>
+        <li>
+          <span class="when">March 2026</span>
+          <h3>Shadow sessions.</h3>
+          <p>We sat beside experts while they worked and asked why at every turn. Our first pilot was with Brainoscope, a clinical neurotechnology firm: 54 sessions and 722 moments of judgement captured. It worked, and it could not scale, because every hour we captured cost an hour of ours.</p>
+        </li>
+        <li>
+          <span class="when">then</span>
+          <h3>A paper changes the plan.</h3>
+          <!-- CITATION TO ADD: the paper Karan means (title, authors, year) goes at the end of this entry. It was not in the folders. -->
+          <p>We came across research showing that a language model could do that probing itself. The expert just works at their screen, moving the cursor and pressing Enter, and the model asks what we used to ask.</p>
+        </li>
+        <li>
+          <span class="when">July to September 2026</span>
+          <h3>Underwriting.</h3>
+          <p>We took it to cyber underwriting desks in the London market, where senior underwriters told us it was a problem that needed solving. It was a great run, and it showed us what stood in the way.</p>
+        </li>
+        <li>
+          <span class="when">then</span>
+          <h3>Too slow, too costly.</h3>
+          <p>A language model was too slow and too costly to sit on every decision a desk makes. We wanted a model of our own for judgement, and we did not yet know enough statistics to build one.</p>
+        </li>
+        <li>
+          <span class="when">then</span>
+          <h3>Back to the lecture hall.</h3>
+          <p>The two of us worked through the Harvard and Stanford statistics lectures that anyone can watch on YouTube, a great many of them, until we could model the data ourselves.</p>
+        </li>
+        <li>
+          <span class="when">November 2026</span>
+          <h3>The judgement model works.</h3>
+          <p>It is ours, and it is cheap and fast to run. On Microsoft’s public GUIDE data it closes <strong>84% of benign positives</strong>, at a setting where 1 in 100 true positives is closed as well.</p>
+        </li>
+        <li class="now">
+          <span class="when">today</span>
+          <h3>CyberSOC.</h3>
+          <p>The first product built on it captures how a SOC’s analysts reason. <a href="cybersoc.html">See CyberSOC</a></p>
+        </li>
+      </ol>
+    </aside>
+   </div>
 
     <section class="section col">
       <h2 class="section-title">Hiring.</h2>
@@ -93,7 +196,7 @@
             <path d="M2 7h10M8 3l4 4-4 4" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
           </svg>
         </a>
-        <a class="cta-ghost" href="essays.html">read the essays</a>
+        <a class="cta-ghost" href="essays.html">read the research</a>
       </div>
     </section>
   </main>
@@ -108,7 +211,7 @@
       <ul>
         <li><a href="index.html">Home</a></li>
         <li><a href="founders.html">Founders</a></li>
-        <li><a href="essays.html">Writing</a></li>
+        <li><a href="essays.html">Research</a></li>
         <li><a href="mailto:hi@tacitlabs.ai">Contact</a></li>
       </ul>
     </div>
@@ -117,7 +220,7 @@
       <ul>
         <li><a href="brief.html">Brief</a></li>
         <li><a href="thesis.html">Full thesis</a></li>
-        <li><a href="insurance.html">Product · Underwriting</a></li>
+        <!-- <li><a href="insurance.html">Product · Underwriting</a></li> -->
         <li><a href="cybersoc.html">Product · CyberSOC</a></li>
         <li><a href="atlas.html">Atlas</a></li>
       </ul>

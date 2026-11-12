@@ -2,27 +2,57 @@
   "cleanUrls": true,
   "trailingSlash": false,
   "redirects": [
-    { "source": "/product", "destination": "/insurance", "permanent": true },
-    { "source": "/product.html", "destination": "/insurance", "permanent": true }
+    {
+      "source": "/product",
+      "destination": "/cybersoc",
+      "permanent": false
+    },
+    {
+      "source": "/product.html",
+      "destination": "/cybersoc",
+      "permanent": false
+    },
+    {
+      "source": "/insurance",
+      "destination": "/cybersoc",
+      "permanent": false
+    },
+    {
+      "source": "/insurance.html",
+      "destination": "/cybersoc",
+      "permanent": false
+    }
   ],
   "headers": [
     {
       "source": "/robots.txt",
       "headers": [
-        { "key": "Content-Type", "value": "text/plain; charset=utf-8" }
+        {
+          "key": "Content-Type",
+          "value": "text/plain; charset=utf-8"
+        }
       ]
     },
     {
       "source": "/sitemap.xml",
       "headers": [
-        { "key": "Content-Type", "value": "application/xml; charset=utf-8" },
-        { "key": "Cache-Control", "value": "public, max-age=86400" }
+        {
+          "key": "Content-Type",
+          "value": "application/xml; charset=utf-8"
+        },
+        {
+          "key": "Cache-Control",
+          "value": "public, max-age=86400"
+        }
       ]
     },
     {
       "source": "/(.*)",
       "headers": [
-        { "key": "X-Robots-Tag", "value": "all" }
+        {
+          "key": "X-Robots-Tag",
+          "value": "all"
+        }
       ]
     }
   ]

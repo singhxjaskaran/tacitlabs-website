@@ -3,7 +3,7 @@
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width,initial-scale=1">
-<meta name="description" content="Writing from the Tacit team — essays on the runtime layer, regulated AI, and expert judgement.">
+<meta name="description" content="Research from Tacit Labs and Birchlogic: three papers in work, on telling a good call from a habit, on safety under compression, and on what an on-premises security model costs.">
 <meta name="author" content="Tacit Labs">
 <meta name="theme-color" content="#a83246">
 <link rel="canonical" href="https://tacitlabs.ai/essays.html">
@@ -12,8 +12,8 @@
 
 <meta property="og:type" content="website">
 <meta property="og:site_name" content="Tacit">
-<meta property="og:title" content="Writing — Tacit">
-<meta property="og:description" content="Essays from the Tacit team on the runtime layer, regulated AI, and expert judgement.">
+<meta property="og:title" content="Research — Tacit">
+<meta property="og:description" content="Three papers in work at Tacit Labs and Birchlogic, and the thesis the company is built on.">
 <meta property="og:url" content="https://tacitlabs.ai/essays.html">
 <meta property="og:image" content="https://tacitlabs.ai/assets/og-card.svg">
 <meta property="og:image:type" content="image/svg+xml">
@@ -21,16 +21,37 @@
 <meta property="og:image:height" content="630">
 
 <meta name="twitter:card" content="summary_large_image">
-<meta name="twitter:title" content="Writing — Tacit">
-<meta name="twitter:description" content="Essays from the Tacit team on the runtime layer, regulated AI, and expert judgement.">
+<meta name="twitter:title" content="Research — Tacit">
+<meta name="twitter:description" content="Three papers in work at Tacit Labs and Birchlogic, and the thesis the company is built on.">
 <meta name="twitter:image" content="https://tacitlabs.ai/assets/og-card.svg">
 
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=IBM+Plex+Mono:wght@400;500;600&family=Inter:wght@300;400;500;600;700&family=Newsreader:ital,opsz,wght@0,6..72,400;0,6..72,500;0,6..72,600;0,6..72,700;1,6..72,400&family=Open+Sans:wght@400;500;600;700;800&display=swap" rel="stylesheet">
 <link rel="stylesheet" href="tacit-reading.css">
-<title>Writing — Tacit</title>
+<title>Research — Tacit</title>
 <script defer src="/_vercel/insights/script.js"></script>
+<style>
+  /* the papers: one row each, with where it stands */
+  .papers{ list-style:none; margin:0; padding:0; border-top:1px solid var(--border); }
+  .paper{
+    display:grid; grid-template-columns:150px minmax(0,1fr);
+    gap:clamp(20px,3vw,48px);
+    padding:clamp(28px,4vh,44px) 0;
+    border-bottom:1px solid var(--border);
+  }
+  .paper .from{ font:12px/1.5 "IBM Plex Mono",monospace; letter-spacing:.06em; color:var(--text-dim); }
+  .paper .from b{ display:block; font-weight:500; color:var(--accent); }
+  .paper h3{
+    font-family:"Newsreader",Georgia,serif;
+    font-size:clamp(25px,2.5vw,36px); font-weight:500; letter-spacing:-.014em; line-height:1.14;
+    margin:0 0 14px; max-width:24ch; text-wrap:balance;
+  }
+  .paper p{ margin:0 0 12px; max-width:64ch; font-size:17px; line-height:1.62; color:var(--text); text-wrap:pretty; }
+  .paper .stands{ margin:16px 0 0; padding-left:16px; border-left:1px solid rgba(168,50,70,.42); font-size:14.5px; line-height:1.6; color:var(--text-muted); }
+  .paper .stands b{ color:var(--text); font-weight:600; }
+  @media (max-width:780px){ .paper{ grid-template-columns:1fr; gap:10px; } .paper p{ font-size:16px; } }
+</style>
 <link rel="stylesheet" href="nav-menu.css">
 <script defer src="nav-menu.js"></script>
 </head>
@@ -41,48 +62,76 @@
       <div class="nav-menu" data-nav="product">
         <button type="button" class="nav-menu-btn" aria-expanded="false" aria-controls="nav-product-menu">product<svg class="chev" viewBox="0 0 10 10" aria-hidden="true"><path d="M2 3.5l3 3 3-3" fill="none" stroke="currentColor" stroke-width="1.4" stroke-linecap="round" stroke-linejoin="round"/></svg></button>
         <div class="nav-menu-panel" id="nav-product-menu">
-          <a class="nav-menu-item" href="insurance.html"><span class="nm-title">Underwriting</span><span class="nm-sub">For MGAs and Lloyd’s coverholders</span></a>
-          <a class="nav-menu-item" href="cybersoc.html"><span class="nm-title">CyberSOC</span><span class="nm-sub">For CISOs at regulated firms</span></a>
+          <a class="nav-menu-item" href="cybersoc.html"><i class="nm-mark" aria-hidden="true"></i><span class="nm-title">CyberSOC</span><span class="nm-sub">For SOC teams and the people who run them</span></a>
+          <span class="nav-menu-item is-soon"><i class="nm-mark" aria-hidden="true"></i><span class="nm-title">Quality assurance <span class="nm-tag">in the lab</span></span><span class="nm-sub">For the AI agents at work in your company</span></span>
+          <!-- Underwriting is parked for now. To bring it back: <a class="nav-menu-item" href="insurance.html"><i class="nm-mark" aria-hidden="true"></i><span class="nm-title">Underwriting</span><span class="nm-sub">For MGAs and Lloyd’s coverholders</span></a> -->
         </div>
       </div>
       <a href="thesis.html" data-nav="thesis">thesis</a>
       <a href="brief.html" data-nav="brief">brief</a>
       <a href="index.html" class="logo-link" aria-label="Home"><span class="logo" aria-hidden="true"></span></a>
       <a href="founders.html" data-nav="founders">founders</a>
-      <a href="essays.html" data-nav="essays" class="current">essays</a>
+      <a href="essays.html" data-nav="essays" class="current">research</a>
     </nav>
   </div>
 
   <main class="page">
     <header>
-      <h1 class="page-title">Writing.</h1>
-      <p class="page-deck">We publish irregularly. The writing is long-form and unfinished by design. Right now there is one piece — the long-form thesis the company is built on. More follow as the methodology lands more deployments and the arguments worth testing in public sharpen. If you are an investor running diligence on the company, the thesis is where the thinking lives.</p>
+      <h1 class="page-title">Research.</h1>
+      <p class="page-deck">Tacit Labs is a research lab first. Three papers are in work, one here and two at Birchlogic, the founders’ security practice. None of them is published yet, so each entry says plainly where it stands.</p>
     </header>
 
     <section class="section">
+      <h2 class="section-title">Papers in work.</h2>
+      <ol class="papers">
+        <li class="paper">
+          <p class="from"><b>Tacit Labs</b>working title</p>
+          <div>
+            <h3>Can you tell a good call from a habit?</h3>
+            <p>Every desk that decides things for a living has a way of deciding, and every person on it has habits of their own. One analyst escalates anything that arrives over the VPN and another never does, and from the outside both look like judgement. This paper is about capturing how a team reasons from the decisions it has already made, and then separating what the team as a whole would stand behind from what is one person’s habit or bias.</p>
+            <p>It matters because a system that learns from experts learns their habits too, unless something tells the two apart.</p>
+            <p class="stands"><b>Where it stands:</b> in preparation. In a first test on synthetic decisions it found all seven patterns we had planted, with one false alarm. <a href="cybersoc.html">CyberSOC</a> is where this work is first put to use.</p>
+          </div>
+        </li>
+        <li class="paper">
+          <p class="from"><b>Birchlogic</b>paper in preparation</p>
+          <div>
+            <h3>Does safety survive compression?</h3>
+            <p>Every regulated deployment quantises its models to fit real hardware, and almost nobody has measured what that does to the safety behaviours the full-precision model was aligned with. The team extracted a refusal direction once at full precision and applied it unchanged across the compressed versions. The finding so far is uncomfortable in an interesting way: the geometry drifts, and the behaviour transfers anyway.</p>
+            <p class="stands"><b>Where it stands:</b> in preparation, and independently reverified inside the lab before anything ships.</p>
+          </div>
+        </li>
+        <li class="paper">
+          <p class="from"><b>Birchlogic</b>re-running</p>
+          <div>
+            <h3>What does an on-premises security model actually cost?</h3>
+            <p>Running a security model inside your own walls is sold hard and measured badly, including, at first, by us. Our own first measurement pass failed our own review, so the work is being run again, and we would rather publish late and right than early and wrong.</p>
+            <p class="stands"><b>Where it stands:</b> re-running. No numbers until it clears.</p>
+          </div>
+        </li>
+      </ol>
+    </section>
+
+    <section class="section">
+      <h2 class="section-title">Writing.</h2>
       <ul class="essay-list">
         <li>
           <span class="date">2026 · 05</span>
           <a class="title" href="thesis.html">Expertise is a runtime — the long-form thesis</a>
           <span class="read">~60 min</span>
         </li>
-        <li class="essay-coming-soon">
-          <span class="date">soon</span>
-          <span class="title">The articulation ceiling: why interviewing experts harder will not work</span>
-          <span class="read">coming soon</span>
-        </li>
       </ul>
     </section>
 
     <section class="section-cta cta-center">
-      <h2 class="h">Start with the thesis.</h2>
+      <h2 class="h">Want a paper when it is out?</h2>
       <div class="ctas">
-        <a class="cta" href="thesis.html">read the thesis
+        <a class="cta" href="mailto:hi@tacitlabs.ai?subject=Research">hi@tacitlabs.ai
           <svg width="14" height="14" viewBox="0 0 14 14" fill="none" aria-hidden="true">
             <path d="M2 7h10M8 3l4 4-4 4" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
           </svg>
         </a>
-        <a class="cta-ghost" href="mailto:hi@tacitlabs.ai?subject=Subscribe">notify me of new essays</a>
+        <a class="cta-ghost" href="thesis.html">read the thesis</a>
       </div>
     </section>
   </main>
@@ -97,7 +146,7 @@
       <ul>
         <li><a href="index.html">Home</a></li>
         <li><a href="founders.html">Founders</a></li>
-        <li><a href="essays.html">Writing</a></li>
+        <li><a href="essays.html">Research</a></li>
         <li><a href="mailto:hi@tacitlabs.ai">Contact</a></li>
       </ul>
     </div>
@@ -106,7 +155,7 @@
       <ul>
         <li><a href="brief.html">Brief</a></li>
         <li><a href="thesis.html">Full thesis</a></li>
-        <li><a href="insurance.html">Product · Underwriting</a></li>
+        <!-- <li><a href="insurance.html">Product · Underwriting</a></li> -->
         <li><a href="cybersoc.html">Product · CyberSOC</a></li>
         <li><a href="atlas.html">Atlas</a></li>
       </ul>
