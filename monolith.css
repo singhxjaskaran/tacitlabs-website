@@ -104,15 +104,194 @@ button {
 }
 
 /* ── frame ── */
-.nav {
+/* The site's pill nav (product menu, thesis, brief, the mark, founders, essays), redrawn in ink.
+   Markup and behaviour are the site's own: .nav-wrap > nav.tacit-nav, with nav-menu.js. */
+.nav-wrap {
+  position: sticky;
+  top: 0;
+  z-index: 30;
+  display: flex;
+  justify-content: center;
+  padding: 14px var(--gutter) 0;
+  pointer-events: none;
+}
+nav.tacit-nav {
+  pointer-events: auto;
+  position: relative;
   display: flex;
   align-items: center;
-  justify-content: space-between;
-  gap: 24px;
-  padding: 18px var(--gutter);
-  border-bottom: 1px solid var(--rule);
+  gap: 2px;
+  padding: 7px 9px;
+  background: var(--ink);
+  color: var(--ash);
+  border-radius: 999px;
+  box-shadow: 0 0 0 1px rgba(255, 255, 255, 0.28), 6px 7px 0 rgba(10, 10, 10, 0.22);
+  font-size: 14px;
+  font-weight: 500;
+  letter-spacing: 0.01em;
+}
+nav.tacit-nav > a,
+.nav-menu-btn {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  margin: 0;
+  padding: 9px 15px;
+  border: 0;
+  border-radius: 999px;
+  background: transparent;
+  color: inherit;
+  font: inherit;
+  letter-spacing: inherit;
+  text-transform: lowercase;
+  text-decoration: none;
+  cursor: pointer;
+  transition: background 0.15s var(--ease), color 0.15s var(--ease);
+}
+nav.tacit-nav > a:hover,
+.nav-menu-btn:hover,
+.nav-menu.is-open .nav-menu-btn {
+  color: var(--paper);
+  background: #26261f;
+}
+.nav-menu-btn.current,
+.nav-menu-btn.current:hover,
+.nav-menu.is-open .nav-menu-btn.current {
+  background: var(--paper);
+  color: var(--ink);
+}
+nav.tacit-nav :focus-visible {
+  outline: 2px solid var(--paper);
+  outline-offset: 2px;
+  box-shadow: none;
+}
+.nav-menu {
   position: relative;
-  z-index: 5;
+  display: inline-flex;
+}
+.nav-menu .chev {
+  width: 9px;
+  height: 9px;
+  flex: none;
+  transition: rotate 0.2s var(--ease);
+}
+.nav-menu.is-open .chev {
+  rotate: 180deg;
+}
+nav.tacit-nav > a.logo-link {
+  padding: 8px 16px;
+}
+nav.tacit-nav > a.logo-link:hover {
+  background: transparent;
+}
+.logo {
+  display: block;
+  width: 20px;
+  height: 20px;
+  background: var(--signal);
+  box-shadow: 0 0 0 2px var(--paper);
+  transition: rotate 0.25s var(--ease);
+}
+.logo-link:hover .logo {
+  rotate: 90deg;
+}
+/* the product menu drops as a card from the index */
+.nav-menu-panel {
+  position: absolute;
+  z-index: 60;
+  top: calc(100% + 20px);
+  left: -9px;
+  width: min(320px, calc(100vw - 32px));
+  background: var(--ash);
+  color: var(--ink);
+  border: 1.5px solid var(--ink);
+  box-shadow: 8px 9px 0 rgba(10, 10, 10, 0.22);
+  text-align: left;
+  opacity: 0;
+  visibility: hidden;
+  pointer-events: none;
+  transition: opacity 0.16s var(--ease), visibility 0s linear 0.16s;
+}
+.nav-menu-panel::before {
+  content: '';
+  position: absolute;
+  left: 0;
+  right: 0;
+  top: -24px;
+  height: 24px;
+}
+.nav-menu.is-open .nav-menu-panel,
+html:not(.nav-js) .nav-menu:hover .nav-menu-panel,
+html:not(.nav-js) .nav-menu:focus-within .nav-menu-panel {
+  opacity: 1;
+  visibility: visible;
+  pointer-events: auto;
+  transition: opacity 0.16s var(--ease), visibility 0s;
+}
+.nav-menu-item {
+  display: block;
+  padding: 14px 18px 15px;
+  color: var(--ink);
+  text-decoration: none;
+  letter-spacing: 0;
+}
+.nav-menu-item + .nav-menu-item {
+  border-top: 1px solid var(--rule);
+}
+.nav-menu-item:hover {
+  background: var(--bone);
+}
+.nav-menu-item[aria-current='page'] {
+  box-shadow: inset 5px 0 0 var(--ink);
+}
+nav.tacit-nav .nav-menu-item:focus-visible {
+  outline-color: var(--ink);
+  outline-offset: -4px;
+}
+.nm-title {
+  display: block;
+  font-family: var(--serif, inherit);
+  font-size: 21px;
+  font-weight: 500;
+  letter-spacing: -0.012em;
+  line-height: 1.15;
+}
+.nm-sub {
+  display: block;
+  margin-top: 3px;
+  font-size: 12.5px;
+  color: var(--graphite);
+}
+@media (max-width: 760px) {
+  nav.tacit-nav {
+    font-size: 12px;
+    padding: 5px 6px;
+    gap: 0;
+  }
+  nav.tacit-nav > a,
+  .nav-menu-btn {
+    padding: 8px 9px;
+    gap: 4px;
+  }
+  nav.tacit-nav > a.logo-link {
+    padding: 8px 9px;
+  }
+  .logo {
+    width: 16px;
+    height: 16px;
+  }
+  .nav-menu {
+    position: static;
+  }
+  .nav-menu-panel {
+    top: calc(100% + 10px);
+    left: 50%;
+    translate: -50% 0;
+  }
+  .nav-menu-panel::before {
+    top: -12px;
+    height: 12px;
+  }
 }
 .brand {
   display: inline-flex;
@@ -129,24 +308,6 @@ button {
   background: var(--signal);
   box-shadow: 0 0 0 1.5px var(--ink);
   display: inline-block;
-}
-.nav ul {
-  display: flex;
-  gap: clamp(14px, 2.4vw, 34px);
-  font-size: 14px;
-  font-weight: 500;
-}
-.nav ul a {
-  text-decoration: none;
-}
-.nav ul a:hover {
-  text-decoration: underline;
-  text-underline-offset: 5px;
-}
-@media (max-width: 760px) {
-  .nav ul {
-    display: none;
-  }
 }
 .btn {
   display: inline-flex;
@@ -450,26 +611,6 @@ button {
 }
 
 /* ── the real site's frame ── */
-.nav ul a[aria-current='page'] {
-  text-decoration: underline;
-  text-decoration-thickness: 2px;
-  text-underline-offset: 6px;
-}
-@media (max-width: 760px) {
-  .nav {
-    flex-wrap: wrap;
-    row-gap: 10px;
-  }
-  .nav ul {
-    display: flex;
-    order: 3;
-    width: 100%;
-    gap: 20px;
-    overflow-x: auto;
-    white-space: nowrap;
-    padding-bottom: 2px;
-  }
-}
 .site-foot {
   display: grid;
   grid-template-columns: minmax(0, 2fr) repeat(3, minmax(0, 1fr));

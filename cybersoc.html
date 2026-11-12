@@ -28,7 +28,7 @@
          what Tacit is not, and what a design partner gets back. */
       .hero {
         position: relative;
-        min-height: min(940px, calc(100vh - 62px));
+        min-height: min(940px, calc(100vh - 74px));
         padding: clamp(36px, 7vh, 84px) var(--gutter) 40px;
         display: grid;
         grid-template-columns: minmax(0, 1fr) auto;
@@ -224,6 +224,18 @@
       .dev-note svg { position: absolute; overflow: visible; }
       .dev-foot { display: flex; flex-wrap: wrap; justify-content: space-between; gap: 12px 30px; margin-top: 18px; }
 
+      /* the uses: six cards from the same index, the last one still blank */
+      .uses { display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 34px 26px; margin-top: clamp(44px, 5vw, 74px); }
+      .use { position: relative; display: flex; flex-direction: column; gap: 10px; min-height: 300px; padding: 14px 22px 26px 20px; rotate: var(--r, -0.5deg); box-shadow: 0 -1px 0 rgba(10, 10, 10, 0.45), 9px 10px 0 rgba(10, 10, 10, 0.18); }
+      .use:nth-child(even) { --r: 0.45deg; }
+      .use.next { box-shadow: none; outline: 1.5px dashed var(--ink); outline-offset: -1px; }
+      .use .flag { position: absolute; top: -9px; left: var(--fx, 20%); width: 18px; height: 18px; border-radius: 50%; border: 4px solid var(--fc); border-bottom-color: transparent; }
+      .use .subj { display: flex; justify-content: space-between; gap: 12px; color: #c92f08; font-weight: 600; white-space: nowrap; }
+      .use .subj span:last-child { color: var(--ink); font-weight: 400; }
+      .use .hand { font-size: clamp(40px, 3.6vw, 56px); margin: 16px 0 4px; }
+      .use h3 { font-family: var(--serif, inherit); font-weight: 500; font-size: clamp(21px, 1.9vw, 27px); letter-spacing: -0.015em; line-height: 1.1; }
+      .use p:last-child { font-size: 15px; line-height: 1.45; }
+
       /* 8 · how it works */
       .how ol { display: grid; grid-template-columns: repeat(4, minmax(0, 1fr)); gap: 0; margin-top: clamp(40px, 5vw, 70px); border-top: 1.5px solid var(--ink); }
       .how li { padding: 18px 20px 0 0; }
@@ -240,7 +252,8 @@
 
 
       @media (max-width: 980px) {
-        .stats, .offers, .ways { grid-template-columns: minmax(0, 1fr); }
+        .stats, .offers, .ways, .uses { grid-template-columns: minmax(0, 1fr); }
+        .use { min-height: 0; }
         .dev-head, .dev-row { grid-template-columns: minmax(0, 1fr); gap: 2px; }
         .dev-head div:first-child, .dev-head div:last-child { display: none; }
         .dev-row { padding: 10px 0; }
@@ -386,18 +399,22 @@
     </style>
   </head>
   <body>
-    <header class="nav">
-      <a class="brand" href="index.html" aria-label="Tacit, home">tacit<i></i></a>
-      <ul>
-        <li><a href="insurance.html">Underwriting</a></li>
-        <li><a href="cybersoc.html" aria-current="page">CyberSOC</a></li>
-        <li><a href="thesis.html">Thesis</a></li>
-        <li><a href="brief.html">Brief</a></li>
-        <li><a href="founders.html">Founders</a></li>
-        <li><a href="essays.html">Essays</a></li>
-      </ul>
-      <a class="btn sm" href="#ask">Book a call</a>
-    </header>
+    <div class="nav-wrap">
+      <nav class="tacit-nav" aria-label="Primary">
+        <div class="nav-menu" data-nav="product">
+          <button type="button" class="nav-menu-btn current" aria-expanded="false" aria-controls="nav-product-menu">product<svg class="chev" viewBox="0 0 10 10" aria-hidden="true"><path d="M2 3.5l3 3 3-3" fill="none" stroke="currentColor" stroke-width="1.4" stroke-linecap="round" stroke-linejoin="round" /></svg></button>
+          <div class="nav-menu-panel" id="nav-product-menu">
+            <a class="nav-menu-item" href="insurance.html"><span class="nm-title">Underwriting</span><span class="nm-sub">For MGAs and Lloyd’s coverholders</span></a>
+            <a class="nav-menu-item" href="cybersoc.html" aria-current="page"><span class="nm-title">CyberSOC</span><span class="nm-sub">For SOC teams and the people who run them</span></a>
+          </div>
+        </div>
+        <a href="thesis.html" data-nav="thesis">thesis</a>
+        <a href="brief.html" data-nav="brief">brief</a>
+        <a href="index.html" class="logo-link" aria-label="Home"><span class="logo" aria-hidden="true"></span></a>
+        <a href="founders.html" data-nav="founders">founders</a>
+        <a href="essays.html" data-nav="essays">essays</a>
+      </nav>
+    </div>
 
     <main>
       <!-- the card index opens the page -->
@@ -481,12 +498,9 @@
           </p>
         </div>
         <figure class="cap film rise" id="film" data-picture>
-          <picture>
-            <source media="(max-width: 700px)" srcset="assets/console/run-phone.jpg" width="840" height="2988" />
-            <img src="assets/console/run.jpg" width="3200" height="2000" loading="lazy" decoding="async" alt="The run screen after a thousand alerts from one night: 578 closed by Tacit in Sentinel, 212 drafted for one click, 41 escalated to an analyst and 169 left as they were." />
-          </picture>
+          <video src="assets/console/run.mp4" poster="assets/console/run.jpg" width="1920" height="1200" autoplay muted loop playsinline preload="metadata" aria-label="A recording of the product’s run screen. A thousand alerts from one night are read in twenty seconds: 578 are closed by Tacit in Sentinel, 212 are drafted for one click, 41 are sent to L2 and 169 are left as they were. It ends on where the thousand went."></video>
         </figure>
-        <p class="typed shot-note">A thousand alerts from one night at a made-up client, as the product’s run screen leaves them.</p>
+        <p class="typed shot-note">A thousand alerts from one night at a made-up client, on the product’s run screen.</p>
       </section>
 
       <!-- 3 · how we are solving it: first principles -->
@@ -606,6 +620,61 @@
             <span class="typed" style="font-size: 12.5px">A made-up desk of eight analysts. Shown by team and never by name.</span>
           </div>
         </figure>
+      </section>
+
+      <!-- the uses: closing is the first of them -->
+      <section class="pad" id="uses" style="padding-top: 0">
+        <div class="cols">
+          <h2 class="display rise">Closing alerts is only the first use.</h2>
+          <p class="lead rise">
+            Once your desk’s judgement is written down, it does more than close what the client
+            already explained. Five of these are in the product today, and the sixth is not built
+            yet.
+          </p>
+        </div>
+        <ul class="uses" data-picture>
+          <li class="use paper rise" style="--fc: var(--green); --fx: 22%; --d: 0.00s"><i class="flag"></i>
+            <p class="typed subj"><span>1. Closing--benign positives.</span><span>in the product</span></p>
+            <p class="hand">is this one fine?</p>
+            <h3>Close what the client already explained.</h3>
+            <p>An alert a reason covers is closed in your SIEM with the reason attached, so an analyst never has to open it.</p>
+          </li>
+          <li class="use paper rise" style="--fc: var(--blue); --fx: 64%; --d: 0.06s"><i class="flag"></i>
+            <p class="typed subj"><span>2. Escalation--the case.</span><span>in the product</span></p>
+            <p class="hand">who needs to see this?</p>
+            <h3>Escalate with the case put together.</h3>
+            <p>What Tacit will not close reaches a person with every answer it read and why it held back.</p>
+          </li>
+          <li class="use paper rise" style="--fc: var(--blue); --fx: 38%; --d: 0.12s"><i class="flag"></i>
+            <p class="typed subj"><span>3. Handover--shifts.</span><span>in the product</span></p>
+            <p class="hand">what did nights leave me?</p>
+            <h3>Hand the shift over.</h3>
+            <p>The next shift starts from what the last one decided and what is about to lapse, and a new analyst or a new provider starts from the same place.</p>
+          </li>
+          <li class="use paper rise" style="--fc: var(--blue); --fx: 72%; --d: 0.18s"><i class="flag"></i>
+            <p class="typed subj"><span>4. Review--the desk.</span><span>in the product</span></p>
+            <p class="hand">how does my desk decide?</p>
+            <h3>Review the desk.</h3>
+            <p>What moves the desk as a whole, where one analyst’s habit departs from it, and whether drafts are being read or just agreed to. By team, never by name.</p>
+          </li>
+          <li class="use paper rise" style="--fc: var(--blue); --fx: 28%; --d: 0.24s"><i class="flag"></i>
+            <p class="typed subj"><span>5. Reporting--the client.</span><span>in the product</span></p>
+            <p class="hand">what did you do for us?</p>
+            <h3>Show the client.</h3>
+            <p>A month of closes with the reason behind each, and a record your client can check without signing in.</p>
+          </li>
+          <li class="use next rise" style="--fc: var(--ink); --fx: 56%; --d: 0.30s"><i class="flag"></i>
+            <p class="typed subj"><span>6. Assurance--AI agents.</span><span>not built yet</span></p>
+            <p class="hand">can I trust the AI’s close?</p>
+            <h3>Check an AI triage agent against your desk.</h3>
+            <p>The same picture of how your desk decides could grade what an agent closed. We have not built this, so tell us if you need it.</p>
+          </li>
+        </ul>
+        <div class="swatches rise" style="margin-top: 30px">
+          <span><i class="sw-green"></i>a close</span>
+          <span><i class="sw-blue"></i>in the product</span>
+          <span><i class="sw-ring"></i>not built yet</span>
+        </div>
       </section>
 
       <!-- 7 · the tech: how it goes in -->
@@ -747,6 +816,7 @@
     </footer>
 
     <script defer src="/_vercel/insights/script.js"></script>
+    <script defer src="nav-menu.js"></script>
 
     <script type="module">
       import { ink, arrive, rng } from './monolith.js'
@@ -756,6 +826,16 @@
       const MARKS = ['amcs', 'ks-partners', 'mbs-global', 'batra-numerro', 'saarthee', 'fusionedge', 'nexwave', 'm-intergraph', 'nest-money', 'coforge', 'figbytes', 'xammer', 'watermelon-software', 'waterloo-intuition', 'lambdavision']
       const marks = (list) => Array.from({ length: 2 }, () => list.map((f) => `<img src="assets/clients/${f}.png" alt="" decoding="async">`).join('')).join('')
       document.getElementById('logos').innerHTML = marks(MARKS)
+
+      /* the run film plays by itself while it is on screen, and waits for a tap if motion is reduced */
+      const film = document.querySelector('#film video')
+      if (matchMedia('(prefers-reduced-motion: reduce)').matches) {
+        film.removeAttribute('autoplay')
+        film.pause()
+        film.controls = true
+      } else {
+        new IntersectionObserver(([e]) => (e.isIntersecting ? film.play().catch(() => {}) : film.pause()), { threshold: 0.25 }).observe(film)
+      }
 
       /* the card drawer */
       const CARDS = [
