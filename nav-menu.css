@@ -64,10 +64,21 @@ nav#nav > a:focus-visible{ outline:none; color:#ffe4b8; box-shadow:0 0 0 2px #ff
   /* Home's pill sits inside its hero, which has its own padding: bring it to the same 12px */
   nav#nav{ margin-top:-6px; }
 }
+/* phones: six items, one of them two words, still on one row down to 340px */
+@media (max-width:440px){
+  .nav-wrap{ padding-left:8px; padding-right:8px; }
+  nav.tacit-nav, nav#nav{ padding:5px 4px; }
+  nav.tacit-nav > a, nav#nav > a,
+  nav .nav-menu .nav-menu-btn{ font-size:11px; padding:8px 6px; letter-spacing:0; }
+  nav .nav-menu .nav-menu-btn{ gap:3px; }
+  nav .nav-menu .chev{ width:8px; height:8px; }
+  nav.tacit-nav > a.logo-link, nav#nav > a.logo-link{ padding:0 3px; }
+  nav .logo{ width:20px; height:20px; }
+}
 @media (max-width:380px){
   nav.tacit-nav > a, nav#nav > a,
-  nav .nav-menu .nav-menu-btn{ font-size:11px; padding:8px 6px; }
-  nav.tacit-nav > a.logo-link, nav#nav > a.logo-link{ padding:0 4px; }
+  nav .nav-menu .nav-menu-btn{ font-size:10.5px; padding:8px 4px; }
+  nav.tacit-nav > a.logo-link, nav#nav > a.logo-link{ padding:0 2px; }
 }
 
 /* ── 2. the product skin ── */
@@ -99,6 +110,9 @@ body.product nav .logo{
 body.product nav .logo-link:hover .logo{ rotate:90deg; }
 @media (max-width:780px){
   body.product nav .logo{ width:16px; height:16px; margin:3px; }
+}
+@media (max-width:440px){
+  body.product nav .logo{ width:14px; height:14px; margin:3px; }
 }
 
 /* ── 3. the product menu: a card from the products' index, on every page ── */

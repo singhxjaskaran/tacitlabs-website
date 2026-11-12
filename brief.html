@@ -3,7 +3,7 @@
 <head>
 <meta charset="utf-8" />
 <meta name="viewport" content="width=device-width, initial-scale=1" />
-<title>Brief — Tacit</title>
+<title>Elevator pitch — Tacit</title>
 <meta name="description" content="A short read of the Tacit thesis. Tacit recovers the judgement behind the decisions people and AI already make, and shows how far you can rely on it. The first product is CyberSOC.">
 <meta name="author" content="Tacit Labs">
 <meta name="theme-color" content="#a83246">
@@ -13,7 +13,7 @@
 
 <meta property="og:type" content="article">
 <meta property="og:site_name" content="Tacit">
-<meta property="og:title" content="Brief — Tacit">
+<meta property="og:title" content="Elevator pitch — Tacit">
 <meta property="og:description" content="A short read of the Tacit thesis. Tacit recovers the judgement behind the decisions people and AI already make, and shows how far you can rely on it. The first product is CyberSOC.">
 <meta property="og:url" content="https://tacitlabs.ai/brief.html">
 <meta property="og:image" content="https://tacitlabs.ai/assets/og-card.svg">
@@ -22,7 +22,7 @@
 <meta property="og:image:height" content="630">
 
 <meta name="twitter:card" content="summary_large_image">
-<meta name="twitter:title" content="Brief — Tacit">
+<meta name="twitter:title" content="Elevator pitch — Tacit">
 <meta name="twitter:description" content="A short read of the Tacit thesis. Tacit recovers the judgement behind the decisions people and AI already make, and shows how far you can rely on it.">
 <meta name="twitter:image" content="https://tacitlabs.ai/assets/og-card.svg">
 
@@ -141,7 +141,7 @@
   }
   .film-frame {
     position: relative;
-    aspect-ratio: 16 / 9;
+    aspect-ratio: 1720 / 976;
     background: #1c0e12;
     border: 1px solid var(--rule-strong);
     border-radius: 18px;
@@ -164,9 +164,6 @@
   .film-wait svg { width: 58px; height: 58px; }
   .film-wait b { font-family: var(--display-font); font-size: clamp(22px, 2.2vw, 32px); font-weight: 500; letter-spacing: -0.012em; }
   .film-wait span { font-family: var(--mono-font); font-size: 12.5px; color: rgba(242, 228, 207, 0.7); }
-  .film-cap { margin: 14px 2px 0; font-family: var(--mono-font); font-size: 12.5px; color: var(--ink-dim); letter-spacing: 0.02em; }
-  .pitch-kicker { margin: 0 0 18px; font-family: var(--mono-font); font-size: 12.5px; letter-spacing: 0.06em; color: var(--ink-dim); display: flex; align-items: center; gap: 10px; }
-  .pitch-kicker::before { content: ""; width: 7px; height: 7px; border-radius: 50%; background: var(--accent); }
   .pitch-big {
     margin: 0;
     font-family: var(--display-font);
@@ -178,9 +175,28 @@
     text-wrap: balance;
   }
   .pitch-para { margin: clamp(18px, 2vw, 28px) 0 0; max-width: 36em; font-size: clamp(16.5px, 1.2vw, 18.5px); line-height: 1.55; color: var(--ink); text-wrap: pretty; }
+  .pitch-uses { list-style: none; margin: clamp(18px, 2vw, 26px) 0 0; padding: 0; display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); border-top: 1px solid var(--rule-strong); }
+  .pitch-uses li { padding: 13px 16px 13px 0; border-bottom: 1px solid var(--rule); font-size: 16px; line-height: 1.4; color: var(--ink-dim); }
+  .pitch-uses li:nth-child(even) { padding-left: 16px; border-left: 1px solid var(--rule); }
+  .pitch-uses b { display: block; color: var(--ink); font-weight: 600; }
+  @media (max-width: 560px) { .pitch-uses { grid-template-columns: 1fr; } .pitch-uses li:nth-child(even) { padding-left: 0; border-left: 0; } }
   .pitch-link { display: inline-flex; align-items: center; gap: 10px; margin-top: 26px; font-size: 16px; font-weight: 500; padding-bottom: 6px; border-bottom: 1px solid var(--rule-strong); transition: border-color 0.2s, color 0.2s; }
   .pitch-link:hover { border-color: var(--accent); color: var(--accent); }
   @media (max-width: 900px) { .pitch { grid-template-columns: 1fr; } }
+
+  /* ────────── THE STRIP THAT OPENS THE BRIEF ────────── */
+  .brief-strip {
+    display: grid;
+    grid-template-columns: auto minmax(0, 1fr);
+    gap: clamp(20px, 4vw, 72px);
+    align-items: baseline;
+    padding: clamp(22px, 2.6vw, 38px) var(--gutter);
+    background: var(--card-warm);
+    color: var(--card-warm-ink);
+  }
+  .brief-strip h2 { margin: 0; font-family: var(--display-font); font-weight: 500; font-size: clamp(32px, 3.6vw, 58px); line-height: 1; letter-spacing: -0.024em; white-space: nowrap; }
+  .brief-strip p { margin: 0; justify-self: end; max-width: 34em; font-size: clamp(16.5px, 1.25vw, 19px); line-height: 1.45; }
+  @media (max-width: 700px) { .brief-strip { grid-template-columns: 1fr; gap: 10px; } .brief-strip p { justify-self: start; } }
 
   /* ────────── HERO ────────── */
   .hero {
@@ -886,7 +902,7 @@
       </div>
     </div>
     <a href="thesis.html" data-nav="thesis">thesis</a>
-    <a href="brief.html" data-nav="brief" class="current">brief</a>
+    <a href="brief.html" data-nav="brief" class="current">elevator pitch</a>
     <a href="index.html" class="logo-link" aria-label="Home"><span class="logo" aria-hidden="true"></span></a>
     <a href="founders.html" data-nav="founders">founders</a>
     <a href="essays.html" data-nav="essays">research</a>
@@ -944,30 +960,37 @@
 
 <!-- ════════ THE FILM AND THE ELEVATOR PITCH ════════ -->
 <section class="pitch" aria-labelledby="pitch-h">
-  <div>
-    <div class="film-frame" id="film-frame">
-      <!-- The YC application film. Drop the file at assets/brief-film.mp4 (and a still at assets/brief-film.jpg) and it plays here. -->
-      <video id="brief-film" controls playsinline preload="metadata" poster="assets/brief-film.jpg" aria-label="The founders of Tacit Labs on what they are building, from our Y Combinator application.">
-        <source src="assets/brief-film.mp4" type="video/mp4">
-      </video>
-      <div class="film-wait" aria-hidden="true">
-        <svg viewBox="0 0 58 58" fill="none"><circle cx="29" cy="29" r="28" stroke="currentColor" stroke-width="1.2" opacity=".7"/><path d="M24 19.5v19l15-9.5-15-9.5z" fill="currentColor"/></svg>
-        <b>The film goes here.</b>
-        <span>assets/brief-film.mp4</span>
-      </div>
+  <div class="film-frame" id="film-frame">
+    <video id="brief-film" controls playsinline preload="metadata" poster="assets/brief-film.jpg" aria-label="The founders of Tacit Labs on what they are building. One minute and fifteen seconds, with captions.">
+      <source src="assets/brief-film.mp4" type="video/mp4">
+    </video>
+    <div class="film-wait" aria-hidden="true">
+      <svg viewBox="0 0 58 58" fill="none"><circle cx="29" cy="29" r="28" stroke="currentColor" stroke-width="1.2" opacity=".7"/><path d="M24 19.5v19l15-9.5-15-9.5z" fill="currentColor"/></svg>
+      <b>The film goes here.</b>
+      <span>assets/brief-film.mp4</span>
     </div>
-    <p class="film-cap">The founders on the tech, from our Y Combinator application.</p>
   </div>
   <div>
-    <p class="pitch-kicker">The elevator pitch · CyberSOC, our first product</p>
-    <h1 class="pitch-big" id="pitch-h">We capture how your analysts reason.</h1>
-    <p class="pitch-para">Close to half the alerts a SOC opens are work the client had already approved, and an analyst closes them because she knows the client. Tacit captures that reasoning as she works and builds a small judgement model from it, one we built ourselves so it is cheap and fast enough to read every alert. It closes what the client already explained, puts the ten alerts in a hundred that matter in front of your L2 in seconds, brings new hires up to the desk, and checks the AI agents your vendors now ship.</p>
+    <h1 class="pitch-big" id="pitch-h">We capture the expertise your analysts can’t write down.</h1>
+    <p class="pitch-para">Your best analyst closes an alert because she knows the client, and none of that is written anywhere. Tacit learns how your desk reasons from the decisions it already makes. On Microsoft’s public data it closes 84% of benign positives with the reason attached to every one, and it reads a hundred alerts in ten seconds.</p>
+    <ul class="pitch-uses">
+      <li><b>Auto-closing</b>what your client already explained.</li>
+      <li><b>Finding the escalations</b>within seconds.</li>
+      <li><b>Ramping up new hires</b>against the desk.</li>
+      <li><b>QA on the AI agents</b>your vendors and OEMs now push on you.</li>
+    </ul>
     <a class="pitch-link" href="cybersoc.html">See CyberSOC <svg width="18" height="18" viewBox="0 0 24 24"><use href="#ic-arrow-ur"/></svg></a>
   </div>
 </section>
 
+<!-- ════════ OUR BRIEF ════════ -->
+<div class="brief-strip" id="brief">
+  <h2>Our brief</h2>
+  <p>The longer read: what a knowledge creating company is, and why the security operations centre is where ours starts.</p>
+</div>
+
 <!-- ════════ HERO ════════ -->
-<header class="hero" style="border-top: 1px solid var(--rule-strong)">
+<header class="hero">
   <div class="hero-bg" aria-hidden="true">
     <svg viewBox="0 0 1600 900" preserveAspectRatio="xMidYMid slice">
       <rect width="1600" height="900" filter="url(#duotone-terrain)"/>
@@ -990,24 +1013,15 @@
 
     <div class="hero-right">
       <p class="hero-lede">
-        Tacit recovers the judgement behind the decisions people and AI already make, and shows how far you can rely on it. One engine, Tom, reads the decision records a team already keeps and compares the judgement in them with outcomes, and with how the team decides. In underwriting, that keeps an expert's judgement after the person leaves. In the security operations centre, it shows how far to trust the judgement of an AI agent.
+        Tacit captures the judgement behind the decisions a team already makes, and puts it to work. At the centre is a judgement model of our own, which reads the decisions a desk has made, learns how that desk decides, and shows where one person’s habit departs from it. The first desk we have put it on is the security operations centre.
       </p>
       <div class="vertical-links">
-        <!-- Underwriting is parked for now.
-        <a class="vert-link" href="insurance.html">
-          Underwriting
-          <svg width="18" height="18" viewBox="0 0 24 24"><use href="#ic-arrow-ur"/></svg>
-        </a> -->
         <a class="vert-link" href="cybersoc.html">
           CyberSOC
           <svg width="18" height="18" viewBox="0 0 24 24"><use href="#ic-arrow-ur"/></svg>
         </a>
         <a class="vert-link" href="#verticals">
-          Diagnostics
-          <svg width="18" height="18" viewBox="0 0 24 24"><use href="#ic-arrow-ur"/></svg>
-        </a>
-        <a class="vert-link" href="#verticals">
-          Nuclear
+          Quality assurance
           <svg width="18" height="18" viewBox="0 0 24 24"><use href="#ic-arrow-ur"/></svg>
         </a>
       </div>
@@ -1068,7 +1082,7 @@
       <p><span class="drop">AI agents</span> are good at retrieval. They are good at language. In regulated work they fail at the one thing that matters most: <em>judgement</em>.</p>
       <p>The published evidence on enterprise AI is now consistent enough to read as a pattern. BCG and McKinsey report 88% adoption against 5% meaningful returns. Gartner reports 85% of projects never reach production. MIT's 2024 study found 95% of enterprise generative AI pilots produced no measurable ROI. The standard explanation is that the models are immature, that retrieval needs to be better &mdash; that explanation has been wrong for at least two years.</p>
       <p>The agents are failing because the AI industry has been trying to capture expertise as <em>content</em>. Most of the meta decisions that matter have never been written down. The part of expertise that defines the senior expert is not knowledge that can be made larger or more accessible. It is a runtime construct, a live cognitive process that decides, under uncertainty, which heuristic fires. We make that runtime observable, persistent, and queryable for the agents that will inherit the work.</p>
-      <p>We start in two places, with one engine. Specialty underwriting desks at MGAs and Lloyd's coverholders, where the underwriter sets the price herself. And security operations centres at regulated firms, where AI agents now triage alerts and someone independent has to check their calls.</p>
+      <p>We start in the security operations centre. Close to half the alerts an analyst opens there are work the client had already approved, and what closes them is something the analyst knows and the SIEM does not. That is judgement nobody wrote down, in a place where it is used hundreds of times a day, and it is where we begin.</p>
     </div>
   </div>
 </section>
@@ -1086,11 +1100,11 @@
   <div class="problem-body">
     <ol class="problem-list">
       <li><p><strong>Tacit knowledge does not exist on paper.</strong> The documents an LLM can read describe the world after the experts have already left the room.</p></li>
-      <li><p>A thirty-year underwriter cannot tell you, in words, why she declined a submission in four seconds. She just declined it.</p></li>
+      <li><p>A senior SOC analyst cannot tell you, in words, why she closed an alert in four seconds. She knows the client, so she closed it.</p></li>
       <li><p>A senior radiologist sees the malignancy before they can articulate why. The <em>seeing</em> is the expertise. The words are a post-hoc reconstruction.</p></li>
       <li><p>A control-room operator detects a drift through a posture, a hum, a feel. The SCADA log shows nothing yet.</p></li>
       <li><p><strong>These signals do not survive into training data.</strong> So they do not survive into the model. So they do not survive into the agent.</p></li>
-      <li><p>What survives is the documentation: the safety bulletins, the discharge summaries, the underwriting guidelines &mdash; the thin paper trail of decisions, not the decisions themselves.</p></li>
+      <li><p>What survives is the documentation: the safety bulletins, the discharge summaries, the runbooks &mdash; the thin paper trail of decisions, not the decisions themselves.</p></li>
       <li><p>LLMs trained on that paper trail are fluent but ungrounded. They are plausible at the centre of the distribution and dangerous at the margins.</p></li>
       <li><p><strong>The margins are where money, lives and licenses live.</strong> Which is exactly where regulated work spends its time.</p></li>
     </ol>
@@ -1116,7 +1130,7 @@
       <p class="section-num">§ 03 / Engine</p>
       <h2 class="section-title">What we are building.</h2>
     </div>
-    <p class="section-meta">one engine · <a href="cybersoc.html" class="meta-link">CyberSOC</a></p>
+    <p class="section-meta">one judgement model · <a href="cybersoc.html" class="meta-link">CyberSOC</a> first</p>
   </div>
 
   <div class="built-grid">
@@ -1131,8 +1145,8 @@
           </svg>
         </div>
         <p class="num">01 — Capture</p>
-        <h3>Five methods</h3>
-        <p>Decision archaeology against historical exhaust, contrastive cohort analysis, perturbation probing, the Structured Interview Agent, and live escalation capture in production. The runtime is opaque to self-report and visible only in behaviour.</p>
+        <h3>From the work itself</h3>
+        <p>Tacit reads the decisions a desk has already made and what a client says in the course of the work: a message, a ticket, a change window. Nobody is interviewed, and an analyst never has to type an explanation.</p>
       </div>
     </div>
 
@@ -1152,8 +1166,8 @@
           </svg>
         </div>
         <p class="num">02 — Structure</p>
-        <h3>Judgement graph</h3>
-        <p>Every captured node carries a confidence score, a decay rate, and a provenance trail to the named expert and source session. Organised against a seven-layer, 103-marker cognitive taxonomy grounded in Naturalistic Decision Making research.</p>
+        <h3>A register of reasons</h3>
+        <p>Every reason is kept as a card: what it covers, who vouched for it, and the day it lapses. After that day the alert goes back to a person, so nothing is excused for good.</p>
       </div>
     </div>
 
@@ -1167,9 +1181,9 @@
             <line x1="22" y1="30" x2="22" y2="38"/>
           </svg>
         </div>
-        <p class="num">03 — Route</p>
-        <h3>Context API</h3>
-        <p>Agents hit the graph at decision time through a small set of well-defined endpoints. Queries return judgment ranked by confidence, recency, and relevance &mdash; at latency budgets production agents can actually afford.</p>
+        <p class="num">03 — Decide</p>
+        <h3>A judgement model</h3>
+        <p>A small statistical model of our own, not a language model. It learns what moves the desk as a whole and where one analyst’s habit departs from it, it is cheap and fast enough to read every alert, and you can read it one answer at a time.</p>
       </div>
     </div>
 
@@ -1183,8 +1197,8 @@
           </svg>
         </div>
         <p class="num">04 — Audit</p>
-        <h3>Decision provenance</h3>
-        <p>Every agent recommendation cites only captured heuristics, with provenance to the named expert who authored it. Built for the questions model risk and audit teams ask under the EU AI Act, SR 11-7, the NAIC Model Bulletin and PRA SS1/23.</p>
+        <h3>A ledger you can check</h3>
+        <p>Every close is an entry sealed to the one before, with its reason attached. A client or an auditor can check that a record is whole without signing in and without taking our word for it.</p>
       </div>
     </div>
   </div>
@@ -1197,39 +1211,39 @@
       <p class="section-num">§ 04 / Timing</p>
       <h2 class="section-title">Why now.</h2>
     </div>
-    <p class="section-meta">Four forces, converging</p>
+    <p class="section-meta">Four things that changed</p>
   </div>
 
   <div class="why-grid">
     <div class="why-cell">
       <div class="big-num">01</div>
       <div>
-        <h3>The technology threshold lifted in 2024.</h3>
-        <p>Foundation models can now parse unstructured expert reasoning, tag it against a cognitive taxonomy, and store it with provenance and confidence &mdash; at a cost low enough that the methodology is commercially viable for the first time in the forty-year history of expert-systems research.</p>
+        <h3>A small model can now do what a language model was too slow for.</h3>
+        <p>A language model is too slow and too costly to sit on every decision a desk makes. A small statistical model trained on that desk’s own decisions is neither. On Microsoft’s public GUIDE data ours closes 84% of benign positives, at a setting where 1 in 100 true positives is closed as well.</p>
       </div>
     </div>
 
     <div class="why-cell">
       <div class="big-num">02</div>
       <div>
-        <h3>"RAG over PDFs" is no longer a defensible answer to liability.</h3>
-        <p>The EU AI Act is coming into force in stages, alongside SR 11-7, the NAIC Model Bulletin, and PRA SS1/23. Auditors, regulators, and trial lawyers now ask the second question: <em>why did the model decide that?</em> Documents alone cannot answer it.</p>
+        <h3>A close now needs a reason somebody can check.</h3>
+        <p>The EU AI Act is coming into force in stages, and clients and auditors have started asking the second question: <em>why was that closed?</em> A score cannot answer it. A reason on the record, with who vouched for it and when it lapses, can.</p>
       </div>
     </div>
 
     <div class="why-cell">
       <div class="big-num">03</div>
       <div>
-        <h3>Senior expertise is retiring faster than the next generation can absorb it.</h3>
-        <p>Industry bodies project that up to half of today's underwriters will have retired by 2028 (NAMIC), along with a quarter of claims adjusters. Ten thousand baby boomers retire every working day in the US. The training cycle is five to ten years; the replacement pipeline runs at 60% of capacity. The window in which the senior cohort can still be observed is open right now &mdash; and substantively closed by 2030.</p>
+        <h3>The people who know keep leaving.</h3>
+        <p>An analyst moves on, or the client changes provider, and what they knew about that client goes with them. The desk starts again each time, and the same alert is argued over from the beginning.</p>
       </div>
     </div>
 
     <div class="why-cell">
       <div class="big-num">04</div>
       <div>
-        <h3>The first generation of agents shipped without judgement. The second won't.</h3>
-        <p>The leading buyers in regulated work are no longer asking <em>can the model write the report?</em> They are asking <em>whose judgement is in this decision, and how far can we rely on it?</em> That is the question Tacit was built to answer. In security operations it has already arrived: AI triage now comes inside tools firms already pay for, and the firm still answers when the AI gets a call wrong.</p>
+        <h3>AI triage is arriving whether the desk asked for it or not.</h3>
+        <p>Vendors and OEMs now ship AI triage inside the tools a SOC already pays for, and the firm still answers when the AI gets a call wrong. Most of the market checks one language model with another. Checking an agent against how the desk itself decides is our second product.</p>
       </div>
     </div>
   </div>
@@ -1242,72 +1256,43 @@
       <p class="section-num">§ 05 / Markets</p>
       <h2 class="section-title">Where we work.</h2>
     </div>
-    <p class="section-meta">Two products, one engine, two paths later</p>
+    <p class="section-meta">Two products, one judgement model</p>
   </div>
 
   <div class="verticals-grid">
     <article class="vert-card warm">
       <div>
         <div class="vert-eyebrow">
-          <span>Underwriting · for MGAs and Lloyd's coverholders</span>
+          <span>CyberSOC · for SOC teams and the people who run them</span>
           <svg class="arrow" viewBox="0 0 24 24"><use href="#ic-arrow-ur"/></svg>
         </div>
-        <h3 style="margin-top:32px">Specialty risk, where unwritten judgement is widest.</h3>
-        <p style="margin-top:20px">Senior underwriters decline in seconds for reasons they cannot easily write down. Tom reads the decisions a desk's best underwriters have already made and recovers the judgement behind them: submission shape, broker history, second-order exposures. The result is a model of how the desk underwrites, owned by the MGA. Complex cyber, the towers written by hand in London rather than the SME business now priced by scan, is where the gap between the model's native capability and the underwriter's judgement is widest, and where the specialty MGAs are moving fastest on AI procurement.</p>
-        <p style="margin-top:16px">We sell to MGAs and Lloyd's coverholders rather than carriers, because the pen sits closer to the person, the decision record is closer to hand, and the owner of the business is the one who feels it when an underwriter leaves.</p>
-      </div>
-      <div class="vert-stats">
-        <div class="vert-stat"><span class="k">Phase</span><span class="v">Live</span></div>
-        <div class="vert-stat"><span class="k">Market</span><span class="v">UK &amp; London first</span></div>
-      </div>
-    </article>
-
-    <article class="vert-card warm">
-      <div>
-        <div class="vert-eyebrow">
-          <span>CyberSOC · for CISOs at regulated firms</span>
-          <svg class="arrow" viewBox="0 0 24 24"><use href="#ic-arrow-ur"/></svg>
-        </div>
-        <h3 style="margin-top:32px">The independent judge for the AI in a security operations centre.</h3>
-        <p style="margin-top:20px">Tom checks the calls an AI agent has already made on the client's own alerts against what actually happened, and shows where the evidence supports letting it act alone. The vendor can't do that independently, and analysts can't do it by looking over the agent's shoulder.</p>
-        <p style="margin-top:16px">Same engine as underwriting, different question: how far to trust an agent's judgement. It is read-only, runs in the client's cloud, and judges agents, not analysts. Work starts with a six-week Agent Decision Audit.</p>
+        <h3 style="margin-top:32px">Capturing how a SOC’s analysts reason.</h3>
+        <p style="margin-top:20px">Tacit sits between the SIEM and the desk. It closes what the client already explained with the reason attached, finds the alerts that need an L2 within seconds, and brings a new analyst up against the desk’s own decisions.</p>
+        <p style="margin-top:16px">It starts read-only, with a two-week review of the decisions the desk has already made, and it goes live one kind of alert at a time and only where the desk says so. We sell to managed security providers and to firms that run their own SOC.</p>
       </div>
       <div class="vert-stats">
         <div class="vert-stat"><span class="k">Design partners</span><span class="v">From December 2026</span></div>
-        <div class="vert-stat"><span class="k">First platforms</span><span class="v">Defender &amp; Sentinel</span></div>
+        <div class="vert-stat"><span class="k">First platforms</span><span class="v">Sentinel &amp; Defender</span></div>
       </div>
     </article>
 
     <article class="vert-card">
       <div>
         <div class="vert-eyebrow">
-          <span>Clinical decision support · horizon</span>
+          <span>Quality assurance · in the lab</span>
           <svg class="arrow" viewBox="0 0 24 24"><use href="#ic-arrow-ur"/></svg>
         </div>
-        <h3 style="margin-top:32px">The pattern recognition of senior specialists, available at every read.</h3>
-        <p style="margin-top:20px">A radiologist sees the malignancy before they can describe it. We encode that <em>seeing</em>: the gestalt cues, the comparative anchors, the second-look heuristics. The Brainoscope deployment is where the methodology is being calibrated against three expert cohorts in clinical neurotechnology &mdash; a diagnostic agent inherits the eye of the specialist, not the prose of the textbook.</p>
+        <h3 style="margin-top:32px">An independent check on the AI agents your vendors ship.</h3>
+        <p style="margin-top:20px">The same judgement model checks the calls an AI agent has already made against what actually happened, and against how your own team decides, and shows where the evidence supports letting it act alone.</p>
+        <p style="margin-top:16px">A vendor cannot do that independently, and most of the market does it by asking one language model to grade another. It is not a product yet, and it starts in the SOC because that is where we already know how the desk decides.</p>
       </div>
       <div class="vert-stats">
-        <div class="vert-stat"><span class="k">Capture sessions</span><span class="v">54 · Brainoscope</span></div>
-        <div class="vert-stat"><span class="k">Cohen's d</span><span class="v">0.92–1.82</span></div>
-      </div>
-    </article>
-
-    <article class="vert-card">
-      <div>
-        <div class="vert-eyebrow">
-          <span>Nuclear &amp; industrial control · horizon</span>
-          <svg class="arrow" viewBox="0 0 24 24"><use href="#ic-arrow-ur"/></svg>
-        </div>
-        <h3 style="margin-top:32px">Preserving the control room as a generation of operators retires.</h3>
-        <p style="margin-top:20px">A reactor operator hears a drift before any alarm sounds. We capture the felt-sense of the plant &mdash; what counts as normal, what counts as worth waking the shift supervisor &mdash; before the people who hold it walk out for the last time. The expansion path through years three to five, alongside oil and gas and complex industrial process control.</p>
-      </div>
-      <div class="vert-stats">
-        <div class="vert-stat"><span class="k">Phase</span><span class="v">Horizon</span></div>
-        <div class="vert-stat"><span class="k">Horizon</span><span class="v">Year 3–5</span></div>
+        <div class="vert-stat"><span class="k">Phase</span><span class="v">In the lab</span></div>
+        <div class="vert-stat"><span class="k">Starts with</span><span class="v">Security operations</span></div>
       </div>
     </article>
   </div>
+  <!-- Parked while the site is about CyberSOC only: the Underwriting card and the two horizon cards (clinical decision support, nuclear and industrial control). They are in this file's history. -->
 </section>
 
 <!-- ════════ CLOSING ════════ -->
@@ -1350,7 +1335,7 @@
   <div>
     <h4>Read deeper</h4>
     <ul>
-      <li><a href="brief.html">Brief</a></li>
+      <li><a href="brief.html">Elevator pitch</a></li>
       <li><a href="thesis.html">Full thesis</a></li>
       <!-- <li><a href="insurance.html">Product · Underwriting</a></li> -->
       <li><a href="cybersoc.html">Product · CyberSOC</a></li>
