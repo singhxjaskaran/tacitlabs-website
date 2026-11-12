@@ -1,9 +1,12 @@
-/* Monolith for the website. Three voices: Archivo is Tacit, the hand is a person,
-   Courier is the record. Colour keeps the product's meanings:
+/* Monolith for the website, set in the site's own faces. Three voices: Newsreader and Inter
+   are Tacit, the hand is a person, IBM Plex Mono is the record. Colour keeps the product's meanings:
    blue = known and vouched for, green = a close, orange = where to look. */
-@import url('https://fonts.googleapis.com/css2?family=Archivo:wdth,wght@62..125,100..900&family=Courier+Prime:wght@400;700&family=Mrs+Saint+Delafield&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=IBM+Plex+Mono:wght@400;500;600&family=Inter:wght@400;500;600;700&family=Newsreader:opsz,wght@6..72,400;6..72,500;6..72,600&family=Mrs+Saint+Delafield&display=swap');
 
 :root {
+  --sans: 'Söhne', 'Söhne Web', 'Inter', system-ui, sans-serif;
+  --serif: 'Newsreader', Georgia, serif;
+  --mono: 'IBM Plex Mono', ui-monospace, monospace;
   --concrete: #94948c;
   --concrete-deep: #86867e;
   --ink: #0a0a0a;
@@ -33,10 +36,14 @@ body {
   margin: 0;
   background: var(--concrete);
   color: var(--ink);
-  font: 400 16px/1.45 'Archivo', system-ui, sans-serif;
+  font: 400 16px/1.5 var(--sans);
   font-variant-numeric: tabular-nums;
   -webkit-font-smoothing: antialiased;
   overflow-x: hidden;
+}
+b,
+strong {
+  font-weight: 600;
 }
 h1,
 h2,
@@ -76,16 +83,16 @@ button {
   filter: url(#ink);
 }
 .typed {
-  font-family: 'Courier Prime', ui-monospace, monospace;
-  font-size: 13px;
+  font-family: var(--mono);
+  font-size: 12.5px;
   line-height: 1.5;
-  letter-spacing: 0.01em;
+  letter-spacing: 0;
 }
 .display {
-  font-weight: 800;
-  font-stretch: 108%;
-  letter-spacing: -0.05em;
-  line-height: 0.88;
+  font-family: var(--serif);
+  font-weight: 500;
+  letter-spacing: -0.028em;
+  line-height: 0.98;
   color: var(--paper);
   text-wrap: balance;
 }
@@ -111,9 +118,9 @@ button {
   display: inline-flex;
   align-items: baseline;
   gap: 7px;
-  font-weight: 800;
+  font-weight: 700;
   font-size: 22px;
-  letter-spacing: -0.05em;
+  letter-spacing: -0.04em;
   text-decoration: none;
 }
 .brand i {
@@ -323,7 +330,7 @@ button {
   min-width: 720px;
 }
 .field text {
-  font-family: 'Archivo', sans-serif;
+  font-family: var(--sans);
   font-size: 12px;
   font-weight: 500;
 }

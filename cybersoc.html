@@ -74,10 +74,10 @@
       }
       .hero-stat b {
         font-size: clamp(76px, 8vw, 128px);
-        font-weight: 800;
-        font-stretch: 112%;
-        letter-spacing: -0.06em;
-        line-height: 0.8;
+        font-family: var(--serif);
+        font-weight: 500;
+        letter-spacing: -0.04em;
+        line-height: 0.86;
       }
       .hero-stat p {
         font-size: 15px;
@@ -145,7 +145,7 @@
       /* 2 · clients who trust us: one row of marks */
       .trust { display: grid; grid-template-columns: minmax(240px, 22vw) minmax(0, 1fr); background: var(--ash); border-top: 1px solid var(--ink); border-bottom: 1px solid var(--ink); }
       .trust-say { display: flex; flex-direction: column; justify-content: center; gap: 8px; padding: 20px var(--gutter); border-right: 1px solid var(--ink); }
-      .trust-say h2 { font-size: clamp(20px, 1.6vw, 26px); font-weight: 700; letter-spacing: -0.015em; line-height: 1.08; }
+      .trust-say h2 { font-family: var(--serif); font-size: clamp(22px, 1.75vw, 28px); font-weight: 500; letter-spacing: -0.015em; line-height: 1.08; }
       .trust-say .typed { font-size: 12px; line-height: 1.45; }
       .trust-rows { display: grid; align-items: center; padding: 16px 0; min-width: 0; overflow: hidden; }
       .logos { overflow: hidden; }
@@ -165,8 +165,8 @@
       .stats { display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 3px; margin-top: clamp(40px, 5vw, 70px); }
       .stat { padding: 20px 22px 22px; display: grid; gap: 12px; align-content: start; background: var(--ink); color: var(--paper); }
       .stat.loud { background: var(--signal); color: var(--ink); box-shadow: 0 0 0 2px var(--ink); z-index: 1; }
-      .stat b { font-size: clamp(64px, 8vw, 132px); font-weight: 800; font-stretch: 112%; letter-spacing: -0.06em; line-height: 0.8; }
-      .stat p { font-size: 16px; font-weight: 600; line-height: 1.25; letter-spacing: -0.01em; max-width: 19em; }
+      .stat b { font-size: clamp(64px, 8vw, 132px); font-family: var(--serif); font-weight: 500; letter-spacing: -0.04em; line-height: 0.86; }
+      .stat p { font-size: 16px; font-weight: 500; line-height: 1.25; letter-spacing: -0.01em; max-width: 19em; }
       .stat .typed { font-size: 11.5px; font-weight: 400; opacity: 0.85; }
       .ways { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: var(--gutter); margin-top: clamp(40px, 5vw, 70px); border-top: 1.5px solid var(--ink); }
       .ways > div { padding-top: 18px; }
@@ -176,20 +176,20 @@
       /* 5 · first principles, beside the day book */
       .first { display: grid; grid-template-columns: minmax(0, 6fr) minmax(0, 5fr); gap: var(--gutter); align-items: start; }
       .steps { margin-top: clamp(30px, 4vw, 54px); border-top: 1.5px solid var(--ink); }
-      .steps li { padding: 15px 0; border-bottom: 1px solid var(--rule); font-size: clamp(19px, 2vw, 29px); font-weight: 600; letter-spacing: -0.03em; line-height: 1.12; }
+      .steps li { padding: 15px 0; border-bottom: 1px solid var(--rule); font-family: var(--serif); font-size: clamp(20px, 2.1vw, 31px); font-weight: 500; letter-spacing: -0.015em; line-height: 1.12; }
       .steps li:last-child { color: var(--paper); border-bottom: 0; }
 
       /* 5b · the register as a card drawer */
       .index { display: grid; grid-template-columns: minmax(0, 7fr) minmax(0, 5fr); gap: var(--gutter); align-items: start; }
       .drawer { --step: 44px; position: relative; height: calc(var(--step) * 7 + 400px); max-width: 720px; }
-      .card { position: absolute; left: 0; right: 0; top: calc(var(--i) * var(--step)); z-index: var(--i); height: 400px; padding: 12px 22px 18px 20px; display: flex; flex-direction: column; align-items: stretch; justify-content: flex-start; text-align: left; border: 0; box-shadow: 0 -1px 0 rgba(10, 10, 10, 0.45), 0 -10px 14px -10px rgba(10, 10, 10, 0.35); font-family: 'Courier Prime', monospace; font-size: 15px; line-height: 1.42; color: var(--ink); transition: top 0.55s var(--ease), translate 0.25s var(--ease); translate: var(--nudge, 0) 0; cursor: pointer; }
+      .card { position: absolute; left: 0; right: 0; top: calc(var(--i) * var(--step)); z-index: var(--i); height: 400px; padding: 12px 22px 18px 20px; display: flex; flex-direction: column; align-items: stretch; justify-content: flex-start; text-align: left; border: 0; box-shadow: 0 -1px 0 rgba(10, 10, 10, 0.45), 0 -10px 14px -10px rgba(10, 10, 10, 0.35); font-family: var(--mono); font-size: 13.5px; line-height: 1.5; color: var(--ink); transition: top 0.55s var(--ease), translate 0.25s var(--ease); translate: var(--nudge, 0) 0; cursor: pointer; }
       .card:not(.front):hover, .card:not(.front):focus-visible { translate: var(--nudge, 0) -12px; }
       .card.front { cursor: default; }
       .card .subj { display: flex; justify-content: space-between; gap: 14px; color: #c92f08; font-weight: 700; white-space: nowrap; }
       .card .subj span:last-child { color: var(--ink); font-weight: 400; }
       .card .body { display: grid; grid-template-columns: 78px minmax(0, 1fr); gap: 0 12px; margin-top: 12px; }
       .card .call { font-weight: 700; }
-      .card .said { margin: 12px 0; font-family: 'Archivo', sans-serif; font-weight: 600; font-size: 17px; letter-spacing: -0.02em; line-height: 1.2; }
+      .card .said { margin: 12px 0; font-family: var(--sans); font-weight: 600; font-size: 17px; letter-spacing: -0.02em; line-height: 1.2; }
       .card .trace { position: absolute; left: 20px; right: 22px; bottom: 50px; display: flex; justify-content: space-between; gap: 12px; font-size: 13px; }
       .card .hole { position: absolute; left: 50%; bottom: 13px; width: 22px; height: 22px; margin-left: -11px; border-radius: 50%; background: var(--concrete-deep); box-shadow: inset 0 2px 3px rgba(10, 10, 10, 0.5); }
       .card .flag { position: absolute; top: -9px; left: var(--fx); width: 18px; height: 18px; border-radius: 50%; border: 4px solid var(--fc); border-bottom-color: transparent; }
@@ -228,7 +228,7 @@
       .how ol { display: grid; grid-template-columns: repeat(4, minmax(0, 1fr)); gap: 0; margin-top: clamp(40px, 5vw, 70px); border-top: 1.5px solid var(--ink); }
       .how li { padding: 18px 20px 0 0; }
       .how li + li { padding-left: 20px; border-left: 1px solid var(--rule); }
-      .how li b { display: block; font-size: 22px; letter-spacing: -0.035em; line-height: 1.05; margin-bottom: 10px; }
+      .how li b { display: block; font-family: var(--serif); font-weight: 500; font-size: 24px; letter-spacing: -0.015em; line-height: 1.05; margin-bottom: 10px; }
       .how li .hand { display: block; font-size: 44px; margin-bottom: 8px; }
       .ladder { margin-top: clamp(40px, 5vw, 64px); }
       .fam { display: grid; grid-template-columns: repeat(34, minmax(0, 1fr)); gap: 3px; }
@@ -271,9 +271,10 @@
       }
       .proof h2 {
         font-size: clamp(34px, 4.6vw, 78px);
-        font-weight: 800;
-        letter-spacing: -0.05em;
-        line-height: 0.92;
+        font-family: var(--serif);
+        font-weight: 500;
+        letter-spacing: -0.028em;
+        line-height: 1;
       }
       .proof .lead {
         margin-top: 22px;
@@ -344,7 +345,7 @@
       .not h2 { position: sticky; top: 28px; }
       .nots { border-top: 1.5px solid var(--ink); }
       .nots li { display: grid; grid-template-columns: minmax(0, 1fr) minmax(0, 1fr); gap: 10px var(--gutter); align-items: baseline; padding: 20px 0 22px; border-bottom: 1px solid var(--rule); }
-      .nots .no { position: relative; width: fit-content; font-family: 'Courier Prime', monospace; font-size: clamp(19px, 1.85vw, 29px); line-height: 1.1; white-space: nowrap; }
+      .nots .no { position: relative; width: fit-content; font-family: var(--mono); font-size: clamp(17px, 1.65vw, 26px); line-height: 1.1; white-space: nowrap; }
       .nots .no svg { position: absolute; left: -8px; top: 50%; width: calc(100% + 16px); height: 14px; margin-top: -8px; overflow: visible; }
       .nots .no path { fill: none; stroke: var(--signal); stroke-width: 3; }
       .nots p { font-size: clamp(16.5px, 1.4vw, 20px); line-height: 1.38; max-width: 33em; }
@@ -354,10 +355,10 @@
       .gets { display: grid; grid-template-columns: repeat(4, minmax(0, 1fr)); margin-top: clamp(40px, 5vw, 70px); border-top: 1.5px solid var(--ink); }
       .gets li { padding: 18px 20px 0 0; font-size: 16px; line-height: 1.4; }
       .gets li + li { padding-left: 20px; border-left: 1px solid var(--rule); }
-      .gets b { display: block; font-size: clamp(21px, 2vw, 28px); letter-spacing: -0.04em; line-height: 1.02; margin-bottom: 10px; color: var(--paper); }
+      .gets b { display: block; font-family: var(--serif); font-weight: 500; font-size: clamp(22px, 2.1vw, 30px); letter-spacing: -0.018em; line-height: 1.06; margin-bottom: 10px; color: var(--paper); }
       .measured { display: grid; grid-template-columns: auto minmax(0, 1fr) minmax(0, 1fr); gap: 14px clamp(20px, 3vw, 44px); align-items: end; margin-top: clamp(40px, 5vw, 64px); padding: 20px 22px 22px; background: var(--ink); color: var(--paper); }
-      .measured > b { font-size: clamp(64px, 8vw, 132px); font-weight: 800; font-stretch: 112%; letter-spacing: -0.06em; line-height: 0.8; }
-      .measured p { font-size: 16px; font-weight: 600; line-height: 1.3; letter-spacing: -0.01em; max-width: 26em; }
+      .measured > b { font-size: clamp(64px, 8vw, 132px); font-family: var(--serif); font-weight: 500; letter-spacing: -0.04em; line-height: 0.86; }
+      .measured p { font-size: 16px; font-weight: 500; line-height: 1.3; letter-spacing: -0.01em; max-width: 26em; }
       .measured .typed { font-size: 12px; font-weight: 400; color: var(--smoke); }
       .measured .open { align-self: stretch; border-left: 1px solid #3a3a35; padding-left: clamp(20px, 3vw, 44px); display: grid; align-content: end; gap: 8px; }
       .measured .open .hand { font-size: clamp(36px, 3.4vw, 54px); color: var(--paper); rotate: -2deg; transform-origin: left bottom; white-space: nowrap; }
