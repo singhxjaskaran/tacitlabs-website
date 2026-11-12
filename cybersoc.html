@@ -1,519 +1,948 @@
 <!doctype html>
-<html lang="en">
-<head>
-<meta charset="utf-8">
-<meta name="viewport" content="width=device-width,initial-scale=1">
-<title>Independent Assurance for AI in Your SOC | Tacit Labs</title>
-<meta name="description" content="Is the AI in your SOC right? Tacit Labs checks its calls on your own alerts against real outcomes, and shows where the evidence lets it act alone.">
-<meta name="author" content="Tacit Labs">
-<meta name="theme-color" content="#02070A">
-<link rel="canonical" href="https://tacitlabs.ai/cybersoc">
-<link rel="icon" type="image/svg+xml" href="assets/favicon.svg">
-<link rel="apple-touch-icon" href="assets/favicon.svg">
+<html lang="en-GB">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>Tacit CyberSOC: Capturing the judgement your expert analysts can’t articulate.</title>
+    <meta name="description" content="Close to half the alerts a SOC opens are work the client already approved. Tacit captures how your analysts reason about them and closes the next one on the record." />
+    <meta name="author" content="Tacit Labs" />
+    <meta name="theme-color" content="#94948c" />
+    <link rel="canonical" href="https://tacitlabs.ai/cybersoc" />
+    <link rel="icon" type="image/svg+xml" href="assets/favicon.svg" />
+    <link rel="apple-touch-icon" href="assets/favicon.svg" />
+    <meta property="og:type" content="website" />
+    <meta property="og:site_name" content="Tacit" />
+    <meta property="og:title" content="The reason was never written down." />
+    <meta property="og:description" content="Your analyst closes the alert because she knows the client. Tacit captures that reasoning and closes the next one on the record." />
+    <meta property="og:url" content="https://tacitlabs.ai/cybersoc" />
+    <meta property="og:image" content="https://tacitlabs.ai/assets/og-cybersoc.png" />
+    <meta name="twitter:card" content="summary_large_image" />
+    <meta name="twitter:title" content="The reason was never written down." />
+    <meta name="twitter:description" content="Your analyst closes the alert because she knows the client. Tacit captures that reasoning and closes the next one on the record." />
+    <meta name="twitter:image" content="https://tacitlabs.ai/assets/og-cybersoc.png" />
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link rel="stylesheet" href="monolith.css" />
+    <style>
+      /* The SOC product page. The card index opens it; then the problem, how Tacit solves it, the tech,
+         what Tacit is not, and what a design partner gets back. */
+      .hero {
+        position: relative;
+        min-height: min(940px, calc(100vh - 62px));
+        padding: clamp(36px, 7vh, 84px) var(--gutter) 40px;
+        display: grid;
+        grid-template-columns: minmax(0, 1fr) auto;
+        grid-template-rows: 1fr auto;
+        gap: 30px var(--gutter);
+        overflow: hidden;
+        border-bottom: 1px solid var(--ink);
+      }
+      .hero canvas {
+        position: absolute;
+        inset: 0;
+        width: 100%;
+        height: 100%;
+      }
+      .hero > * {
+        position: relative;
+      }
+      .hero h1 {
+        z-index: 2;
+        grid-column: 1 / -1;
+        font-size: clamp(54px, 10.4vw, 186px);
+        max-width: 8.2em;
+      }
+      .hero-say {
+        display: grid;
+        gap: 24px;
+        align-self: end;
+        max-width: min(500px, 34vw);
+        z-index: 2;
+      }
+      .hero-say .lead {
+        background: var(--concrete);
+        box-shadow: 0 0 0 10px var(--concrete);
+      }
+      .hero-stat {
+        align-self: end;
+        width: min(330px, 78vw);
+        background: var(--signal);
+        box-shadow: 0 0 0 2px var(--ink);
+        padding: 20px 22px 18px;
+        display: grid;
+        gap: 10px;
+      }
+      .hero-stat b {
+        font-size: clamp(76px, 8vw, 128px);
+        font-weight: 800;
+        font-stretch: 112%;
+        letter-spacing: -0.06em;
+        line-height: 0.8;
+      }
+      .hero-stat p {
+        font-size: 15px;
+        font-weight: 600;
+        line-height: 1.25;
+        letter-spacing: -0.01em;
+      }
+      .hero-stat .typed {
+        font-size: 11.5px;
+      }
+      .keptline {
+        position: absolute;
+        left: 37%;
+        top: 55%;
+        rotate: -4.3deg;
+        background: var(--blue);
+        padding: 4px 26px 0 22px;
+        display: grid;
+        z-index: 1;
+      }
+      .keptline .hand {
+        color: var(--paper);
+        font-size: clamp(40px, 5.4vw, 88px);
+        line-height: 1;
+        white-space: nowrap;
+      }
+      .keptline .typed {
+        color: var(--paper);
+        font-size: 12px;
+        padding: 0 0 8px 4px;
+        margin-top: -6px;
+      }
+      .kept {
+        position: absolute;
+        right: var(--gutter);
+        top: 22px;
+        display: flex;
+        gap: 18px;
+        font-size: 12.5px;
+        font-weight: 500;
+        background: var(--concrete);
+        box-shadow: 0 0 0 8px var(--concrete);
+        z-index: 2;
+      }
 
-<meta property="og:type" content="website">
-<meta property="og:site_name" content="Tacit Labs">
-<meta property="og:title" content="An AI analyst joined your SOC. Nobody interviewed it.">
-<meta property="og:description" content="Independent evidence on the AI agents in your SOC. Is each one right, consistent, drifting, overruled, and ready to act alone?">
-<meta property="og:url" content="https://tacitlabs.ai/cybersoc">
-<meta property="og:image" content="https://tacitlabs.ai/assets/og-cybersoc.png">
-<meta property="og:image:type" content="image/png">
-<meta property="og:image:width" content="1200">
-<meta property="og:image:height" content="630">
-<meta property="og:image:alt" content="Example autonomy map: four alert types, each marked act alone, act and log for review, recommend, or off, with the reason. Illustrative, synthetic data.">
+      section { position: relative; }
+      .pad { padding: clamp(84px, 11vw, 170px) var(--gutter); }
+      h2.display { font-size: clamp(40px, 5.8vw, 100px); }
+      .cols { display: grid; grid-template-columns: minmax(0, 7fr) minmax(0, 5fr); gap: var(--gutter); align-items: end; }
+      .paper {
+        background-color: var(--ash);
+        background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='220' height='220'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='.8' numOctaves='3'/%3E%3CfeColorMatrix values='0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 .09 0'/%3E%3C/filter%3E%3Crect width='220' height='220' filter='url(%23n)'/%3E%3C/svg%3E");
+      }
 
-<meta name="twitter:card" content="summary_large_image">
-<meta name="twitter:title" content="An AI analyst joined your SOC. Nobody interviewed it.">
-<meta name="twitter:description" content="Independent evidence on the AI agents in your SOC. Is each one right, consistent, drifting, overruled, and ready to act alone?">
-<meta name="twitter:image" content="https://tacitlabs.ai/assets/og-cybersoc.png">
-<meta name="twitter:image:alt" content="Example autonomy map: four alert types, each marked act alone, act and log for review, recommend, or off, with the reason. Illustrative, synthetic data.">
+      .acts { display: flex; flex-wrap: wrap; gap: 12px; align-items: center; }
+      .album { position: relative; margin-top: 44px; padding: 26px 22px 54px 78px; rotate: 0.8deg; box-shadow: 16px 18px 0 rgba(10, 10, 10, 0.2); display: grid; gap: 0; }
+      .album::before { content: ''; position: absolute; inset: 0; pointer-events: none; background: linear-gradient(var(--signal), var(--signal)) 58px 0 / 1px 100% no-repeat, linear-gradient(var(--signal), var(--signal)) 62px 0 / 1px 100% no-repeat, repeating-linear-gradient(transparent 0 37px, rgba(10, 10, 10, 0.14) 37px 38px); }
+      .album-head { font-size: clamp(40px, 3.8vw, 58px); padding: 4px 0 30px; white-space: nowrap; position: relative; }
+      .album .folio { position: absolute; top: 10px; right: 18px; font-size: 38px; rotate: -8deg; }
+      .plate { position: relative; margin: 0; display: grid; grid-template-columns: var(--w, 62%) minmax(0, 1fr); gap: 16px; align-items: end; margin-top: var(--up, 0); margin-left: var(--in, 0px); z-index: var(--z, 1); }
+      .plate img { display: block; width: 100%; height: var(--h, 200px); object-fit: cover; object-position: var(--pos, center); filter: grayscale(1) contrast(1.06); outline: 1px solid rgba(10, 10, 10, 0.75); box-shadow: 5px 6px 0 rgba(10, 10, 10, 0.16); }
+      .plate figcaption { font-size: clamp(32px, 3vw, 46px); rotate: -3deg; padding-bottom: 14px; line-height: 0.9; }
+      .plate .no { position: absolute; left: calc(-56px - var(--in, 0px)); bottom: 8px; font-size: 11px; }
 
-<link rel="preconnect" href="https://fonts.googleapis.com">
-<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-<link href="https://fonts.googleapis.com/css2?family=IBM+Plex+Mono:wght@400;500;600&family=Inter:wght@300;400;500;600;700&family=Newsreader:ital,opsz,wght@0,6..72,400;0,6..72,500;0,6..72,600;1,6..72,400;1,6..72,500&family=Open+Sans:wght@400;500;600&display=swap" rel="stylesheet">
-<link rel="stylesheet" href="tacit-reading.css">
-<link rel="stylesheet" href="cybersoc.css">
-<link rel="stylesheet" href="cybersoc-theme.css">
+      /* 2 · clients who trust us: one row of marks */
+      .trust { display: grid; grid-template-columns: minmax(240px, 22vw) minmax(0, 1fr); background: var(--ash); border-top: 1px solid var(--ink); border-bottom: 1px solid var(--ink); }
+      .trust-say { display: flex; flex-direction: column; justify-content: center; gap: 8px; padding: 20px var(--gutter); border-right: 1px solid var(--ink); }
+      .trust-say h2 { font-size: clamp(20px, 1.6vw, 26px); font-weight: 700; letter-spacing: -0.015em; line-height: 1.08; }
+      .trust-say .typed { font-size: 12px; line-height: 1.45; }
+      .trust-rows { display: grid; align-items: center; padding: 16px 0; min-width: 0; overflow: hidden; }
+      .logos { overflow: hidden; }
+      .logos div { --gap: clamp(36px, 4.2vw, 68px); display: flex; align-items: center; width: max-content; gap: var(--gap); padding-right: var(--gap); animation: slide 80s linear infinite; }
+      .logos img { flex: none; width: clamp(104px, 8.6vw, 144px); height: clamp(48px, 4vw, 66px); object-fit: contain; }
+      @keyframes slide { to { translate: -50% 0; } }
 
-<script type="application/ld+json">
-{
-  "@context": "https://schema.org",
-  "@graph": [
-    {
-      "@type": "Organization",
-      "@id": "https://tacitlabs.ai/#org",
-      "name": "Tacit Labs",
-      "url": "https://tacitlabs.ai/",
-      "logo": "https://tacitlabs.ai/assets/favicon.svg",
-      "email": "hi@tacitlabs.ai"
-    },
-    {
-      "@type": "BreadcrumbList",
-      "itemListElement": [
-        {
-          "@type": "ListItem",
-          "position": 1,
-          "name": "Home",
-          "item": "https://tacitlabs.ai/"
-        },
-        {
-          "@type": "ListItem",
-          "position": 2,
-          "name": "CyberSOC",
-          "item": "https://tacitlabs.ai/cybersoc"
-        }
-      ]
-    }
-  ]
-}
-</script>
-<script defer src="/_vercel/insights/script.js"></script>
-<link rel="stylesheet" href="nav-menu.css">
-<script defer src="nav-menu.js"></script>
-</head>
-<body class="palette-maroon page-cybersoc">
+      /* 3 · what it is */
+      .what h2 { max-width: 15em; }
+      .what .lead { margin-top: 30px; }
 
-  <!--
-    Open launch decisions (copy doc §23) that touch this page:
-    - BOOKING_URL (script at the foot) is empty, so every "Book a 30-minute call" opens an email until the calendar exists.
-    - Hero secondary button and §15 sample-report button switch after the 13 Nov demo.
-    - Lines marked "pending:" in comments below still need sign-off before launch.
-  -->
+      /* a captured console screen, framed like a window on the page */
+      .cap { margin-top: clamp(40px, 5vw, 70px); border: 1px solid var(--ink); box-shadow: 16px 18px 0 rgba(10, 10, 10, 0.2); background: var(--ink); }
+      .cap img, .cap video { display: block; width: 100%; height: auto; }
 
-  <div class="nav-wrap">
-    <nav class="tacit-nav" aria-label="Primary">
-      <div class="nav-menu" data-nav="product">
-        <button type="button" class="nav-menu-btn current" aria-expanded="false" aria-controls="nav-product-menu">product<svg class="chev" viewBox="0 0 10 10" aria-hidden="true"><path d="M2 3.5l3 3 3-3" fill="none" stroke="currentColor" stroke-width="1.4" stroke-linecap="round" stroke-linejoin="round"/></svg></button>
-        <div class="nav-menu-panel" id="nav-product-menu">
-          <a class="nav-menu-item" href="insurance.html"><span class="nm-title">Underwriting</span><span class="nm-sub">For MGAs and Lloyd’s coverholders</span></a>
-          <a class="nav-menu-item" href="cybersoc.html" aria-current="page"><span class="nm-title">CyberSOC</span><span class="nm-sub">For CISOs at regulated firms</span></a>
-        </div>
-      </div>
-      <a href="thesis.html" data-nav="thesis">thesis</a>
-      <a href="brief.html" data-nav="brief">brief</a>
-      <a href="index.html" class="logo-link" aria-label="Home"><span class="logo" aria-hidden="true"></span></a>
-      <a href="founders.html" data-nav="founders">founders</a>
-      <a href="essays.html" data-nav="essays">essays</a>
-    </nav>
-  </div>
+      /* 4 · the problem */
+      .stats { display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 3px; margin-top: clamp(40px, 5vw, 70px); }
+      .stat { padding: 20px 22px 22px; display: grid; gap: 12px; align-content: start; background: var(--ink); color: var(--paper); }
+      .stat.loud { background: var(--signal); color: var(--ink); box-shadow: 0 0 0 2px var(--ink); z-index: 1; }
+      .stat b { font-size: clamp(64px, 8vw, 132px); font-weight: 800; font-stretch: 112%; letter-spacing: -0.06em; line-height: 0.8; }
+      .stat p { font-size: 16px; font-weight: 600; line-height: 1.25; letter-spacing: -0.01em; max-width: 19em; }
+      .stat .typed { font-size: 11.5px; font-weight: 400; opacity: 0.85; }
+      .ways { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: var(--gutter); margin-top: clamp(40px, 5vw, 70px); border-top: 1.5px solid var(--ink); }
+      .ways > div { padding-top: 18px; }
+      .ways .hand { font-size: clamp(40px, 4.6vw, 72px); white-space: nowrap; }
+      .ways p:last-child { margin-top: 12px; max-width: 30em; }
 
-  <main class="page cs" id="top">
-    <!-- ============== Tom hero (shared with the underwriting page) ============== -->
-    <section class="tom-hero" aria-label="Tom for CyberSOC">
-      <div class="hero-bg-wrap" aria-hidden="true">
-        <video class="hero-bg-video" autoplay loop muted playsinline preload="auto">
-          <source src="assets/insurance-bg.mp4" type="video/mp4">
-        </video>
-        <div class="hero-bg-tint"></div>
-      </div>
-      <div class="tom-copy">
-        <p class="tom-title">judgment as <span class="flourish">owned</span> infrastructure</p>
-        <hr class="tom-rule">
-        <div class="tom-sub">
-          <p class="tom-sub-main">Tom checks the calls the AI in your SOC has already made against what actually happened, and shows you where the evidence supports letting it act alone.</p>
-          <p class="tom-sub-accent">Beside your SOC today. Plugged into your stack tomorrow.</p>
-        </div>
-        <a class="tom-cta js-book" href="mailto:hi@tacitlabs.ai?subject=CyberSOC%20%E2%80%94%2030-minute%20call&amp;body=Our%20platform%3A%20%0D%0AOur%20provider%3A%20%0D%0AWhich%20AI%20is%20switched%20on%3A%20%0D%0ATimes%20that%20suit%20us%20(and%20our%20time%20zone)%3A%20">
-          Book a 30-minute call
-          <svg width="15" height="15" viewBox="0 0 14 14" fill="none" aria-hidden="true">
-            <path d="M2 7h10M8 3l4 4-4 4" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
-          </svg>
-        </a>
-        <button type="button" class="motion-toggle" aria-pressed="false" hidden><span class="mt-icon" aria-hidden="true"></span><span class="mt-label">pause motion</span></button>
-      </div>
+      /* 5 · first principles, beside the day book */
+      .first { display: grid; grid-template-columns: minmax(0, 6fr) minmax(0, 5fr); gap: var(--gutter); align-items: start; }
+      .steps { margin-top: clamp(30px, 4vw, 54px); border-top: 1.5px solid var(--ink); }
+      .steps li { padding: 15px 0; border-bottom: 1px solid var(--rule); font-size: clamp(19px, 2vw, 29px); font-weight: 600; letter-spacing: -0.03em; line-height: 1.12; }
+      .steps li:last-child { color: var(--paper); border-bottom: 0; }
 
-      <div class="tom-stack" aria-hidden="true">
-        <figure class="tom-fig">
-          <img class="ts-art" src="assets/tom-apprentice.webp" alt="" loading="lazy" style="width:60%;height:178px;object-fit:cover;object-position:center;">
-          <figcaption>&ldquo;apprenticeship&rdquo;</figcaption>
-        </figure>
-        <figure class="tom-fig">
-          <img class="ts-art" src="assets/tom-alexandria.jpg" alt="" loading="lazy" style="width:54%;height:142px;object-fit:cover;object-position:center;">
-          <figcaption>&ldquo;library of alexandria&rdquo;</figcaption>
-        </figure>
-        <figure class="tom-fig">
-          <img class="ts-art" src="assets/tom-shipwright.jpg" alt="" loading="lazy" style="width:60%;height:360px;object-fit:cover;object-position:center 20%;">
-          <figcaption>&ldquo;master shipwright at work&rdquo;</figcaption>
-        </figure>
-        <figure class="tom-fig">
-          <img class="ts-art" src="assets/tom-doctor.jpg" alt="" loading="lazy" style="width:56%;height:178px;object-fit:cover;object-position:center;">
-          <figcaption>&ldquo;the diagnostician, judgment under uncertainty&rdquo;</figcaption>
-        </figure>
-      </div>
+      /* 5b · the register as a card drawer */
+      .index { display: grid; grid-template-columns: minmax(0, 7fr) minmax(0, 5fr); gap: var(--gutter); align-items: start; }
+      .drawer { --step: 44px; position: relative; height: calc(var(--step) * 7 + 400px); max-width: 720px; }
+      .card { position: absolute; left: 0; right: 0; top: calc(var(--i) * var(--step)); z-index: var(--i); height: 400px; padding: 12px 22px 18px 20px; display: flex; flex-direction: column; align-items: stretch; justify-content: flex-start; text-align: left; border: 0; box-shadow: 0 -1px 0 rgba(10, 10, 10, 0.45), 0 -10px 14px -10px rgba(10, 10, 10, 0.35); font-family: 'Courier Prime', monospace; font-size: 15px; line-height: 1.42; color: var(--ink); transition: top 0.55s var(--ease), translate 0.25s var(--ease); translate: var(--nudge, 0) 0; cursor: pointer; }
+      .card:not(.front):hover, .card:not(.front):focus-visible { translate: var(--nudge, 0) -12px; }
+      .card.front { cursor: default; }
+      .card .subj { display: flex; justify-content: space-between; gap: 14px; color: #c92f08; font-weight: 700; white-space: nowrap; }
+      .card .subj span:last-child { color: var(--ink); font-weight: 400; }
+      .card .body { display: grid; grid-template-columns: 78px minmax(0, 1fr); gap: 0 12px; margin-top: 12px; }
+      .card .call { font-weight: 700; }
+      .card .said { margin: 12px 0; font-family: 'Archivo', sans-serif; font-weight: 600; font-size: 17px; letter-spacing: -0.02em; line-height: 1.2; }
+      .card .trace { position: absolute; left: 20px; right: 22px; bottom: 50px; display: flex; justify-content: space-between; gap: 12px; font-size: 13px; }
+      .card .hole { position: absolute; left: 50%; bottom: 13px; width: 22px; height: 22px; margin-left: -11px; border-radius: 50%; background: var(--concrete-deep); box-shadow: inset 0 2px 3px rgba(10, 10, 10, 0.5); }
+      .card .flag { position: absolute; top: -9px; left: var(--fx); width: 18px; height: 18px; border-radius: 50%; border: 4px solid var(--fc); border-bottom-color: transparent; }
+      .card .note { position: absolute; right: 22px; bottom: 80px; font-size: 33px; rotate: -5deg; white-space: nowrap; }
 
-      <div class="tom-mark" aria-hidden="true">
-        <span class="tom-wordmark">t<span class="o">o</span>m</span>
-        <span class="tom-sublabel">a tacit product</span>
-      </div>
-    </section>
+      /* 6 · the alert */
+      .alert { display: grid; grid-template-columns: minmax(0, 4fr) minmax(0, 8fr); gap: var(--gutter); align-items: start; }
+      .alert h2 i { font-style: normal; background: var(--signal); color: var(--ink); padding: 0 0.09em 0.04em; box-shadow: 0 0 0 2px var(--ink); display: inline-block; line-height: 0.92; margin-top: 0.1em; }
+      .alert .lead { margin-top: 26px; }
+      .blank { margin-top: 44px; position: relative; width: fit-content; }
+      .blank .hand { font-size: clamp(36px, 3.6vw, 60px); white-space: nowrap; }
+      .blank svg { position: absolute; inset: -18px -26px -14px -22px; width: calc(100% + 48px); height: calc(100% + 32px); overflow: visible; }
+      .alert .cap { margin-top: 0; }
+      .shot-note { margin-top: 26px; font-size: 13px; }
 
-    <!-- ============== Scrolling ticker ============== -->
-    <div class="ticker-bar" aria-hidden="true">
-      <div class="ticker-track">
-        <!-- set 1 (the six items three times, so the loop never runs short on wide screens) -->
-        <span class="ticker-item">CISOs</span><span class="ticker-sep">◆</span>
-        <span class="ticker-item">Heads of SOC</span><span class="ticker-sep">◆</span>
-        <span class="ticker-item">Model risk, compliance and audit</span><span class="ticker-sep">◆</span>
-        <span class="ticker-item">In-house SOCs</span><span class="ticker-sep">◆</span>
-        <span class="ticker-item">Co-managed SOCs</span><span class="ticker-sep">◆</span>
-        <span class="ticker-item">MDR and MSSP providers</span><span class="ticker-sep">◆</span>
-        <span class="ticker-item">CISOs</span><span class="ticker-sep">◆</span>
-        <span class="ticker-item">Heads of SOC</span><span class="ticker-sep">◆</span>
-        <span class="ticker-item">Model risk, compliance and audit</span><span class="ticker-sep">◆</span>
-        <span class="ticker-item">In-house SOCs</span><span class="ticker-sep">◆</span>
-        <span class="ticker-item">Co-managed SOCs</span><span class="ticker-sep">◆</span>
-        <span class="ticker-item">MDR and MSSP providers</span><span class="ticker-sep">◆</span>
-        <span class="ticker-item">CISOs</span><span class="ticker-sep">◆</span>
-        <span class="ticker-item">Heads of SOC</span><span class="ticker-sep">◆</span>
-        <span class="ticker-item">Model risk, compliance and audit</span><span class="ticker-sep">◆</span>
-        <span class="ticker-item">In-house SOCs</span><span class="ticker-sep">◆</span>
-        <span class="ticker-item">Co-managed SOCs</span><span class="ticker-sep">◆</span>
-        <span class="ticker-item">MDR and MSSP providers</span><span class="ticker-sep">◆</span>
-        <!-- set 2 — duplicate for seamless loop -->
-        <span class="ticker-item">CISOs</span><span class="ticker-sep">◆</span>
-        <span class="ticker-item">Heads of SOC</span><span class="ticker-sep">◆</span>
-        <span class="ticker-item">Model risk, compliance and audit</span><span class="ticker-sep">◆</span>
-        <span class="ticker-item">In-house SOCs</span><span class="ticker-sep">◆</span>
-        <span class="ticker-item">Co-managed SOCs</span><span class="ticker-sep">◆</span>
-        <span class="ticker-item">MDR and MSSP providers</span><span class="ticker-sep">◆</span>
-        <span class="ticker-item">CISOs</span><span class="ticker-sep">◆</span>
-        <span class="ticker-item">Heads of SOC</span><span class="ticker-sep">◆</span>
-        <span class="ticker-item">Model risk, compliance and audit</span><span class="ticker-sep">◆</span>
-        <span class="ticker-item">In-house SOCs</span><span class="ticker-sep">◆</span>
-        <span class="ticker-item">Co-managed SOCs</span><span class="ticker-sep">◆</span>
-        <span class="ticker-item">MDR and MSSP providers</span><span class="ticker-sep">◆</span>
-        <span class="ticker-item">CISOs</span><span class="ticker-sep">◆</span>
-        <span class="ticker-item">Heads of SOC</span><span class="ticker-sep">◆</span>
-        <span class="ticker-item">Model risk, compliance and audit</span><span class="ticker-sep">◆</span>
-        <span class="ticker-item">In-house SOCs</span><span class="ticker-sep">◆</span>
-        <span class="ticker-item">Co-managed SOCs</span><span class="ticker-sep">◆</span>
-        <span class="ticker-item">MDR and MSSP providers</span><span class="ticker-sep">◆</span>
-      </div>
-    </div>
+      /* 7 · the desk, and each analyst against it */
+      .dev-pic { margin-top: clamp(40px, 5vw, 70px); position: relative; }
+      .dev-head { display: grid; grid-template-columns: 250px minmax(0, 1fr) 190px; gap: 16px; font-size: 12.5px; font-weight: 600; padding-bottom: 8px; border-bottom: 1.5px solid var(--ink); }
+      .dev-head div { display: flex; justify-content: space-between; }
+      .dev-row { display: grid; grid-template-columns: 250px minmax(0, 1fr) 190px; gap: 16px; align-items: center; border-bottom: 1px solid var(--rule); min-height: 62px; }
+      .dev-row > b { font-size: 16px; letter-spacing: -0.02em; line-height: 1.12; }
+      .dev-row > span { font-size: 13.5px; }
+      .lane { position: relative; height: 62px; }
+      .lane::before { content: ''; position: absolute; left: 50%; top: 0; bottom: 0; width: 1.5px; background: var(--ink); }
+      .lane .desk { position: absolute; top: 19px; height: 24px; }
+      .lane .desk.to-close { left: 50%; background: var(--green); }
+      .lane .desk.to-look { right: 50%; background: var(--signal); }
+      .lane .desk.half { background-image: radial-gradient(var(--concrete) 34%, transparent 38%); background-size: 5px 5px; }
+      .lane i { position: absolute; top: 50%; width: 13px; height: 13px; margin: -6.5px 0 0 -6.5px; border-radius: 50%; box-shadow: inset 0 0 0 1.8px var(--ink); translate: 0 var(--dy, 0); }
+      .lane i.out { background: var(--paper); box-shadow: inset 0 0 0 1.8px var(--ink), 0 0 0 3px var(--signal); }
+      .dev-note { position: absolute; font-size: clamp(30px, 3vw, 46px); white-space: nowrap; rotate: var(--rot, -4deg); }
+      .dev-note svg { position: absolute; overflow: visible; }
+      .dev-foot { display: flex; flex-wrap: wrap; justify-content: space-between; gap: 12px 30px; margin-top: 18px; }
 
-    <!-- ============== 1 · Hero ============== -->
-    <header class="cs-hero">
-      <div>
-        <p class="cs-eyebrow">CyberSOC · for CISOs at regulated firms</p>
-        <h1 class="cs-h1">An AI analyst joined your SOC. Nobody interviewed it.</h1>
-        <p class="cs-deck">Tacit Labs is the independent judge for the AI in your security operations centre. We check its calls on your own alerts against what actually happened, and show you where the evidence supports letting it act alone.</p>
-        <div class="cs-ctas">
-          <a class="cs-btn js-book" href="mailto:hi@tacitlabs.ai?subject=CyberSOC%20%E2%80%94%2030-minute%20call&amp;body=Our%20platform%3A%20%0D%0AOur%20provider%3A%20%0D%0AWhich%20AI%20is%20switched%20on%3A%20%0D%0ATimes%20that%20suit%20us%20(and%20our%20time%20zone)%3A%20">Book a 30-minute call
-            <svg width="14" height="14" viewBox="0 0 14 14" fill="none" aria-hidden="true"><path d="M2 7h10M8 3l4 4-4 4" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg>
-          </a>
-          <!-- After the 13 Nov demo: change to "Get the sample report" -->
-          <a class="cs-btn-ghost" href="#how">See how it works</a>
-        </div>
-        <ul class="cs-trust" aria-label="How we work">
-          <li>Read-only</li>
-          <li>Runs in your cloud, in your region</li>
-          <li>No email bodies, files or payloads</li>
-          <li>We judge agents, not analysts</li>
-        </ul>
-      </div>
+      /* 8 · how it works */
+      .how ol { display: grid; grid-template-columns: repeat(4, minmax(0, 1fr)); gap: 0; margin-top: clamp(40px, 5vw, 70px); border-top: 1.5px solid var(--ink); }
+      .how li { padding: 18px 20px 0 0; }
+      .how li + li { padding-left: 20px; border-left: 1px solid var(--rule); }
+      .how li b { display: block; font-size: 22px; letter-spacing: -0.035em; line-height: 1.05; margin-bottom: 10px; }
+      .how li .hand { display: block; font-size: 44px; margin-bottom: 8px; }
+      .ladder { margin-top: clamp(40px, 5vw, 64px); }
+      .fam { display: grid; grid-template-columns: repeat(34, minmax(0, 1fr)); gap: 3px; }
+      .fam i { aspect-ratio: 1; box-shadow: inset 0 0 0 1.5px var(--ink); }
+      .fam i.draft { background-image: radial-gradient(var(--ink) 36%, transparent 40%); background-size: 5px 5px; }
+      .fam i.live { background: var(--ink); }
+      .ladder .swatches { margin-top: 12px; }
 
-      <figure class="cs-map" aria-labelledby="map-title">
-        <span class="tk-shimmer-line" aria-hidden="true"></span>
-        <div class="cs-map-head">
-          <span class="cs-map-title" id="map-title"><span class="tk-dot" aria-hidden="true"></span>Autonomy map</span>
-          <span class="cs-synth">Illustrative · synthetic data</span>
-        </div>
-        <table class="cs-map-table" role="table">
-          <caption class="sr-only">Example autonomy map: four alert types, each marked act alone, act and log for review, recommend, or off, with the reason. Illustrative, synthetic data.</caption>
-          <thead role="rowgroup">
-            <tr role="row"><th role="columnheader" scope="col">Alert type</th><th role="columnheader" scope="col">Call</th><th role="columnheader" scope="col" class="sr-only">Why</th></tr>
-          </thead>
-          <tbody role="rowgroup">
-            <tr role="row">
-              <th role="rowheader" scope="row">User-reported phishing</th>
-              <td role="cell" class="call-cell"><span class="call call--3"><span class="lvl" aria-hidden="true"><i></i><i></i><i></i></span>Act alone</span></td>
-              <td role="cell" class="why">Right on outcomes. Decides like your team.</td>
-            </tr>
-            <tr role="row">
-              <th role="rowheader" scope="row">Unfamiliar sign-in</th>
-              <td role="cell" class="call-cell"><span class="call call--2"><span class="lvl" aria-hidden="true"><i></i><i></i><i></i></span>Act, and log for review</span></td>
-              <td role="cell" class="why">Mostly right. Some calls need a later look.</td>
-            </tr>
-            <tr role="row">
-              <th role="rowheader" scope="row">Impossible travel</th>
-              <td role="cell" class="call-cell"><span class="call call--1"><span class="lvl" aria-hidden="true"><i></i><i></i><i></i></span>Recommend; a person decides</span></td>
-              <td role="cell" class="why">Misses context your team uses.</td>
-            </tr>
-            <tr role="row">
-              <th role="rowheader" scope="row">Privileged role change</th>
-              <td role="cell" class="call-cell"><span class="call call--0"><span class="lvl" aria-hidden="true"><i></i><i></i><i></i></span>Off</span></td>
-              <td role="cell" class="why">Breaks a rule your team always follows.</td>
-            </tr>
-          </tbody>
-        </table>
-      </figure>
+
+
+      @media (max-width: 980px) {
+        .stats, .offers, .ways { grid-template-columns: minmax(0, 1fr); }
+        .dev-head, .dev-row { grid-template-columns: minmax(0, 1fr); gap: 2px; }
+        .dev-head div:first-child, .dev-head div:last-child { display: none; }
+        .dev-row { padding: 10px 0; }
+        .dev-note { display: none; }
+        .drawer { --step: 38px; height: calc(var(--step) * 7 + 480px); }
+        .card { height: 480px; font-size: 13.5px; }
+        .card .subj span:last-child, .card .note { display: none; }
+        .card .body { grid-template-columns: minmax(0, 1fr); }
+        .album { padding-left: 70px; }
+        .plate { grid-template-columns: 54% minmax(0, 1fr); gap: 10px; margin-left: min(var(--in, 0px), 36px); }
+        .plate figcaption { font-size: 27px; }
+        .plate .no { left: calc(-56px - min(var(--in, 0px), 36px)); }
+      }
+      @media (max-width: 980px) {
+        .trust { grid-template-columns: minmax(0, 1fr); }
+        .trust-say { border-right: 0; border-bottom: 1px solid var(--ink); padding: 14px var(--gutter); }
+      }
+      @media (prefers-reduced-motion: reduce) { .logos div { animation: none; } }
+
+      /* fold 3: verify */
+      .proof {
+        margin: 0 var(--gutter);
+        padding: clamp(30px, 4.6vw, 64px);
+        display: grid;
+        grid-template-columns: minmax(0, 5fr) minmax(0, 7fr);
+        gap: var(--gutter);
+        align-items: start;
+      }
+      .proof h2 {
+        font-size: clamp(34px, 4.6vw, 78px);
+        font-weight: 800;
+        letter-spacing: -0.05em;
+        line-height: 0.92;
+      }
+      .proof .lead {
+        margin-top: 22px;
+        color: var(--smoke);
+      }
+      .chain {
+        display: grid;
+        grid-template-columns: repeat(60, minmax(0, 1fr));
+        gap: 2px;
+        height: 54px;
+        align-items: end;
+      }
+      .chain i {
+        height: 60%;
+        background: #3a3a35;
+        transition: background 0.2s;
+      }
+      .chain i.this {
+        height: 100%;
+        background: var(--paper);
+      }
+      .chain i.ok {
+        background: var(--green);
+      }
+      .chain-ends {
+        display: flex;
+        justify-content: space-between;
+        font-size: 12.5px;
+        color: var(--smoke);
+        margin-top: 8px;
+      }
+      .rec {
+        margin-top: 26px;
+        color: var(--ash);
+        display: grid;
+        grid-template-columns: 84px minmax(0, 1fr);
+        gap: 4px 14px;
+        font-size: 14px;
+      }
+      .rec dt {
+        color: var(--smoke);
+      }
+      .rec dd {
+        margin: 0;
+        overflow-wrap: anywhere;
+      }
+      .verify {
+        margin-top: 26px;
+        display: flex;
+        flex-wrap: wrap;
+        gap: 16px;
+        align-items: center;
+      }
+      .verify .btn {
+        background: var(--paper);
+        color: var(--ink);
+      }
+      .verify output {
+        font-size: 15px;
+        font-weight: 600;
+      }
+      .verify output.ok {
+        color: var(--green);
+      }
+
+      /* what Tacit is not: entries struck out of the book */
+      .not { display: grid; grid-template-columns: minmax(0, 4fr) minmax(0, 8fr); gap: var(--gutter); align-items: start; }
+      .not h2 { position: sticky; top: 28px; }
+      .nots { border-top: 1.5px solid var(--ink); }
+      .nots li { display: grid; grid-template-columns: minmax(0, 1fr) minmax(0, 1fr); gap: 10px var(--gutter); align-items: baseline; padding: 20px 0 22px; border-bottom: 1px solid var(--rule); }
+      .nots .no { position: relative; width: fit-content; font-family: 'Courier Prime', monospace; font-size: clamp(19px, 1.85vw, 29px); line-height: 1.1; white-space: nowrap; }
+      .nots .no svg { position: absolute; left: -8px; top: 50%; width: calc(100% + 16px); height: 14px; margin-top: -8px; overflow: visible; }
+      .nots .no path { fill: none; stroke: var(--signal); stroke-width: 3; }
+      .nots p { font-size: clamp(16.5px, 1.4vw, 20px); line-height: 1.38; max-width: 33em; }
+      .nots p b { display: block; font-size: 1.12em; letter-spacing: -0.02em; line-height: 1.15; margin-bottom: 4px; }
+
+      /* what a design partner gets back */
+      .gets { display: grid; grid-template-columns: repeat(4, minmax(0, 1fr)); margin-top: clamp(40px, 5vw, 70px); border-top: 1.5px solid var(--ink); }
+      .gets li { padding: 18px 20px 0 0; font-size: 16px; line-height: 1.4; }
+      .gets li + li { padding-left: 20px; border-left: 1px solid var(--rule); }
+      .gets b { display: block; font-size: clamp(21px, 2vw, 28px); letter-spacing: -0.04em; line-height: 1.02; margin-bottom: 10px; color: var(--paper); }
+      .measured { display: grid; grid-template-columns: auto minmax(0, 1fr) minmax(0, 1fr); gap: 14px clamp(20px, 3vw, 44px); align-items: end; margin-top: clamp(40px, 5vw, 64px); padding: 20px 22px 22px; background: var(--ink); color: var(--paper); }
+      .measured > b { font-size: clamp(64px, 8vw, 132px); font-weight: 800; font-stretch: 112%; letter-spacing: -0.06em; line-height: 0.8; }
+      .measured p { font-size: 16px; font-weight: 600; line-height: 1.3; letter-spacing: -0.01em; max-width: 26em; }
+      .measured .typed { font-size: 12px; font-weight: 400; color: var(--smoke); }
+      .measured .open { align-self: stretch; border-left: 1px solid #3a3a35; padding-left: clamp(20px, 3vw, 44px); display: grid; align-content: end; gap: 8px; }
+      .measured .open .hand { font-size: clamp(36px, 3.4vw, 54px); color: var(--paper); rotate: -2deg; transform-origin: left bottom; white-space: nowrap; }
+
+      .stats.two { grid-template-columns: repeat(2, minmax(0, 1fr)); }
+      .ask { padding: clamp(60px, 9vw, 130px) var(--gutter); display: grid; grid-template-columns: minmax(0, 1fr) auto; gap: 28px; align-items: end; border-top: 1px solid var(--ink); margin-top: clamp(84px, 11vw, 170px); }
+      .ask h2 { font-size: clamp(38px, 5.6vw, 96px); max-width: 10em; }
+      .ask p { margin-top: 22px; max-width: 34em; }
+      .ask .typed { margin-top: 10px; text-align: right; }
+
+      @media (max-width: 980px) {
+        .hero, .cols, .first, .index, .alert, .ask, .proof, .not, .nots li { grid-template-columns: minmax(0, 1fr); }
+        .how ol, .gets { grid-template-columns: repeat(2, minmax(0, 1fr)); }
+        .how li:nth-child(3), .gets li:nth-child(3) { padding-left: 0; border-left: 0; }
+        .gets li { padding-bottom: 18px; }
+        .stats.two, .measured { grid-template-columns: minmax(0, 1fr); }
+        .measured .open { border-left: 0; padding-left: 0; border-top: 1px solid #3a3a35; padding-top: 16px; }
+        .kept { display: none; }
+        .hero-say { max-width: 500px; }
+        .cap { box-shadow: 8px 9px 0 rgba(10, 10, 10, 0.2); }
+        .keptline { position: relative; left: 0; top: 0; width: fit-content; max-width: 100%; overflow: hidden; }
+        .not h2 { position: static; }
+        .ask .typed { text-align: left; }
+      }
+    </style>
+  </head>
+  <body>
+    <header class="nav">
+      <a class="brand" href="index.html" aria-label="Tacit, home">tacit<i></i></a>
+      <ul>
+        <li><a href="insurance.html">Underwriting</a></li>
+        <li><a href="cybersoc.html" aria-current="page">CyberSOC</a></li>
+        <li><a href="thesis.html">Thesis</a></li>
+        <li><a href="brief.html">Brief</a></li>
+        <li><a href="founders.html">Founders</a></li>
+        <li><a href="essays.html">Essays</a></li>
+      </ul>
+      <a class="btn sm" href="#ask">Book a call</a>
     </header>
 
-    <!-- ============== 2 · The problem ============== -->
-    <section class="section sec-dark" id="problem" aria-labelledby="problem-h">
-      <span class="section-num">the problem</span>
-      <h2 class="section-title" id="problem-h">The AI came with the licence. The accountability stayed with you.</h2>
-      <div class="cs-prose">
-        <p class="t12">AI triage now comes inside tools and services you already pay for. Since November 2025, Microsoft has been adding Security Copilot to Microsoft 365 E5 licences.<sup class="fn"><a href="cybersoc-know-more.html#src-1" aria-label="Source 1">1</a></sup> Managed detection and response (MDR) providers have built AI into their services.</p>
-        <p class="t12 cs-turn">It doesn’t arrive tested on your alerts. And if it’s wrong, the regulator’s questions come to you.</p>
-      </div>
-
-      <div class="cs-stats">
-        <p class="cs-stats-cap">From a 2026 survey of security leaders.<sup class="fn"><a href="cybersoc-know-more.html#src-3" aria-label="Source 3">3</a></sup></p>
-        <div class="cs-stat">
-          <p class="n">19%</p>
-          <p class="l">rely on the vendor’s own accuracy figures to check AI verdicts.<sup class="fn"><a href="cybersoc-know-more.html#src-3" aria-label="Source 3">3</a></sup></p>
+    <main>
+      <!-- the card index opens the page -->
+      <section class="hero">
+        <canvas id="dither" data-picture aria-hidden="true"></canvas>
+        <div class="kept swatches">
+          <span><i class="sw-half"></i>known to one analyst</span>
+          <span><i class="sw-blue"></i>written down</span>
         </div>
-        <div class="cs-stat">
-          <p class="n">57%</p>
-          <p class="l">still require a person to review every AI verdict before an alert is closed.<sup class="fn"><a href="cybersoc-know-more.html#src-3" aria-label="Source 3">3</a></sup></p>
+        <h1 class="display">The reason was never written down.</h1>
+        <p class="keptline">
+          <span class="hand">svc_deploy is ours, till Thursday</span>
+          <span class="typed">R-0031 · on the IT head’s word · lapses Thu 19:00</span>
+        </p>
+        <div class="hero-say">
+          <p class="lead">
+            Close to half the alerts a SOC analyst opens turn out to be work the client had already
+            approved, and your analyst closes them because she knows the client.
+            <b>Tacit captures that reasoning of your analysts</b>, builds a judgement layer that
+            starts closing them for her, and puts the reason on the record.
+          </p>
+          <div style="display: flex; gap: 12px; flex-wrap: wrap">
+            <a class="btn" href="#ask">Book a 30-minute call</a>
+            <a class="btn quiet" href="#index" style="background: var(--concrete)">Open the card index ↓</a>
+          </div>
         </div>
-        <div class="cs-stat">
-          <p class="n">46% <span class="vs">vs</span> <span class="second">17%</span></p>
-          <p class="l">In a Microsoft trial with planted errors, analysts who saw the AI wrongly clear a malicious email missed it 46% of the time. Without the AI, they missed 17%.<sup class="fn"><a href="cybersoc-know-more.html#src-2" aria-label="Source 2">2</a></sup></p>
+        <div class="hero-stat">
+          <b>49%</b>
+          <p>of one SOC’s alerts over four years were real detections of work that was expected there.</p>
+          <p class="typed">Yang et al., USENIX Security 2024.</p>
         </div>
-      </div>
+      </section>
 
-      <p class="t10 cs-fair">To be fair to the AI: the same Microsoft trial found it made analysts far more accurate when it was right.<sup class="fn"><a href="cybersoc-know-more.html#src-2" aria-label="Source 2">2</a></sup> The problem isn’t the AI. It’s not knowing when it’s wrong.</p>
-    </section>
-
-    <!-- ============== 3 · First principles ============== -->
-    <section class="section" id="principles" aria-labelledby="principles-h">
-      <span class="section-num">first principles</span>
-      <h2 class="section-title" id="principles-h">An independent house judge for the AI in your SOC</h2>
-      <ol class="cs-chain">
-        <li>Every analyst makes mistakes. So does every AI.</li>
-        <li>What matters is which mistakes, how often, and whether you’d know.</li>
-        <li>You can only know by checking its calls against what actually happened.</li>
-        <li>The vendor can’t do that independently. Your analysts can’t do it by looking over its shoulder.</li>
-        <li>So someone independent has to.</li>
-      </ol>
-      <div class="cs-prose">
-        <p class="t12"><strong>That’s Tacit Labs.</strong> A house judge works for you. It doesn’t build the AI, sell it or run it.</p>
-      </div>
-    </section>
-
-    <!-- ============== 5 · Six questions ============== -->
-    <section class="section sec-dark" id="questions" aria-labelledby="questions-h">
-      <span class="section-num">six questions</span>
-      <h2 class="section-title" id="questions-h">Six questions, answered on your own alerts</h2>
-      <p class="t12 cs-prose">For each alert type, your report answers six questions. Every answer says what it rests on: confirmed outcomes, a blind second look, or your team’s judgment.</p>
-
-      <div class="cs-qgrid">
-        <article class="cs-q">
-          <h3 class="cs-q-h">Is it right?</h3>
-          <button class="cs-more" type="button" aria-expanded="true" aria-controls="q1" data-disclosure><span class="when-closed">More</span><span class="when-open">Less</span><span class="sr-only"> on: Is it right?</span><svg width="10" height="10" viewBox="0 0 10 10" aria-hidden="true"><path d="M2 3.5l3 3 3-3" fill="none" stroke="currentColor" stroke-width="1.4" stroke-linecap="round" stroke-linejoin="round"/></svg></button>
-          <div class="cs-q-body" id="q1">
-            <p>We check the AI’s calls against what actually happened: confirmed incidents, re-opened alerts, red-team and attack-simulation results.</p>
-            <p>The alerts it closes alone get a blind second look. Each week your analysts re-check a small random sample in a view that hides the AI’s verdict. Seeing the verdict changes what people see.</p>
-          </div>
-          <p class="cs-get"><strong>You get:</strong> accuracy and missed-threat rate per alert type, each with a range that shows how sure we are.</p>
-        </article>
-
-        <article class="cs-q">
-          <h3 class="cs-q-h">Is it consistent?</h3>
-          <button class="cs-more" type="button" aria-expanded="true" aria-controls="q2" data-disclosure><span class="when-closed">More</span><span class="when-open">Less</span><span class="sr-only"> on: Is it consistent?</span><svg width="10" height="10" viewBox="0 0 10 10" aria-hidden="true"><path d="M2 3.5l3 3 3-3" fill="none" stroke="currentColor" stroke-width="1.4" stroke-linecap="round" stroke-linejoin="round"/></svg></button>
-          <div class="cs-q-body" id="q2">
-            <p>Same alert, same facts, same answer? We check whether the AI decides the same way when the same situation comes back, across days and model updates.</p>
-          </div>
-          <p class="cs-get"><strong>You get:</strong> a consistency rate per alert type, and the cases where it flipped.</p>
-        </article>
-
-        <article class="cs-q">
-          <h3 class="cs-q-h">Is it drifting?</h3>
-          <button class="cs-more" type="button" aria-expanded="true" aria-controls="q3" data-disclosure><span class="when-closed">More</span><span class="when-open">Less</span><span class="sr-only"> on: Is it drifting?</span><svg width="10" height="10" viewBox="0 0 10 10" aria-hidden="true"><path d="M2 3.5l3 3 3-3" fill="none" stroke="currentColor" stroke-width="1.4" stroke-linecap="round" stroke-linejoin="round"/></svg></button>
-          <div class="cs-q-body" id="q3">
-            <p>Vendors update models. Attackers change tactics. Your alert mix shifts.</p>
-            <p>We keep a frozen baseline. When something moves, we tell you what moved: the AI, your team or the alerts.</p>
-          </div>
-          <p class="cs-get"><strong>You get:</strong> drift alarms that name the cause. An alarm calls a person to look. It never changes anything on its own.</p>
-        </article>
-
-        <article class="cs-q cs-q--edge">
-          <h3 class="cs-q-h">Why do your people overrule it?</h3>
-          <button class="cs-more" type="button" aria-expanded="true" aria-controls="q4" data-disclosure><span class="when-closed">More</span><span class="when-open">Less</span><span class="sr-only"> on: Why do your people overrule it?</span><svg width="10" height="10" viewBox="0 0 10 10" aria-hidden="true"><path d="M2 3.5l3 3 3-3" fill="none" stroke="currentColor" stroke-width="1.4" stroke-linecap="round" stroke-linejoin="round"/></svg></button>
-          <div class="cs-q-body" id="q4">
-            <p>Every override has a reason. We sort each one into one of six causes:</p>
-            <ul>
-              <li>The AI was wrong.</li>
-              <li>It lacked context your team had.</li>
-              <li>The override went against how your team usually decides.</li>
-              <li>Your team changed its approach.</li>
-              <li>The AI was right after all.</li>
-              <li>It was a fair judgment call.</li>
-            </ul>
-          </div>
-          <p class="cs-get"><strong>You get:</strong> a teach list. It shows which overrides the AI should learn from, which it shouldn’t, and what context to connect.</p>
-        </article>
-
-        <!-- pending: patent check on this card's description (§23) -->
-        <article class="cs-q cs-q--edge">
-          <h3 class="cs-q-h">How does it differ from your people?</h3>
-          <button class="cs-more" type="button" aria-expanded="true" aria-controls="q5" data-disclosure><span class="when-closed">More</span><span class="when-open">Less</span><span class="sr-only"> on: How does it differ from your people?</span><svg width="10" height="10" viewBox="0 0 10 10" aria-hidden="true"><path d="M2 3.5l3 3 3-3" fill="none" stroke="currentColor" stroke-width="1.4" stroke-linecap="round" stroke-linejoin="round"/></svg></button>
-          <div class="cs-q-body" id="q5">
-            <p>We describe the AI the way you’d describe a new analyst. Where it’s stricter or softer than your team. Which signals it weighs differently. Which shortcuts it takes that your team never would.</p>
-          </div>
-          <p class="cs-get"><strong>You get:</strong> plain-language differences, each with an example and a line on what it doesn’t mean. Different isn’t wrong until outcomes say so.</p>
-        </article>
-
-        <article class="cs-q cs-q--edge">
-          <h3 class="cs-q-h">Where can it act alone?</h3>
-          <button class="cs-more" type="button" aria-expanded="true" aria-controls="q6" data-disclosure><span class="when-closed">More</span><span class="when-open">Less</span><span class="sr-only"> on: Where can it act alone?</span><svg width="10" height="10" viewBox="0 0 10 10" aria-hidden="true"><path d="M2 3.5l3 3 3-3" fill="none" stroke="currentColor" stroke-width="1.4" stroke-linecap="round" stroke-linejoin="round"/></svg></button>
-          <div class="cs-q-body" id="q6">
-            <p>For each alert type, one of four calls:</p>
-            <ul>
-              <li>Act alone.</li>
-              <li>Act, and log for review.</li>
-              <li>Recommend; a person decides.</li>
-              <li>Off.</li>
-            </ul>
-            <p>Each call shows the evidence behind it, and what would change it.</p>
-          </div>
-          <p class="cs-get"><strong>You get:</strong> an autonomy map you sign off, reviewed monthly. The four calls follow the four outcomes in MAS’s SAFR paper: Auto-Execute, Observe, Escalate and Deny.<sup class="fn"><a href="cybersoc-know-more.html#src-6" aria-label="Source 6">6</a></sup></p>
-        </article>
-      </div>
-
-      <p class="t12 cs-after">You apply the map in your platform’s own settings. Where a platform can’t hold its AI to “recommend”, the call becomes “off” for that alert type.</p>
-    </section>
-
-    <!-- ============== 7 · How it works ============== -->
-    <section class="section" id="how" aria-labelledby="how-h">
-      <span class="section-num">process</span>
-      <h2 class="section-title" id="how-h">How it works</h2>
-      <p class="cs-sub">First answers in six weeks when there’s enough history.</p>
-      <ol class="cs-steps">
-        <li>
-          <h3>Connect, read-only.</h3>
-          <p>We connect to where decisions are recorded: your XDR, your SIEM and your ticketing. Never to the AI itself. We can’t change an alert, a rule or a setting.</p>
-        </li>
-        <li>
-          <h3>Read the history.</h3>
-          <p>We read up to 90 days of decision records, matched by alert ID: the alert, the AI’s verdict, your team’s decision, the action and the outcome. Not enough history yet? We record forward for six weeks instead.</p>
-        </li>
-        <li>
-          <h3>Add a blind second look.</h3>
-          <!-- pending: confirm the separate Tacit view (§23) -->
-          <p>Each week your analysts re-check a small random sample of the alerts the AI closed, in a separate Tacit view that hides the AI’s verdict. Nothing is written to your systems.</p>
-        </li>
-        <li>
-          <h3>Get your answers. Keep watching.</h3>
-          <p>In six weeks: the six answers for each alert type, your autonomy map, and an evidence pack for risk and audit. After that, Shadow Judge can keep watching every week.</p>
-        </li>
-      </ol>
-      <div class="cs-weeks cs-tl" aria-hidden="true">
-        <div class="cs-tl-phases">
-          <span class="ph ph-a" style="--from:0;--to:1">Connect and read</span>
-          <span class="ph ph-b" style="--from:1;--to:6">Blind second look, every week</span>
+      <!-- clients who trust us -->
+      <section class="trust" aria-labelledby="trust-h">
+        <div class="trust-say">
+          <h2 id="trust-h">Clients who trust us</h2>
+          <p class="typed">Clients of Birchlogic, the founders’ security practice.</p>
         </div>
-        <div class="cs-tl-track"><i class="fill"></i><span class="node" style="--i:0"><b>Week 0</b></span><span class="node" style="--i:1"><b><em>Week </em>1</b></span><span class="node" style="--i:2"><b><em>Week </em>2</b></span><span class="node" style="--i:3"><b><em>Week </em>3</b></span><span class="node" style="--i:4"><b><em>Week </em>4</b></span><span class="node" style="--i:5"><b><em>Week </em>5</b></span><span class="node end" style="--i:6"><b>Week 6 · answers</b></span></div>
+        <div class="trust-rows" role="img" aria-label="AMCS Group, K&amp;S Partners, MBS Global, Batra Numerro, Saarthee, Fusionedge, Nexwave, M Intergraph Systems, Nest Money, Coforge, FigBytes, Xammer, Watermelon Software, Waterloo Intuition and LambdaVision.">
+          <div class="logos"><div id="logos"></div></div>
+        </div>
+      </section>
+
+      <!-- 1 · the problem -->
+      <section class="pad" id="problem">
+        <div class="cols">
+          <h2 class="display rise">Your SIEM was right, the client was right, but you still lose hours every day.</h2>
+          <p class="lead rise">
+            The name for this is a benign positive, which is a real detection of work that was
+            expected. It is not a false alarm, so no amount of rule tuning removes it, and in the
+            public data it is the largest single thing in the queue. Your SIEM cannot close it
+            either, because what closes it is something your client said, and that never reached
+            the SIEM.
+          </p>
+        </div>
+        <div class="stats two rise">
+          <div class="stat"><b>46%</b><p>of the incidents in Microsoft’s public GUIDE dataset were graded benign positive by the customers themselves.</p><p class="typed">Microsoft GUIDE dataset</p></div>
+          <div class="stat loud"><b>87%</b><p>of rule exclusions were still in force three years after someone added them.</p><p class="typed">The Exclusion Ratchet, 2026</p></div>
+        </div>
+        <div class="ways">
+          <div class="rise">
+            <p class="hand">close it again tomorrow</p>
+            <p>Four to ten minutes every time, four analysts deciding it four ways, and nothing kept for the next shift or the next hire.</p>
+          </div>
+          <div class="rise" style="--d: 0.1s">
+            <p class="hand">or narrow the rule, for good</p>
+            <p>The exclusion outlives the reason for it, and three years on nobody remembers what it is hiding.</p>
+          </div>
+        </div>
+      </section>
+
+      <!-- 2 · where it sits, and the run -->
+      <section class="pad what" id="what" style="padding-top: 0">
+        <div class="cols">
+          <h2 class="display rise">It sits between your SIEM and your analysts.</h2>
+          <p class="lead rise">
+            Every alert passes Tacit on its way to your desk. What a reason covers is closed in
+            your SIEM with the reason attached, what needs a person is escalated with everything
+            Tacit read, and the rest is left exactly as it was.
+          </p>
+        </div>
+        <figure class="cap film rise" id="film" data-picture>
+          <picture>
+            <source media="(max-width: 700px)" srcset="assets/console/run-phone.jpg" width="840" height="2988" />
+            <img src="assets/console/run.jpg" width="3200" height="2000" loading="lazy" decoding="async" alt="The run screen after a thousand alerts from one night: 578 closed by Tacit in Sentinel, 212 drafted for one click, 41 escalated to an analyst and 169 left as they were." />
+          </picture>
+        </figure>
+        <p class="typed shot-note">A thousand alerts from one night at a made-up client, as the product’s run screen leaves them.</p>
+      </section>
+
+      <!-- 3 · how we are solving it: first principles -->
+      <section class="pad first" id="solve" style="padding-top: 0">
+        <div>
+          <h2 class="display rise">A trade is learned at the bench.</h2>
+          <ol class="steps">
+            <li class="rise">What makes your best analyst good is that she knows the client.</li>
+            <li class="rise">She learned it the way a shipwright does, standing beside someone who already knew.</li>
+            <li class="rise">None of it was written down, so when she moves on, or the provider changes, the desk starts again.</li>
+            <li class="rise">A model cannot guess it either, because the answer was never in the alert.</li>
+            <li class="rise">So it has to be kept: what was said, by whom, for what, until when.</li>
+            <li class="rise">Tacit is the desk’s ledger and the clerk who keeps it.</li>
+          </ol>
+        </div>
+        <aside class="album paper" aria-label="Four pictures of how a trade is learned and kept, pasted into a ledger.">
+          <span class="hand folio">1</span>
+          <p class="hand album-head">How a trade is kept</p>
+          <figure class="plate" style="--w: 64%; --h: 210px">
+            <img src="assets/plates/apprentice.jpg" alt="A cobbler guiding his apprentice’s hands at the bench." />
+            <figcaption class="hand">apprenticeship</figcaption>
+            <span class="typed no">pl. 1</span>
+          </figure>
+          <figure class="plate" style="--w: 58%; --h: 170px; --in: 100px; --up: -26px; --z: 2">
+            <img src="assets/plates/alexandria.jpg" alt="An engraving of the library of Alexandria on fire." />
+            <figcaption class="hand">Alexandria, lost</figcaption>
+            <span class="typed no">pl. 2</span>
+          </figure>
+          <figure class="plate" style="--w: 64%; --h: 400px; --up: -22px; --pos: center 18%">
+            <img src="assets/plates/shipwright.jpg" alt="A portrait of a master shipwright with his dividers on a drawing." />
+            <figcaption class="hand">a master shipwright</figcaption>
+            <span class="typed no">pl. 3</span>
+          </figure>
+          <figure class="plate" style="--w: 60%; --h: 180px; --in: 70px; --up: -30px; --z: 2">
+            <img src="assets/plates/doctor.jpg" alt="A doctor sitting in thought beside a sick child." />
+            <figcaption class="hand">the diagnostician</figcaption>
+            <span class="typed no">pl. 4</span>
+          </figure>
+        </aside>
+      </section>
+
+      <!-- 4 · the card index -->
+      <section class="pad index" id="index" style="padding-top: 0">
+        <div class="drawer rise" id="drawer" data-picture></div>
+        <div>
+          <h2 class="display rise">214 reasons. 56 hold today.</h2>
+          <p class="lead rise" style="margin-top: 26px">
+            A reason is something a client told your desk to expect: the scanner that runs on
+            Wednesdays, the vendor who is in until Thursday, a change window on one server. This
+            is one client’s register, and nobody keeps 214 of these in their head, so today they
+            live in chat threads and in whoever happens to be on shift.
+          </p>
+          <p class="lead rise" style="margin-top: 14px">
+            Tacit files a card for each one, and it closes an alert only while the card still holds.
+          </p>
+          <div class="swatches rise" style="margin-top: 28px">
+            <span><i class="sw-blue"></i>holds today</span>
+            <span><i class="sw-orange"></i>lapses within 48 hours</span>
+            <span><i class="sw-ring"></i>lapsed</span>
+          </div>
+          <p class="typed" style="margin-top: 20px; opacity: 0.85">Tap a card behind to pull it forward. The register is made up for illustration.</p>
+        </div>
+      </section>
+
+      <!-- 5 · the tech: one alert -->
+      <section class="pad alert" id="alert" style="padding-top: 0">
+        <div>
+          <h2 class="display rise">No entry, <i>no close.</i></h2>
+          <p class="lead rise" style="--d: 0.1s">
+            When nothing on the register explains an alert, Tacit says so and hands it to a person
+            with the case put together. Every alert of one kind is asked the same questions, ten
+            to fourteen of them, and you see each answer as it is, with nothing rolled up into a
+            score.
+          </p>
+          <div class="blank rise" style="--d: 0.2s">
+            <p class="hand">RDP from a new workstation</p>
+            <svg viewBox="0 0 400 90" preserveAspectRatio="none" aria-hidden="true" filter="url(#rough)"><path d="M30 46 C 20 8, 190 2, 330 12 C 410 20, 398 74, 300 82 C 170 92, 18 88, 22 50 C 24 30, 60 16, 110 12" fill="none" stroke="#ff4a1c" stroke-width="2.6" vector-effect="non-scaling-stroke" /></svg>
+          </div>
+          <p class="typed" style="margin-top: 26px">Alert 4157 · nothing on the register covers it · yours</p>
+        </div>
+
+        <div>
+          <figure class="cap rise" data-picture>
+            <picture>
+              <source media="(max-width: 700px)" srcset="assets/console/alert-4133-phone.jpg" width="840" height="2708" />
+              <img src="assets/console/alert-4133.jpg" width="2080" height="2608" loading="lazy" decoding="async" alt="Alert 4133 in the Tacit console. The account svc_deploy signed in to FIN-DB-02 and FIN-DB-03 over RDP. Eleven questions and their answers, three of them large: this account from this host, all the time; this account on this target, first time; a reason on record, a planned change. Tacit suggests close." />
+            </picture>
+          </figure>
+          <p class="typed shot-note">An alert a reason does cover, as the analyst sees it. One answer is orange: svc_deploy has never been on FIN-DB-03 before.</p>
+        </div>
+      </section>
+
+      <!-- 6 · the tech: the desk and each analyst -->
+      <section class="pad" id="desk" style="padding-top: 0">
+        <div class="cols">
+          <h2 class="display rise">The desk’s judgement, and one analyst’s habit.</h2>
+          <p class="lead rise">
+            Your SIEM models the alert, and Tacit models the people who decide on it. It reads the
+            decisions your desk has already made, works out what moves the desk as a whole, and
+            shows you where one analyst’s habit departs from it, like escalating everything that
+            arrives over the VPN. You see which is which before any of it is put to work, and
+            nobody is shown by name.
+          </p>
+        </div>
+        <figure class="dev-pic rise" data-picture>
+          <div class="dev-head"><div>What the alert showed</div><div><span>← escalate</span><span>close →</span></div><div>The desk, on 412 decisions</div></div>
+          <div id="dev"></div>
+          <p class="hand dev-note" id="note-desk" style="--rot: -3deg">the desk, as one<svg viewBox="0 0 70 60" width="70" height="60" style="left: -74px; top: -50%" filter="url(#rough)" aria-hidden="true"><path d="M66 50 C 40 52, 18 38, 12 8 M2 22 C 6 17, 9 12, 12 6 C 17 11, 22 15, 28 19" fill="none" stroke="#15140f" stroke-width="2.4" stroke-linecap="round" /></svg></p>
+          <p class="hand dev-note" id="note-habit" style="--rot: 3deg">one analyst, by habit<svg viewBox="0 0 80 50" width="80" height="50" style="left: -84px; top: -30%" filter="url(#rough)" aria-hidden="true"><path d="M76 40 C 50 44, 26 34, 8 10 M6 30 C 6 22, 6 16, 7 8 C 14 10, 22 11, 28 11" fill="none" stroke="#15140f" stroke-width="2.4" stroke-linecap="round" /></svg></p>
+          <div class="dev-foot">
+            <div class="swatches">
+              <span><i class="sw-green"></i>moves the desk to close</span>
+              <span><i class="sw-orange"></i>moves the desk to escalate</span>
+              <span><i class="sw-ring" style="border-radius: 50%"></i>one analyst</span>
+              <span><i class="sw-paper" style="border-radius: 50%; box-shadow: inset 0 0 0 1.8px #0a0a0a, 0 0 0 3px #ff4a1c"></i>far from the desk</span>
+            </div>
+            <span class="typed" style="font-size: 12.5px">A made-up desk of eight analysts. Shown by team and never by name.</span>
+          </div>
+        </figure>
+      </section>
+
+      <!-- 7 · the tech: how it goes in -->
+      <section class="pad how" id="how" style="padding-top: 0">
+        <div class="cols">
+          <h2 class="display rise">It watches first, then drafts, and goes live only where you say.</h2>
+          <p class="lead rise">It starts with a two-week review of the decisions your desk has already made: which calls were sound, which alerts were escalated for no reason, and how many nobody needed to open at all. Nothing changes on your desk until you have seen it.</p>
+        </div>
+        <ol>
+          <li class="rise"><span class="hand">first</span><b>Connect, read-only.</b>Tacit reads your SIEM, your tickets and whatever else you choose to show it. It cannot change an alert or a rule.</li>
+          <li class="rise" style="--d: 0.08s"><span class="hand">then</span><b>Review the history.</b>It reads ninety days of your desk’s own decisions, so it knows how this desk decides for this client, and hands you the review.</li>
+          <li class="rise" style="--d: 0.16s"><span class="hand">beside you</span><b>Shadow.</b>Tacit makes its call next to your analysts and writes nothing to your tools, so you can compare the two.</li>
+          <li class="rise" style="--d: 0.24s"><span class="hand">when you say</span><b>Drafts, then live.</b>One kind of alert at a time, and only with your client’s approval. Any one of seven conditions sends it back to shadow.</li>
+        </ol>
+        <figure class="ladder rise" data-picture>
+          <div class="fam" id="fam" role="img" aria-label="34 kinds of alert at one client: 22 in shadow, 9 in draft, 3 live."></div>
+          <div class="swatches">
+            <span><i class="sw-ring"></i>22 in shadow: Tacit watches</span>
+            <span><i class="sw-half"></i>9 in draft: an analyst agrees in one tap</span>
+            <span><i class="sw-ink"></i>3 live: Tacit closes, and checks a sample of its own closes</span>
+          </div>
+        </figure>
+      </section>
+
+      <!-- 8 · what Tacit is not -->
+      <section class="pad not" id="not" style="padding-top: 0">
+        <h2 class="display rise">What Tacit is not.</h2>
+        <ul class="nots">
+          <li class="rise"><span class="no">A detector<svg viewBox="0 0 300 14" preserveAspectRatio="none" aria-hidden="true" filter="url(#rough)"><path d="M2 8 C 80 3, 200 12, 298 6" vector-effect="non-scaling-stroke" /></svg></span><p><b>Your SIEM does the detecting.</b>Tacit reads what your rules raise and never writes or narrows one.</p></li>
+          <li class="rise"><span class="no">An AI analyst<svg viewBox="0 0 300 14" preserveAspectRatio="none" aria-hidden="true" filter="url(#rough)"><path d="M2 8 C 80 3, 200 12, 298 6" vector-effect="non-scaling-stroke" /></svg></span><p><b>Nothing is guessed.</b>A small language model, running inside your boundary, reads the client’s message and copies their words onto the card. It never decides a close. That is done by a model you can read one answer at a time.</p></li>
+          <li class="rise"><span class="no">A score out of 100<svg viewBox="0 0 300 14" preserveAspectRatio="none" aria-hidden="true" filter="url(#rough)"><path d="M2 8 C 80 3, 200 12, 298 6" vector-effect="non-scaling-stroke" /></svg></span><p><b>Every answer, shown as it is.</b>Nothing is blended into one number.</p></li>
+          <li class="rise"><span class="no">An analyst scorecard<svg viewBox="0 0 300 14" preserveAspectRatio="none" aria-hidden="true" filter="url(#rough)"><path d="M2 8 C 80 3, 200 12, 298 6" vector-effect="non-scaling-stroke" /></svg></span><p><b>Results are for the desk and for teams.</b>No number is ever shown against a person’s name.</p></li>
+          <li class="rise"><span class="no">A permanent exclusion<svg viewBox="0 0 300 14" preserveAspectRatio="none" aria-hidden="true" filter="url(#rough)"><path d="M2 8 C 80 3, 200 12, 298 6" vector-effect="non-scaling-stroke" /></svg></span><p><b>Every reason carries the day it lapses.</b>After that day the alert goes back to a person.</p></li>
+          <li class="rise"><span class="no">A cheaper SIEM bill<svg viewBox="0 0 300 14" preserveAspectRatio="none" aria-hidden="true" filter="url(#rough)"><path d="M2 8 C 80 3, 200 12, 298 6" vector-effect="non-scaling-stroke" /></svg></span><p><b>It takes alerts off your analysts.</b>It does not cut what you ingest, and no raw logs leave your boundary.</p></li>
+        </ul>
+      </section>
+
+      <!-- 9 · what a design partner gets back -->
+      <section class="pad" id="wins" style="padding-top: 0; padding-bottom: clamp(40px, 5vw, 70px)">
+        <div class="cols">
+          <h2 class="display rise">What a design partner gets back.</h2>
+          <p class="lead rise">
+            A design partner runs Tacit in shadow on one client’s alerts, inside their own
+            boundary. It is a second pair of eyes on every call the desk makes, and this is what
+            comes back to them.
+          </p>
+        </div>
+        <ul class="gets">
+          <li class="rise"><b>Fewer alerts on the desk.</b>What a client has already explained is closed before an analyst opens it.</li>
+          <li class="rise" style="--d: 0.08s"><b>A reason behind every close.</b>What it covers, who vouched for it and the day it lapses, all on the record.</li>
+          <li class="rise" style="--d: 0.16s"><b>Rules left whole.</b>A reason lapses on its date, so nobody has to narrow a detection for good.</li>
+          <li class="rise" style="--d: 0.24s"><b>What the desk knows, kept.</b>When an analyst moves on or a provider changes, what they knew about each client stays on the register, and a new analyst starts from it.</li>
+        </ul>
+        <div class="measured rise">
+          <b>81%</b>
+          <div>
+            <p>of the benign positives in Microsoft’s public GUIDE data were closed, across 303,220 incidents graded by the customers themselves. At that setting, 1 in 100 true positives was closed as well.</p>
+            <p class="typed" style="margin-top: 10px">Tacit research, 6 Nov 2026. Public data, measured against each customer’s own grade. This is not a design partner’s result.</p>
+          </div>
+          <div class="open">
+            <span class="hand">to be entered</span>
+            <p class="typed">Our design partners’ own figures go here as they are measured. None is published yet.</p>
+          </div>
+        </div>
+      </section>
+
+      <section class="wall proof" id="proof">
+        <div>
+          <h2 class="rise">Your client never has to take our word for it.</h2>
+          <p class="lead rise" style="--d: 0.1s">
+            Every close is an entry in a ledger, each one sealed to the one before. Anyone you
+            hand a record to can check it is whole, without signing in and without trusting us.
+          </p>
+        </div>
+        <div class="rise" style="--d: 0.15s" data-picture>
+          <div class="chain" id="chain" role="img" aria-label="The month’s ledger as one line of entries, this record marked."></div>
+          <div class="chain-ends"><span>9 Nov</span><span>entry 2,914 of 2,931</span><span>9 Dec</span></div>
+          <dl class="rec typed">
+            <dt>record</dt>
+            <dd>r-4133 · Northwind Finance · rdp-multi|svc-accounts</dd>
+            <dt>claim</dt>
+            <dd>Suggest close. Rests on the client’s word, R-0031 v.2.</dd>
+            <dt>agreed</dt>
+            <dd>L1, day desk, Wed 9 Dec 09:31, four checks ticked.</dd>
+            <dt>seal</dt>
+            <dd id="seal">not yet checked</dd>
+          </dl>
+          <div class="verify">
+            <button class="btn" id="verify">Verify</button>
+            <output id="out" aria-live="polite"></output>
+          </div>
+        </div>
+      </section>
+
+      <!-- the ask -->
+      <section class="ask" id="ask">
+        <div>
+          <h2 class="display">Write it down before it walks out of the door.</h2>
+          <p class="lead">Bring your SIEM, and tell us who runs your desk, to a thirty-minute call. We will tell you what Tacit would read first and what a two-week review of your desk’s decisions would show, or tell you it is not a fit and wish you well.</p>
+        </div>
+        <div>
+          <a class="btn" href="mailto:hi@tacitlabs.ai?subject=30-minute%20call">Book a 30-minute call</a>
+          <p class="typed">or write to hi@tacitlabs.ai</p>
+        </div>
+      </section>
+    </main>
+
+    <footer class="site-foot">
+      <div>
+        <a class="brand" href="index.html">tacit<i></i></a>
+        <p>Recovering the judgement that was never written down.</p>
+        <p class="typed">Raising pre-seed. Investors: <a href="brief.html">the brief</a>.</p>
       </div>
-    </section>
-
-    <!-- ============== 16 · Engagements ============== -->
-    <section class="section sec-dark" id="engagements" aria-labelledby="engagements-h">
-      <span class="section-num">engagements</span>
-      <h2 class="section-title" id="engagements-h">Ways to work with us</h2>
-      <p class="t12 cs-prose">We’re starting with a small group of design partners from December 2026, on Microsoft Defender and Sentinel.</p>
-      <div class="cs-offers">
-        <article class="cs-offer cs-offer--first">
-          <span class="cs-offer-tag">Start here</span>
-          <h3>Agent Decision Audit</h3>
-          <p>Six weeks, fixed fee, three to five alert types. A look back at up to 90 days, plus a blind second look. You get the six answers, your autonomy map and an evidence pack.</p>
-        </article>
-        <article class="cs-offer">
-          <h3>Shadow Judge</h3>
-          <p>Live and read-only: every AI verdict is scored. A weekly drift and override watch. A monthly autonomy review.</p>
-        </article>
-        <article class="cs-offer">
-          <span class="cs-offer-tag cs-offer-tag--soon">Coming 2027</span>
-          <h3>Gate</h3>
-          <p>An optional mode, off unless you switch it on: the AI checks with the judge before it acts, and every call is logged. Everything else on this page stays read-only.</p>
-        </article>
-        <article class="cs-offer" id="provider-licence">
-          <h3>Provider licence</h3>
-          <p>For MDR and MSSP providers. An independent report for each client, delivered unedited.</p>
-        </article>
+      <div>
+        <h2>Company</h2>
+        <ul>
+          <li><a href="index.html">Home</a></li>
+          <li><a href="founders.html">Founders</a></li>
+          <li><a href="essays.html">Writing</a></li>
+        </ul>
       </div>
-      <div class="cs-ctas">
-        <a class="cs-btn js-book" href="mailto:hi@tacitlabs.ai?subject=CyberSOC%20%E2%80%94%2030-minute%20call&amp;body=Our%20platform%3A%20%0D%0AOur%20provider%3A%20%0D%0AWhich%20AI%20is%20switched%20on%3A%20%0D%0ATimes%20that%20suit%20us%20(and%20our%20time%20zone)%3A%20">Book a 30-minute call
-          <svg width="14" height="14" viewBox="0 0 14 14" fill="none" aria-hidden="true"><path d="M2 7h10M8 3l4 4-4 4" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg>
-        </a>
+      <div>
+        <h2>Read deeper</h2>
+        <ul>
+          <li><a href="cybersoc.html">Product · CyberSOC</a></li>
+          <li><a href="insurance.html">Product · Underwriting</a></li>
+          <li><a href="brief.html">Brief</a></li>
+          <li><a href="thesis.html">Full thesis</a></li>
+          <li><a href="atlas.html">Atlas</a></li>
+        </ul>
       </div>
-    </section>
-
-    <!-- ============== Know more (the detail lives on its own page) ============== -->
-    <section class="section" id="know-more" aria-labelledby="know-more-h">
-      <span class="section-num">know more</span>
-      <h2 class="section-title" id="know-more-h">Want the detail?</h2>
-      <p class="t12 cs-prose">The research behind the numbers, how we handle your data, what regulators are asking, and answers to common questions.</p>
-      <ul class="km-chips" aria-label="Topics on the detail page">
-        <li><a href="cybersoc-know-more.html#moments">Use cases</a></li>
-        <li><a href="cybersoc-know-more.html#data">Data handling</a></li>
-        <li><a href="cybersoc-know-more.html#regulation">Regulation</a></li>
-        <li><a href="cybersoc-know-more.html#proof">Proof</a></li>
-        <li><a href="cybersoc-know-more.html#faq">Common questions</a></li>
-        <li><a href="cybersoc-know-more.html#sources">Sources</a></li>
-      </ul>
-      <div class="cs-ctas">
-        <a class="cs-btn-ghost" href="cybersoc-know-more.html">Know more <svg width="14" height="14" viewBox="0 0 14 14" fill="none" aria-hidden="true"><path d="M2 7h10M8 3l4 4-4 4" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg></a>
+      <div>
+        <h2>Contact</h2>
+        <ul>
+          <li><a href="mailto:hi@tacitlabs.ai">hi@tacitlabs.ai</a></li>
+        </ul>
       </div>
-    </section>
+      <p class="signoff">© 2026 Tacit Labs, Inc.</p>
+    </footer>
 
-    <!-- ============== 18 · Final call to action ============== -->
-    <section class="cs-final" id="book" aria-labelledby="book-h">
-      <video class="final-bg-video" autoplay loop muted playsinline preload="metadata" aria-hidden="true">
-        <source src="assets/insurance-bg.mp4" type="video/mp4">
-      </video>
-      <div class="final-bg-tint" aria-hidden="true"></div>
-      <h2 id="book-h">Give your AI analyst the interview it never had.</h2>
-      <p class="body">Book 30 minutes. Tell us your platform, your provider and which AI is switched on. On the call, we’ll tell you whether we can connect, what we’d measure first and what you’d get.</p>
-      <div class="cs-ctas">
-        <a class="cs-btn js-book" href="mailto:hi@tacitlabs.ai?subject=CyberSOC%20%E2%80%94%2030-minute%20call&amp;body=Our%20platform%3A%20%0D%0AOur%20provider%3A%20%0D%0AWhich%20AI%20is%20switched%20on%3A%20%0D%0ATimes%20that%20suit%20us%20(and%20our%20time%20zone)%3A%20">Book a 30-minute call
-          <svg width="14" height="14" viewBox="0 0 14 14" fill="none" aria-hidden="true"><path d="M2 7h10M8 3l4 4-4 4" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg>
-        </a>
-      </div>
-      <p class="small">Prefer to write? Email <a class="inline" href="mailto:hi@tacitlabs.ai?subject=CyberSOC">hi@tacitlabs.ai</a>.</p>
-    </section>
+    <script defer src="/_vercel/insights/script.js"></script>
 
-  </main>
+    <script type="module">
+      import { ink, arrive, rng } from './monolith.js'
+      ink()
 
-  <footer class="site-foot">
-    <div>
-      <div class="foot-brand"><img src="assets/tacit-wordmark.svg" alt="Tacit Labs"></div>
-      <p class="colophon">Recovering the judgement that was never written down.</p>
-    </div>
-    <div>
-      <h2 class="foot-h">Company</h2>
-      <ul>
-        <li><a href="index.html">Home</a></li>
-        <li><a href="founders.html">Founders</a></li>
-        <li><a href="essays.html">Writing</a></li>
-        <li><a href="mailto:hi@tacitlabs.ai">Contact</a></li>
-      </ul>
-    </div>
-    <div>
-      <h2 class="foot-h">Read deeper</h2>
-      <ul>
-        <li><a href="brief.html">Brief</a></li>
-        <li><a href="thesis.html">Full thesis</a></li>
-        <li><a href="insurance.html">Product · Underwriting</a></li>
-        <li><a href="cybersoc.html">Product · CyberSOC</a></li>
-        <li><a href="atlas.html">Atlas</a></li>
-      </ul>
-    </div>
-    <div>
-      <h2 class="foot-h">Contact</h2>
-      <ul>
-        <li><a href="mailto:hi@tacitlabs.ai?subject=CyberSOC">hi@tacitlabs.ai · CyberSOC</a></li>
-        <li><a href="mailto:hi@tacitlabs.ai?subject=Team">hi@tacitlabs.ai · Team</a></li>
-      </ul>
-    </div>
-    <div class="signoff">
-      <span>© 2026 Tacit Labs, Inc.</span>
-      <span><a href="index.html">back to home →</a></span>
-    </div>
-  </footer>
+      /* clients who trust us: Birchlogic's firm clients only, in its own order. Two copies so the loop has no seam. */
+      const MARKS = ['amcs', 'ks-partners', 'mbs-global', 'batra-numerro', 'saarthee', 'fusionedge', 'nexwave', 'm-intergraph', 'nest-money', 'coforge', 'figbytes', 'xammer', 'watermelon-software', 'waterloo-intuition', 'lambdavision']
+      const marks = (list) => Array.from({ length: 2 }, () => list.map((f) => `<img src="assets/clients/${f}.png" alt="" decoding="async">`).join('')).join('')
+      document.getElementById('logos').innerHTML = marks(MARKS)
 
-  <script src="cybersoc.js"></script>
-</body>
+      /* the card drawer */
+      const CARDS = [
+        ['R-0019', 'Admin tooling--it_ops.', 'lapsed 2 Dec', 'ring', 'it_ops, PsExec on the HR application servers.', 'On the word of the IT head.', '', 'Lapsed Wed 2 Dec. Not renewed.', '1. Admin tooling.', 'psexec|it-admin'],
+        ['R-0080', 'New joiners--first sign-ins.', 'ends 11 Dec', 'orange', 'First sign-ins from fourteen new laptops, HR batch of 7 Dec.', 'A record vouches: the HR joiner list.', '', 'Lapses Fri 11 Dec, 18:00. Used 22 times.', '1. Onboarding.', 'new-device|staff'],
+        ['R-0071', 'Authorised testing--red team.', 'ends 18 Dec', 'blue', 'Red-team exercise from 10.40.2.0/24 against the web tier only.', 'On the word of the CISO. Email, 1 Dec.', '', 'Lapses Fri 18 Dec. Used 9 times. No data may leave.', '1. Authorised testing.', 'lateral|redteam'],
+        ['R-0063', 'Night batch--sign-ins.', 'ends 2 Mar', 'blue', 'svc_batch sign-ins to the ledger hosts, 01:00 to 03:00.', 'A record vouches: the batch schedule.', '', 'Lapses Tue 2 Mar. Used 412 times.', '1. Scheduled work.', 'signin-burst|svc-accounts'],
+        ['R-0058', 'Change window--HR-APP-01.', 'ends 12 Dec', 'blue', 'it_ops on HR-APP-01 under change CHG-2291.', 'A record vouches: the change ticket.', '', 'Lapses Sat 12 Dec, 06:00. Used 4 times.', '1. Change window.', 'psexec|it-admin'],
+        ['R-0044', 'Backups--FIN-DB-02.', 'ends 20 Feb', 'blue', 'The backup agent on FIN-DB-02, nightly at 01:10.', 'A record vouches: the backup schedule.', '', 'Lapses Sat 20 Feb. Used 88 times.', '1. Scheduled work.', 'bulk-read|backup'],
+        ['R-0012', 'Scanner--QSCAN-01.', 'ends 14 Dec', 'blue', 'QSCAN-01 (10.20.0.5) scanning the estate on Wednesdays, 07:00 to 09:00.', 'A record vouches: the scanner’s own schedule.', '', 'Lapses Mon 14 Dec. Used 184 times. Never escalated.', '1. Scanner traffic.', 'port-sweep|scanner'],
+        ['R-0031', 'Vendor access--Northwind Finance.', 'ends Thu 19:00', 'orange', 'The account svc_deploy, from JUMP-01 to FIN-DB-02 and FIN-DB-03. Remote sign-ins while the vendor patches the loan system.', 'On the word of Northwind’s IT head. By message, Tue 10:58.', '“Yes, that’s our vendor. They’re patching the loan system till Thursday evening.”', 'Lapses Thu 10 Dec, 19:00. Used 37 times. Escalated once.', '1. Vendor access.  2. Maintenance.', 'rdp-multi|svc-accounts'],
+      ]
+      const tone = { blue: '#0b5cff', orange: '#ff4a1c', ring: '#0a0a0a' }
+      const drawer = document.getElementById('drawer')
+      const els = CARDS.map(([id, subj, ends, t, covers, word, said, life, trace, fam], i) => {
+        const b = document.createElement('button')
+        b.className = 'card paper'
+        b.style.setProperty('--fx', `${12 + ((i * 37) % 70)}%`)
+        b.style.setProperty('--fc', tone[t])
+        b.style.setProperty('--nudge', `${((i * 7) % 5) - 2}px`)
+        b.innerHTML = `<i class="flag"></i><div class="subj"><span>${subj}</span><span>${id} · ${ends}</span></div>
+          <div class="body"><span class="call">${id}</span><div>${covers}<br>${word}${said ? `<p class="said">${said}</p>` : '<br><br>'}${life}</div></div>
+          ${id === 'R-0031' ? '<span class="hand note">widened to DB-03, in the client’s own words</span>' : ''}
+          <div class="trace"><span>${trace}</span><span>${fam}</span></div><i class="hole"></i>`
+        b.setAttribute('aria-label', `${id}. ${subj} ${covers} ${word} ${life}`)
+        drawer.appendChild(b)
+        return b
+      })
+      let order = els.map((_, i) => i)
+      const place = () => order.forEach((k, pos) => (els[k].style.setProperty('--i', pos), els[k].classList.toggle('front', pos === order.length - 1)))
+      place()
+      els.forEach((b, k) => b.addEventListener('click', () => order[order.length - 1] !== k && ((order = order.filter((x) => x !== k).concat(k)), place())))
+
+      /* the desk, and each analyst against it. odds against the baseline answer, the desk's from the console; the analysts are invented. */
+      const MOVES = [
+        ['A reason covers it', 'close', 12],
+        ['This account, never before from this host', 'escalate', 7.4],
+        ['This account, first time on this target', 'escalate', 7.4],
+        ['Came from outside the network', 'escalate', 2.7],
+        ['Came in over the VPN', 'escalate', 1, { out: 9, note: 'habit' }],
+        ['A service account', 'close', 1.6, { out: 6.5 }],
+      ]
+      const MAX = 16
+      const reach = (t) => (Math.log(Math.max(t, 1)) / Math.log(MAX)) * 50
+      const g = rng(9)
+      const gauss = () => (g() + g() + g() + g() - 2) / 2
+      const dev = document.getElementById('dev')
+      MOVES.forEach(([says, toward, times, extra], row) => {
+        const side = toward === 'close' ? 1 : -1
+        const rings = Array.from({ length: 8 }, (_, k) => {
+          const isOut = extra && k === 3
+          const t = isOut ? extra.out : Math.max(1.05, times * Math.exp(gauss() * 0.42))
+          const x = !isOut && times < 1.2 ? 50 + gauss() * 5 : 50 + side * reach(Math.min(t, MAX))
+          return `<i class="${isOut ? 'out' : ''}" style="left:${x.toFixed(1)}%;--dy:${((k % 4) - 1.5) * 7}px"${isOut && extra.note ? ' id="habit"' : ''}></i>`
+        }).join('')
+        dev.insertAdjacentHTML(
+          'beforeend',
+          `<div class="dev-row"><b>${says}</b>
+            <div class="lane"><span class="desk ${toward === 'close' ? 'to-close' : 'to-look'} ${times < 2 ? 'half' : ''}" style="width:${reach(times).toFixed(1)}%"${row === 0 ? ' id="desk-bar"' : ''}></span>${rings}</div>
+            <span>${times < 1.2 ? 'No clear effect' : `${times}× ${toward}`}</span></div>`,
+        )
+      })
+      const pin = () => {
+        const pic = document.querySelector('.dev-pic').getBoundingClientRect()
+        const bar = document.getElementById('desk-bar').getBoundingClientRect()
+        const hab = document.getElementById('habit').getBoundingClientRect()
+        const a = document.getElementById('note-desk')
+        const b = document.getElementById('note-habit')
+        a.style.left = `${bar.left - pic.left + bar.width * 0.45 + 70}px`
+        a.style.top = `${bar.bottom - pic.top + 22}px`
+        b.style.left = `${hab.right - pic.left + 80}px`
+        b.style.top = `${hab.top - pic.top - 8}px`
+      }
+      pin()
+      addEventListener('resize', pin)
+      document.fonts.ready.then(pin)
+
+      /* the ladder */
+      document.getElementById('fam').innerHTML = Array.from({ length: 34 }, (_, i) => `<i class="${i < 3 ? 'live' : i < 12 ? 'draft' : ''}"></i>`).join('')
+
+      /* ── hero: the hand, dithered ── */
+      const LINES = [
+        ['the vendor is in this week,', 0],
+        ['QSCAN-01 scans on Wednesdays,', 0],
+        ['it_ops has a change window,', 0],
+        ['backups run at ten past one,', 0],
+        ['ask Farah, she knows', 0],
+        ['same as last month, close it', 0],
+      ]
+      const BAYER = [0, 8, 2, 10, 12, 4, 14, 6, 3, 11, 1, 9, 15, 7, 13, 5]
+      async function dither() {
+        const cv = document.getElementById('dither')
+        const box = cv.getBoundingClientRect()
+        if (!box.width) return
+        await document.fonts.load("200px 'Mrs Saint Delafield'")
+        const W = box.width
+        const H = box.height
+        const cell = W < 700 ? 4 : 5
+        const cols = Math.ceil(W / cell)
+        const rows = Math.ceil(H / cell)
+        const S = 3 // offscreen pixels per cell
+        const off = new OffscreenCanvas(cols * S, rows * S)
+        const o = off.getContext('2d', { willReadFrequently: true })
+        o.fillStyle = '#000'
+        o.fillRect(0, 0, off.width, off.height)
+        const size = Math.max(84, Math.min(W * 0.092, H * 0.18)) * (S / cell)
+        o.font = `${size}px 'Mrs Saint Delafield'`
+        o.textBaseline = 'alphabetic'
+        o.lineJoin = 'round'
+        o.translate(off.width * 0.5, off.height * 0.5)
+        o.rotate(-0.075)
+        o.translate(-off.width * 0.5, -off.height * 0.5)
+        LINES.forEach(([text, kept], i) => {
+          const y = off.height * (0.14 + i * 0.158)
+          const x = off.width * (W < 700 ? 0.02 : kept ? 0.13 : 0.3 + ((i * 5) % 3) * 0.07)
+          const c = kept ? '#00f' : '#f00'
+          o.fillStyle = o.strokeStyle = c
+          o.lineWidth = size * (kept ? 0.05 : 0.014)
+          o.fillText(text, x, y)
+          o.strokeText(text, x, y)
+        })
+        const px = o.getImageData(0, 0, off.width, off.height).data
+        const dpr = Math.min(devicePixelRatio || 1, 2)
+        cv.width = W * dpr
+        cv.height = H * dpr
+        const g = cv.getContext('2d')
+        g.scale(dpr, dpr)
+        for (let y = 0; y < rows; y++) {
+          for (let x = 0; x < cols; x++) {
+            let red = 0
+            let blue = 0
+            for (let dy = 0; dy < S; dy++)
+              for (let dx = 0; dx < S; dx++) {
+                const k = ((y * S + dy) * off.width + x * S + dx) * 4
+                red += px[k]
+                blue += px[k + 2]
+              }
+            red /= S * S * 255
+            blue /= S * S * 255
+            const t = (BAYER[(y % 4) * 4 + (x % 4)] + 0.5) / 16
+            if (blue * 3.4 > t) {
+              g.fillStyle = '#0b5cff'
+              g.fillRect(x * cell, y * cell, cell - 1, cell - 1)
+              continue
+            }
+            // the rest is going: fuller on the right, thinning to nothing on the left
+            const fx = x / cols
+            const keep = 0.1 + 0.9 * Math.min(1, Math.max(0, (fx - 0.34) / 0.42))
+            if (red * 1.7 * keep > t) {
+              g.fillStyle = '#0a0a0a'
+              g.fillRect(x * cell, y * cell, cell - 1, cell - 1)
+            }
+          }
+        }
+      }
+      dither()
+      let timer
+      addEventListener('resize', () => (clearTimeout(timer), (timer = setTimeout(dither, 180))))
+
+      /* ── verify ── */
+      const chain = document.getElementById('chain')
+      chain.innerHTML = Array.from({ length: 60 }, (_, i) => `<i class="${i === 54 ? 'this' : ''}"></i>`).join('')
+      const hex = async (s) =>
+        [...new Uint8Array(await crypto.subtle.digest('SHA-256', new TextEncoder().encode(s)))]
+          .map((b) => b.toString(16).padStart(2, '0'))
+          .join('')
+      document.getElementById('verify').addEventListener('click', async (e) => {
+        const btn = e.currentTarget
+        btn.disabled = true
+        const out = document.getElementById('out')
+        const seal = document.getElementById('seal')
+        out.className = ''
+        out.textContent = 'Checking each entry against the one before…'
+        const ticks = [...chain.children]
+        ticks.forEach((t) => t.classList.remove('ok'))
+        let prev = 'northwind|2026-11-09'
+        for (let i = 0; i < ticks.length; i++) {
+          prev = await hex(prev + '|entry-' + i)
+          ticks[i].classList.add('ok')
+          if (i === 54) seal.textContent = prev
+          await new Promise((r) => setTimeout(r, 22))
+        }
+        out.className = 'ok'
+        out.textContent = 'Unbroken. 2,931 entries, 9 Nov to 9 Dec.'
+        btn.disabled = false
+      })
+
+      arrive()
+    </script>
+  </body>
 </html>
